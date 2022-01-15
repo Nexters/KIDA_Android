@@ -10,8 +10,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
-import team.nexters.kida.data.Diary
-import team.nexters.kida.data.DiaryRepository
+import team.nexters.kida.data.diary.Diary
+import team.nexters.kida.data.diary.DiaryRepository
 import team.nexters.kida.util.UiEvent
 import javax.inject.Inject
 

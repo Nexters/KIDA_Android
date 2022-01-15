@@ -3,21 +3,26 @@ package team.nexters.kida.ui
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import dagger.hilt.android.AndroidEntryPoint
+import team.nexters.kida.data.keyword.KeywordDataSource
 import team.nexters.kida.ui.detail.DetailScreen
 import team.nexters.kida.ui.list.ListScreen
 import team.nexters.kida.ui.theme.Theme
 import team.nexters.kida.ui.write.WriteScreen
 import team.nexters.kida.util.Routes
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    @Inject
+    lateinit var keywordDataSource: KeywordDataSource
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
