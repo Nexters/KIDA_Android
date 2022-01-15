@@ -10,6 +10,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import dagger.hilt.android.AndroidEntryPoint
+import team.nexters.kida.ui.detail.DetailScreen
 import team.nexters.kida.ui.list.ListScreen
 import team.nexters.kida.ui.theme.Theme
 import team.nexters.kida.ui.write.WriteScreen
@@ -47,7 +48,14 @@ class MainActivity : ComponentActivity() {
                         route = Routes.DETAIL + "?diaryId={diaryId}",
                         arguments = listOf(diaryIdArgument())
                     ) {
-
+                        DetailScreen(
+                            onNavigate = {
+                                navController.navigate(it.route)
+                            },
+                            onPopBackStack = {
+                                navController.popBackStack()
+                            }
+                        )
                     }
                 }
             }

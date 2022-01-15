@@ -23,6 +23,9 @@ fun WriteScreen(
         viewModel.uiEvent.collect { event ->
             when (event) {
                 is UiEvent.PopBackStack -> onPopBackStack()
+                is UiEvent.ShowSnackbar -> {
+                    scaffoldState.snackbarHostState.showSnackbar(event.message)
+                }
                 else -> {}
             }
         }

@@ -14,6 +14,9 @@ interface DiaryDao {
     @Query("SELECT * FROM diary WHERE id = :id")
     suspend fun getDiaryById(id: Int): Diary?
 
+    @Query("SELECT * FROM diary WHERE id = :id")
+    fun getDiary(id: Int): Flow<Diary>
+
     @Query("SELECT * FROM diary")
     fun getDiaries(): Flow<List<Diary>>
 }

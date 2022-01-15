@@ -19,6 +19,10 @@ class DiaryRepositoryImpl @Inject constructor(
         return dao.getDiaryById(id)
     }
 
+    override fun getDiary(id: Int): Flow<Diary> {
+        return dao.getDiary(id)
+    }
+
     override fun getDiaries(): Flow<List<Diary>> {
         return dao.getDiaries()
     }
