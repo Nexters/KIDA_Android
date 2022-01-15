@@ -3,8 +3,7 @@ package team.nexters.kida.ui
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -13,6 +12,7 @@ import androidx.navigation.navArgument
 import dagger.hilt.android.AndroidEntryPoint
 import team.nexters.kida.ui.list.ListScreen
 import team.nexters.kida.ui.theme.Theme
+import team.nexters.kida.ui.write.WriteScreen
 import team.nexters.kida.util.Routes
 
 @AndroidEntryPoint
@@ -37,9 +37,12 @@ class MainActivity : ComponentActivity() {
                         route = Routes.WRITE + "?diaryId={diaryId}",
                         arguments = listOf(diaryIdArgument())
                     ) {
-
+                        WriteScreen(
+                            onPopBackStack = {
+                                navController.popBackStack()
+                            }
+                        )
                     }
-
                     composable(
                         route = Routes.DETAIL + "?diaryId={diaryId}",
                         arguments = listOf(diaryIdArgument())
@@ -52,7 +55,7 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun diaryIdArgument() = navArgument(name = "diaryId") {
-        type = NavType.IntType,
+        type = NavType.IntType
         defaultValue = -1
     }
 }
