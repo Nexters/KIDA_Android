@@ -13,7 +13,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             Theme {
                 Surface {
-                    Text(text = "hello")
+                    Text(text = "hello2")
                 }
             }
         }
