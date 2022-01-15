@@ -3,19 +3,67 @@ package team.nexters.kida.ui
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.navigation.NamedNavArgument
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import dagger.hilt.android.AndroidEntryPoint
+import team.nexters.kida.ui.detail.DetailScreen
+import team.nexters.kida.ui.list.ListScreen
 import team.nexters.kida.ui.theme.Theme
+import team.nexters.kida.ui.write.WriteScreen
+import team.nexters.kida.util.Routes
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             Theme {
-                Surface {
-                    Text(text = "hello")
+                val navController = rememberNavController()
+                NavHost(
+                    navController = navController,
+                    startDestination = Routes.LIST
+                ) {
+                    composable(Routes.LIST) {
+                        ListScreen(
+                            onNavigate = {
+                                navController.navigate(it.route)
+                            }
+                        )
+                    }
+                    composable(
+                        route = Routes.WRITE + "?diaryId={diaryId}",
+                        arguments = listOf(diaryIdArgument())
+                    ) {
+                        WriteScreen(
+                            onPopBackStack = {
+                                navController.popBackStack()
+                            }
+                        )
+                    }
+                    composable(
+                        route = Routes.DETAIL + "?diaryId={diaryId}",
+                        arguments = listOf(diaryIdArgument())
+                    ) {
+                        DetailScreen(
+                            onNavigate = {
+                                navController.navigate(it.route)
+                            },
+                            onPopBackStack = {
+                                navController.popBackStack()
+                            }
+                        )
+                    }
                 }
             }
         }
+    }
+
+    private fun diaryIdArgument() = navArgument(name = "diaryId") {
+        type = NavType.IntType
+        defaultValue = -1
     }
 }
