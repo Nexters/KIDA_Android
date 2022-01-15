@@ -8,6 +8,6 @@ import androidx.room.RoomDatabase
     version = 1,
     exportSchema = true
 )
-internal abstract class DiaryDatabase : RoomDatabase() {
+abstract class DiaryDatabase : RoomDatabase() {
     abstract fun diaryDao(): DiaryDao
 }

@@ -4,8 +4,9 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-internal data class Diary(
+data class Diary(
     val title: String,
     val content: String,
+    val keyword: String,
     @PrimaryKey val id: Int? = null
 )

@@ -3,7 +3,7 @@ package team.nexters.kida.data
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-internal class DiaryRepositoryImpl @Inject constructor(
+class DiaryRepositoryImpl @Inject constructor(
     private val dao: DiaryDao
 ) : DiaryRepository {
 
