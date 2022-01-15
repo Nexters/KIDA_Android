@@ -3,7 +3,6 @@ package team.nexters.kida.ui
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.navigation.NavOptionsBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -43,7 +42,8 @@ class MainActivity : ComponentActivity() {
                                     it.route,
                                     navOptions {
                                         popUpTo(Routes.SPLASH) { inclusive = true }
-                                    })
+                                    }
+                                )
                             }
                         )
                     }
@@ -54,7 +54,8 @@ class MainActivity : ComponentActivity() {
                                     it.route,
                                     navOptions {
                                         popUpTo(Routes.KEYWORD) { inclusive = true }
-                                    })
+                                    }
+                                )
                             }
                         )
                     }

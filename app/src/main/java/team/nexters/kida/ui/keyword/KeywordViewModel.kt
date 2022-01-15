@@ -7,7 +7,6 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import team.nexters.kida.data.keyword.KeywordRepository
-import team.nexters.kida.ui.list.ListEvent
 import team.nexters.kida.util.Routes
 import team.nexters.kida.util.UiEvent
 import javax.inject.Inject
