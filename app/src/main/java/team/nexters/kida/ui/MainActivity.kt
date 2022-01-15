@@ -3,15 +3,19 @@ package team.nexters.kida.ui
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.navigation.NavOptionsBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import androidx.navigation.navOptions
 import dagger.hilt.android.AndroidEntryPoint
 import team.nexters.kida.data.keyword.KeywordDataSource
 import team.nexters.kida.ui.detail.DetailScreen
+import team.nexters.kida.ui.keyword.KeywordScreen
 import team.nexters.kida.ui.list.ListScreen
+import team.nexters.kida.ui.splash.SplashScreen
 import team.nexters.kida.ui.theme.Theme
 import team.nexters.kida.ui.write.WriteScreen
 import team.nexters.kida.util.Routes
@@ -30,8 +34,30 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 NavHost(
                     navController = navController,
-                    startDestination = Routes.LIST
+                    startDestination = Routes.SPLASH
                 ) {
+                    composable(Routes.SPLASH) {
+                        SplashScreen(
+                            onNavigate = {
+                                navController.navigate(
+                                    it.route,
+                                    navOptions {
+                                        popUpTo(Routes.SPLASH) { inclusive = true }
+                                    })
+                            }
+                        )
+                    }
+                    composable(Routes.KEYWORD) { back ->
+                        KeywordScreen(
+                            onNavigate = {
+                                navController.navigate(
+                                    it.route,
+                                    navOptions {
+                                        popUpTo(Routes.KEYWORD) { inclusive = true }
+                                    })
+                            }
+                        )
+                    }
                     composable(Routes.LIST) {
                         ListScreen(
                             onNavigate = {
