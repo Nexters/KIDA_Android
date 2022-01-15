@@ -1,4 +1,4 @@
-package team.nexters.kida.data
+package team.nexters.kida.data.diary
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

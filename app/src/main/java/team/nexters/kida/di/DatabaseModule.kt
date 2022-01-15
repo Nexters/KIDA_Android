@@ -6,8 +6,8 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import team.nexters.kida.data.DiaryDao
-import team.nexters.kida.data.DiaryDatabase
+import team.nexters.kida.data.diary.DiaryDao
+import team.nexters.kida.data.diary.DiaryDatabase
 import javax.inject.Singleton
 
 @Module
