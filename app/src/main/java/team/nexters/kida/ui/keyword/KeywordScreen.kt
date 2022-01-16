@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Button
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.rememberScaffoldState
@@ -11,8 +12,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.google.accompanist.insets.LocalWindowInsets
+import com.google.accompanist.insets.rememberInsetsPaddingValues
+import com.google.accompanist.insets.ui.TopAppBar
 import kotlinx.coroutines.flow.collect
 import team.nexters.kida.util.UiEvent
 
@@ -32,9 +35,17 @@ fun KeywordScreen(
     }
     Scaffold(
         scaffoldState = scaffoldState,
-        backgroundColor = Color.Green,
-        modifier = Modifier
-            .fillMaxSize()
+        topBar = {
+            TopAppBar(
+                title = { Text(text = "Keyword") },
+                backgroundColor = MaterialTheme.colors.background,
+                contentPadding = rememberInsetsPaddingValues(
+                    insets = LocalWindowInsets.current.statusBars,
+                    applyBottom = false,
+                )
+            )
+        },
+        modifier = Modifier.fillMaxSize()
     ) {
         Column(
             verticalArrangement = Arrangement.Center,
