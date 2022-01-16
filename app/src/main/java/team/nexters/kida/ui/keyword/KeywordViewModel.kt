@@ -7,7 +7,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import team.nexters.kida.data.keyword.KeywordRepository
-import team.nexters.kida.util.Routes
+import team.nexters.kida.ui.Screen
 import team.nexters.kida.util.UiEvent
 import javax.inject.Inject
 
@@ -24,7 +24,7 @@ class KeywordViewModel @Inject constructor(
     fun onEvent(event: KeywordEvent) {
         when (event) {
             is KeywordEvent.OnKeywordClick -> {
-                sendUiEvent(UiEvent.Navigate(Routes.LIST))
+                sendUiEvent(UiEvent.Navigate(Screen.List.route))
             }
         }
     }

@@ -7,7 +7,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
-import team.nexters.kida.util.Routes
+import team.nexters.kida.ui.Screen
 import team.nexters.kida.util.UiEvent
 import javax.inject.Inject
 
@@ -20,7 +20,7 @@ class SplashViewModel @Inject constructor() : ViewModel() {
     init {
         viewModelScope.launch {
             delay(1000)
-            sendUiEvent(UiEvent.Navigate(Routes.KEYWORD))
+            sendUiEvent(UiEvent.Navigate(Screen.Keyword.route))
         }
     }
 

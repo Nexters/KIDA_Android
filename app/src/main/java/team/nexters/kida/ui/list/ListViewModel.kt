@@ -7,7 +7,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import team.nexters.kida.data.diary.DiaryRepository
-import team.nexters.kida.util.Routes
+import team.nexters.kida.ui.Screen
 import team.nexters.kida.util.UiEvent
 import javax.inject.Inject
 
@@ -24,10 +24,10 @@ class ListViewModel @Inject constructor(
     fun onEvent(event: ListEvent) {
         when (event) {
             is ListEvent.OnDiaryClick -> {
-                sendUiEvent(UiEvent.Navigate(Routes.DETAIL + "?diaryId=${event.diary.id}"))
+                sendUiEvent(UiEvent.Navigate(Screen.Detail.route + "?diaryId=${event.diary.id}"))
             }
             is ListEvent.OnWriteClick -> {
-                sendUiEvent(UiEvent.Navigate(Routes.WRITE))
+                sendUiEvent(UiEvent.Navigate(Screen.Write.route))
             }
         }
     }
