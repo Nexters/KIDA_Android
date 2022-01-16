@@ -55,7 +55,8 @@ fun ListScreen(
                 modifier = Modifier.navigationBarsPadding(),
                 onClick = {
                     viewModel.onEvent(ListEvent.OnWriteClick)
-                }) {
+                }
+            ) {
                 Icon(
                     imageVector = Icons.Default.Add,
                     "Add"

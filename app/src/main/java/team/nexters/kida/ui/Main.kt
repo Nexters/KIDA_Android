@@ -32,5 +32,4 @@ fun Main() {
     ) {
         AppNavGraph(navController = navController)
     }
-
 }
