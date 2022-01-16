@@ -125,6 +125,7 @@ dependencies {
     implementation(Dep.timber)
 
     implementation(Dep.Compose.accompanistInset)
+    implementation(Dep.Compose.accompanistInsetUi)
     implementation(Dep.Compose.accompanistSystemUi)
 
     testImplementation(Dep.Test.junit)

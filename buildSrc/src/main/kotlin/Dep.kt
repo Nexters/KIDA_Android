@@ -42,7 +42,7 @@ object Dep {
     }
 
     object Room {
-        private const val version = "2.3.0"
+        private const val version = "2.4.1"
         const val runtime = "androidx.room:room-runtime:$version"
         const val compiler = "androidx.room:room-compiler:$version"
         const val ktx = "androidx.room:room-ktx:$version"
@@ -77,6 +77,7 @@ object Dep {
 
         private const val accompanistVersion = "0.22.0-rc"
         const val accompanistInset = "com.google.accompanist:accompanist-insets:$accompanistVersion"
+        const val accompanistInsetUi = "com.google.accompanist:accompanist-insets-ui:$accompanistVersion"
         const val accompanistSystemUi =
             "com.google.accompanist:accompanist-systemuicontroller:$accompanistVersion"
         const val mdc3 = "androidx.compose.material3:material3:1.0.0-alpha02"
