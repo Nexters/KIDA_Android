@@ -1,12 +1,13 @@
 package team.nexters.kida.ui.list
 
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.rememberScaffoldState
@@ -14,8 +15,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.google.accompanist.insets.LocalWindowInsets
+import com.google.accompanist.insets.navigationBarsPadding
+import com.google.accompanist.insets.rememberInsetsPaddingValues
+import com.google.accompanist.insets.ui.TopAppBar
 import kotlinx.coroutines.flow.collect
 import team.nexters.kida.util.UiEvent
 
@@ -36,10 +40,22 @@ fun ListScreen(
     }
     Scaffold(
         scaffoldState = scaffoldState,
+        topBar = {
+            TopAppBar(
+                title = { Text(text = "List") },
+                backgroundColor = MaterialTheme.colors.background,
+                contentPadding = rememberInsetsPaddingValues(
+                    insets = LocalWindowInsets.current.statusBars,
+                    applyBottom = false,
+                )
+            )
+        },
         floatingActionButton = {
-            FloatingActionButton(onClick = {
-                viewModel.onEvent(ListEvent.OnWriteClick)
-            }) {
+            FloatingActionButton(
+                modifier = Modifier.navigationBarsPadding(),
+                onClick = {
+                    viewModel.onEvent(ListEvent.OnWriteClick)
+                }) {
                 Icon(
                     imageVector = Icons.Default.Add,
                     "Add"
@@ -56,7 +72,6 @@ fun ListScreen(
                     onEvent = viewModel::onEvent,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(16.dp)
                 )
             }
         }
