@@ -77,9 +77,13 @@ object Dep {
 
         private const val accompanistVersion = "0.22.0-rc"
         const val accompanistInset = "com.google.accompanist:accompanist-insets:$accompanistVersion"
-        const val accompanistInsetUi = "com.google.accompanist:accompanist-insets-ui:$accompanistVersion"
+        const val accompanistInsetUi =
+            "com.google.accompanist:accompanist-insets-ui:$accompanistVersion"
         const val accompanistSystemUi =
             "com.google.accompanist:accompanist-systemuicontroller:$accompanistVersion"
+        const val accompanistPager = "com.google.accompanist:accompanist-pager:$accompanistVersion"
+        const val accompanistIndicator =
+            "com.google.accompanist:accompanist-pager-indicators:$accompanistVersion"
         const val mdc3 = "androidx.compose.material3:material3:1.0.0-alpha02"
     }
 

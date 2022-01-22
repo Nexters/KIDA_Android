@@ -127,6 +127,8 @@ dependencies {
     implementation(Dep.Compose.accompanistInset)
     implementation(Dep.Compose.accompanistInsetUi)
     implementation(Dep.Compose.accompanistSystemUi)
+    implementation(Dep.Compose.accompanistPager)
+    implementation(Dep.Compose.accompanistIndicator)
 
     testImplementation(Dep.Test.junit)
     testImplementation(Dep.Test.coroutine)
