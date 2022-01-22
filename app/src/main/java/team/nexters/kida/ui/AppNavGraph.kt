@@ -93,7 +93,10 @@ private fun NavGraphBuilder.addKeyword(
                 navController.navigate(
                     it.route,
                     navOptions {
-                        popUpTo(Screen.Keyword.route) { inclusive = true }
+                        popUpTo(Screen.Keyword.route) {
+                            saveState = true
+                        }
+                        restoreState = true
                     }
                 )
             }
