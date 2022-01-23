@@ -22,7 +22,8 @@ fun DiaryItem(
 ) {
     Surface(
         modifier = modifier
-            .clickable { onEvent(ListEvent.OnDiaryClick(diary)) },
+            .clickable { onEvent(ListEvent.OnDiaryClick(diary)) }
+            .padding(vertical = 6.dp),
         shape = RoundedCornerShape(10.dp),
         color = White,
         elevation = 4.dp,
