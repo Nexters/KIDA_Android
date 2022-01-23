@@ -24,7 +24,7 @@ class KeywordViewModel @Inject constructor(
     fun onEvent(event: KeywordEvent) {
         when (event) {
             is KeywordEvent.OnKeywordClick -> {
-                sendUiEvent(UiEvent.Navigate(Screen.List.route))
+                sendUiEvent(UiEvent.Navigate(Screen.KeywordConfirm.route))
             }
         }
     }
