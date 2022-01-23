@@ -13,7 +13,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navOptions
 import team.nexters.kida.ui.detail.DetailScreen
-import team.nexters.kida.ui.keyword.KeywordScreen
+import team.nexters.kida.ui.keyword.KeywordConfirmScreen
+import team.nexters.kida.ui.keyword.KeywordSelectScreen
 import team.nexters.kida.ui.list.ListScreen
 import team.nexters.kida.ui.splash.SplashScreen
 import team.nexters.kida.ui.write.WriteScreen
@@ -21,6 +22,7 @@ import team.nexters.kida.ui.write.WriteScreen
 sealed class Screen(val route: String) {
     object Splash : Screen("splash")
     object Keyword : Screen("keyword")
+    object KeywordConfirm : Screen("keyword-confirm")
     object List : Screen("list")
     object Write : Screen("write")
     object Detail : Screen("detail")
@@ -88,12 +90,29 @@ private fun NavGraphBuilder.addKeyword(
     navController: NavController
 ) {
     composable(Screen.Keyword.route) { _: NavBackStackEntry ->
-        KeywordScreen(
+        KeywordSelectScreen(
             onNavigate = {
                 navController.navigate(
                     it.route,
                     navOptions {
                         popUpTo(Screen.Keyword.route) {
+                            saveState = true
+                        }
+                        restoreState = true
+                    }
+                )
+            }
+        )
+    }
+
+    composable(Screen.KeywordConfirm.route) {
+        KeywordConfirmScreen(
+            upPress = { navController.popBackStack() },
+            onConfirm = {
+                navController.navigate(
+                    Screen.List.route,
+                    navOptions {
+                        popUpTo(Screen.KeywordConfirm.route) {
                             saveState = true
                         }
                         restoreState = true

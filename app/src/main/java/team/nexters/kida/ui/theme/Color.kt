@@ -11,5 +11,6 @@ val UnderLineYellow = Color(0xFFFFF8B8)
 val Primary = Color(0xFFF66705)
 val Disabled = Color(0xFFDFDFDF)
 
-val Bubble = Color(0xFF484848)
+val Splash = Color(0xFFfdfde3)
+
 val DarkGrey = Color(0xFF535353)

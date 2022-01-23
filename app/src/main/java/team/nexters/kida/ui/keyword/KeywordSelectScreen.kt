@@ -42,14 +42,13 @@ import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.flow.collect
 import team.nexters.kida.component.shape.TopBubbleShape
-import team.nexters.kida.ui.theme.Bubble
 import team.nexters.kida.ui.theme.Disabled
 import team.nexters.kida.ui.theme.Primary
 import team.nexters.kida.ui.theme.UnderLineYellow
 import team.nexters.kida.util.UiEvent
 
 @Composable
-fun KeywordScreen(
+fun KeywordSelectScreen(
     onNavigate: (UiEvent.Navigate) -> Unit,
     viewModel: KeywordViewModel = hiltViewModel()
 ) {
@@ -79,7 +78,7 @@ fun KeywordScreen(
         },
         modifier = Modifier.fillMaxSize()
     ) {
-        KeywordScreenContent {
+        KeywordSelectContent {
             viewModel.onEvent(KeywordEvent.OnKeywordClick)
         }
     }
@@ -87,7 +86,7 @@ fun KeywordScreen(
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-private fun KeywordScreenContent(
+private fun KeywordSelectContent(
     onClickButton: () -> Unit,
 ) {
     Column(
@@ -206,7 +205,7 @@ fun KeywordBubbleButton(
                     clip = true
                 }
                 .background(
-                    color = Bubble,
+                    color = Color.Black,
                     shape = TopBubbleShape(cornerRadius)
                 ),
             horizontalArrangement = Arrangement.Center,
