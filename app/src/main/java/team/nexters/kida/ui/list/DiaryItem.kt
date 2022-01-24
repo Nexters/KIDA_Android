@@ -1,7 +1,13 @@
 package team.nexters.kida.ui.list
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -12,7 +18,11 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import team.nexters.kida.data.diary.Diary
-import team.nexters.kida.ui.theme.*
+import team.nexters.kida.ui.theme.Black
+import team.nexters.kida.ui.theme.DarkGrey
+import team.nexters.kida.ui.theme.Disable
+import team.nexters.kida.ui.theme.Primary
+import team.nexters.kida.ui.theme.White
 
 @Composable
 fun DiaryItem(
