@@ -14,3 +14,9 @@ val Disabled = Color(0xFFDFDFDF)
 val Splash = Color(0xFFfdfde3)
 
 val DarkGrey = Color(0xFF535353)
+
+val Black = Color(0xFF000000)
+val White = Color(0xFFFFFFFF)
+val Disable = Color(0xFF9C9C9C)
+
+val BackGround = Color(0xFFF8F8F8)
