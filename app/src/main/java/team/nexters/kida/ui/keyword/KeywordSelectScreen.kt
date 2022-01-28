@@ -43,6 +43,7 @@ import team.nexters.kida.component.HorizontalPagerIndicator
 import team.nexters.kida.component.shape.TopBubbleShape
 import team.nexters.kida.ui.theme.Theme
 import team.nexters.kida.ui.theme.underlineYellow
+import team.nexters.kida.util.DateUtils
 import team.nexters.kida.util.UiEvent
 
 @Composable
@@ -63,10 +64,7 @@ fun KeywordSelectScreen(
         scaffoldState = scaffoldState,
         topBar = {
             TopAppBar(
-                title = {
-                    // TODO today
-                    Text(text = "Keyword")
-                },
+                title = { Text(text = DateUtils.today()) },
                 backgroundColor = MaterialTheme.colors.background,
                 contentPadding = rememberInsetsPaddingValues(
                     insets = LocalWindowInsets.current.statusBars,
