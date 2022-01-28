@@ -12,9 +12,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import kotlinx.coroutines.flow.collect
-import team.nexters.kida.ui.theme.Primary
-import team.nexters.kida.ui.theme.Splash
+import team.nexters.kida.ui.theme.Theme
+import team.nexters.kida.ui.theme.splashBackground
 import team.nexters.kida.util.UiEvent
 
 @Composable
@@ -33,13 +32,13 @@ fun SplashScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Splash),
+            .background(Theme.colors.splashBackground),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(modifier = Modifier.size(164.dp))
         Box(
             modifier = Modifier
-                .background(Primary)
+                .background(Theme.colors.primary)
                 .size(136.dp, 136.dp)
 
         )

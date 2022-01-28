@@ -34,8 +34,7 @@ import com.google.accompanist.insets.LocalWindowInsets
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.rememberInsetsPaddingValues
 import com.google.accompanist.insets.ui.TopAppBar
-import team.nexters.kida.ui.theme.DarkGrey
-import team.nexters.kida.ui.theme.Primary
+import team.nexters.kida.ui.theme.Theme
 
 @Composable
 fun KeywordConfirmScreen(
@@ -75,7 +74,7 @@ fun KeywordConfirmScreen(
             Text(
                 text = "오늘의 키워드",
                 style = TextStyle(
-                    color = DarkGrey,
+                    color = Theme.colors.darkGray,
                     fontSize = 16.sp
                 )
             )
@@ -84,7 +83,7 @@ fun KeywordConfirmScreen(
             Text(
                 text = "가을",
                 style = TextStyle(
-                    color = Primary,
+                    color = Theme.colors.primary,
                     fontSize = 40.sp,
                     fontWeight = FontWeight.Bold
                 )
@@ -94,7 +93,7 @@ fun KeywordConfirmScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .weight(1f)
-                    .background(Primary)
+                    .background(Theme.colors.primary)
             )
 
             Spacer(modifier = Modifier.size(31.dp))
@@ -119,7 +118,7 @@ fun KeywordConfirmScreen(
             Text(
                 text = "다시 뽑을래",
                 style = TextStyle(
-                    color = DarkGrey,
+                    color = Theme.colors.darkGray,
                     textDecoration = TextDecoration.Underline,
                     fontSize = 14.sp
                 ),
