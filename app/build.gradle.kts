@@ -3,6 +3,7 @@ plugins {
     kotlin("android")
     kotlin("kapt")
     id("dagger.hilt.android.plugin")
+    id("com.google.devtools.ksp") version "1.6.10-1.0.2"
 }
 
 android {
@@ -116,7 +117,7 @@ dependencies {
 
     implementation(Dep.Room.runtime)
     implementation(Dep.Room.ktx)
-    kapt(Dep.Room.compiler)
+    ksp(Dep.Room.compiler)
 
     implementation(Dep.Android.lifecycleViewModel)
     implementation(Dep.Android.lifecycleRuntime)
