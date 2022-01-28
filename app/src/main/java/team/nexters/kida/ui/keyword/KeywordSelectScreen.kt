@@ -38,8 +38,8 @@ import com.google.accompanist.insets.rememberInsetsPaddingValues
 import com.google.accompanist.insets.ui.TopAppBar
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
-import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.rememberPagerState
+import team.nexters.kida.component.HorizontalPagerIndicator
 import team.nexters.kida.component.shape.TopBubbleShape
 import team.nexters.kida.ui.theme.Theme
 import team.nexters.kida.ui.theme.underlineYellow
@@ -99,15 +99,16 @@ private fun KeywordSelectContent(
         KeywordHighlightHeader()
         val pagerState = rememberPagerState()
 
-        // TODO custom width
         HorizontalPagerIndicator(
             modifier = Modifier.padding(top = 20.dp),
             pagerState = pagerState,
             spacing = 6.dp,
             activeColor = Theme.colors.primary,
+            activeIndicatorWidth = 24.dp,
+            activeIndicatorHeight = 8.dp,
             inactiveColor = Theme.colors.disabled,
-            indicatorHeight = 8.dp,
-            indicatorWidth = 8.dp
+            inactiveIndicatorHeight = 8.dp,
+            inactiveIndicatorWidth = 8.dp
         )
         Spacer(modifier = Modifier.size(60.dp))
         HorizontalPager(
