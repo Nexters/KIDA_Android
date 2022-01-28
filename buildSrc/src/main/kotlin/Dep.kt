@@ -75,7 +75,7 @@ object Dep {
 
         const val activity = "androidx.activity:activity-compose:1.4.0"
 
-        private const val accompanistVersion = "0.22.0-rc"
+        private const val accompanistVersion = "0.24.1-alpha"
         const val accompanistInset = "com.google.accompanist:accompanist-insets:$accompanistVersion"
         const val accompanistInsetUi =
             "com.google.accompanist:accompanist-insets-ui:$accompanistVersion"

@@ -35,6 +35,7 @@ import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.rememberInsetsPaddingValues
 import com.google.accompanist.insets.ui.TopAppBar
 import team.nexters.kida.ui.theme.Theme
+import team.nexters.kida.util.DateUtils
 
 @Composable
 fun KeywordConfirmScreen(
@@ -46,10 +47,7 @@ fun KeywordConfirmScreen(
         scaffoldState = scaffoldState,
         topBar = {
             TopAppBar(
-                title = {
-                    // TODO today
-                    Text(text = "Keyword Confirm")
-                },
+                title = { Text(text = DateUtils.today()) },
                 backgroundColor = MaterialTheme.colors.background,
                 contentPadding = rememberInsetsPaddingValues(
                     insets = LocalWindowInsets.current.statusBars,
