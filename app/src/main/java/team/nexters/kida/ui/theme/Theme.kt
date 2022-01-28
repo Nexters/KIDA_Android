@@ -5,18 +5,11 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 
-private val DarkColorPalette = darkColors(
-    primary = Purple200,
-    primaryVariant = Purple700,
-    secondary = Teal200
-)
+private val DarkColorPalette = darkColors()
 
-private val LightColorPalette = lightColors(
-    primary = Purple500,
-    primaryVariant = Purple700,
-    secondary = Teal200
-)
+private val LightColorPalette = lightColors()
 
 @Composable
 fun Theme(
@@ -28,11 +21,19 @@ fun Theme(
     } else {
         LightColorPalette
     }
+    val themeColors = ThemeColors()
+    CompositionLocalProvider(LocalThemeColors provides themeColors) {
+        MaterialTheme(
+            colors = colors,
+            typography = Typography,
+            shapes = Shapes,
+            content = content
+        )
+    }
+}
 
-    MaterialTheme(
-        colors = colors,
-        typography = Typography,
-        shapes = Shapes,
-        content = content
-    )
+object Theme {
+    val colors: ThemeColors
+        @Composable
+        get() = LocalThemeColors.current
 }

@@ -18,11 +18,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import team.nexters.kida.data.diary.Diary
-import team.nexters.kida.ui.theme.Black
-import team.nexters.kida.ui.theme.DarkGrey
-import team.nexters.kida.ui.theme.Disable
-import team.nexters.kida.ui.theme.Primary
-import team.nexters.kida.ui.theme.White
+import team.nexters.kida.ui.theme.Theme
 
 @Composable
 fun DiaryItem(
@@ -35,7 +31,7 @@ fun DiaryItem(
             .clickable { onEvent(ListEvent.OnDiaryClick(diary)) }
             .padding(vertical = 6.dp),
         shape = RoundedCornerShape(10.dp),
-        color = White,
+        color = Theme.colors.white,
         elevation = 4.dp,
     ) {
         Row(
@@ -54,7 +50,7 @@ fun DiaryItem(
                     Text(
                         text = diary.title,
                         style = TextStyle(
-                            color = Black,
+                            color = Theme.colors.black,
                             fontSize = 18.sp
                         )
                     )
@@ -66,7 +62,7 @@ fun DiaryItem(
                     Text(
                         text = "#${diary.keyword}",
                         style = TextStyle(
-                            color = Primary,
+                            color = Theme.colors.primary,
                             fontSize = 12.sp
                         )
                     )
@@ -74,7 +70,7 @@ fun DiaryItem(
                     Text(
                         text = diary.keyword,
                         style = TextStyle(
-                            color = Disable,
+                            color = Theme.colors.disabled,
                             fontSize = 12.sp
                         )
                     )
@@ -86,7 +82,7 @@ fun DiaryItem(
                     Text(
                         text = diary.content,
                         style = TextStyle(
-                            color = DarkGrey
+                            color = Theme.colors.darkGray
                         )
                     )
                 }

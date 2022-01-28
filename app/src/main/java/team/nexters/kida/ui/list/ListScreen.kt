@@ -32,9 +32,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.insets.LocalWindowInsets
 import com.google.accompanist.insets.rememberInsetsPaddingValues
 import com.google.accompanist.insets.ui.TopAppBar
-import kotlinx.coroutines.flow.collect
-import team.nexters.kida.ui.theme.BackGround
-import team.nexters.kida.ui.theme.Black
+import team.nexters.kida.ui.theme.Theme
 import team.nexters.kida.util.UiEvent
 
 @Composable
@@ -54,7 +52,7 @@ fun ListScreen(
     }
     Scaffold(
         scaffoldState = scaffoldState,
-        backgroundColor = BackGround,
+        backgroundColor = Theme.colors.background,
         topBar = {
             TopAppBar(
                 title = {
@@ -62,7 +60,7 @@ fun ListScreen(
                         Text(
                             text = "내 일기",
                             style = TextStyle(
-                                color = Black,
+                                color = Theme.colors.black,
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 16.sp,
                                 textAlign = TextAlign.Center
@@ -97,7 +95,7 @@ fun ListScreen(
                 Text(
                     text = "내가 쓴 일기",
                     style = TextStyle(
-                        color = Black,
+                        color = Theme.colors.black,
                         fontSize = 20.sp
                     )
                 )

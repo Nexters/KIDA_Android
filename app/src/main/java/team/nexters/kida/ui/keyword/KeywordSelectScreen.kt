@@ -40,11 +40,9 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.rememberPagerState
-import kotlinx.coroutines.flow.collect
 import team.nexters.kida.component.shape.TopBubbleShape
-import team.nexters.kida.ui.theme.Disabled
-import team.nexters.kida.ui.theme.Primary
-import team.nexters.kida.ui.theme.UnderLineYellow
+import team.nexters.kida.ui.theme.Theme
+import team.nexters.kida.ui.theme.underlineYellow
 import team.nexters.kida.util.UiEvent
 
 @Composable
@@ -106,8 +104,8 @@ private fun KeywordSelectContent(
             modifier = Modifier.padding(top = 20.dp),
             pagerState = pagerState,
             spacing = 6.dp,
-            activeColor = Primary,
-            inactiveColor = Disabled,
+            activeColor = Theme.colors.primary,
+            inactiveColor = Theme.colors.disabled,
             indicatorHeight = 8.dp,
             indicatorWidth = 8.dp
         )
@@ -161,7 +159,7 @@ private fun KeywordHighlightHeader() {
             modifier = Modifier
                 .width(158.dp)
                 .height(18.dp)
-                .background(UnderLineYellow)
+                .background(Theme.colors.underlineYellow)
                 .align(Alignment.BottomStart)
         )
 
