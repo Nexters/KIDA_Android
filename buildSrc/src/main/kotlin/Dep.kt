@@ -9,15 +9,15 @@ object Dep {
 
 
     object Plugins {
-        const val androidGradlePlugin = "com.android.tools.build:gradle:7.0.4"
+        const val androidGradlePlugin = "com.android.tools.build:gradle:7.1.0"
         const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Kotlin.version}"
         const val dagger = "com.google.dagger:hilt-android-gradle-plugin:${Dagger.version}"
-        const val spotless = "com.diffplug.spotless:spotless-plugin-gradle:5.15.0"
+        const val spotless = "com.diffplug.spotless:spotless-plugin-gradle:6.2.0"
     }
 
     object Kotlin {
-        const val version = "1.6.0"
-        const val coroutineVersion = "1.5.2"
+        const val version = "1.6.10"
+        const val coroutineVersion = "1.6.0"
         const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib:$version"
         const val coroutine = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion"
     }
@@ -37,8 +37,8 @@ object Dep {
         const val lifecycleCompose =
             "androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycleVersion"
 
-        const val navigationCompose = "androidx.navigation:navigation-compose:2.4.0-rc01"
-        const val hiltNavigationCompose = "androidx.hilt:hilt-navigation-compose:1.0.0-rc01"
+        const val navigationCompose = "androidx.navigation:navigation-compose:2.4.0"
+        const val hiltNavigationCompose = "androidx.hilt:hilt-navigation-compose:1.0.0"
     }
 
     object Room {
@@ -60,7 +60,7 @@ object Dep {
     }
 
     object Compose {
-        const val version = "1.1.0-rc01"
+        const val version = "1.1.0-rc03"
 
         const val runtime = "androidx.compose.runtime:runtime:$version"
 
