@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
@@ -26,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.DarkGray
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -39,6 +39,7 @@ import com.google.accompanist.insets.ui.TopAppBar
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
+import team.nexters.kida.R
 import team.nexters.kida.component.HorizontalPagerIndicator
 import team.nexters.kida.component.shape.TopBubbleShape
 import team.nexters.kida.ui.theme.Theme
@@ -60,6 +61,16 @@ fun KeywordSelectScreen(
             }
         }
     }
+    val pagerSubtitles = with(LocalContext.current) {
+        listOf(
+            getString(R.string.keyword_pager_1),
+            getString(R.string.keyword_pager_2),
+            getString(R.string.keyword_pager_3),
+            getString(R.string.keyword_pager_4),
+            getString(R.string.keyword_pager_5),
+            getString(R.string.keyword_pager_6)
+        )
+    }
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
@@ -74,9 +85,10 @@ fun KeywordSelectScreen(
         },
         modifier = Modifier.fillMaxSize()
     ) {
-        KeywordSelectContent {
-            viewModel.onEvent(KeywordEvent.OnKeywordClick)
-        }
+        KeywordSelectContent(
+            onClickButton = { viewModel.onEvent(KeywordEvent.OnKeywordClick) },
+            pagerSubtitles
+        )
     }
 }
 
@@ -84,6 +96,7 @@ fun KeywordSelectScreen(
 @Composable
 private fun KeywordSelectContent(
     onClickButton: () -> Unit,
+    pagerSubTitles: List<String>
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -116,7 +129,7 @@ private fun KeywordSelectContent(
             count = 6,
             state = pagerState
         ) {
-            KeywordPagerItem()
+            KeywordPagerItem(pagerSubTitles[pagerState.currentPage])
         }
 
         Spacer(modifier = Modifier.size(24.dp))
@@ -130,29 +143,25 @@ private fun KeywordSelectContent(
 }
 
 @Composable
-private fun KeywordPagerItem() {
-    Card(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(10.dp)
+private fun KeywordPagerItem(subTitle: String) {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .weight(1f)
-                    .background(Color.Green)
-            )
-            Spacer(modifier = Modifier.size(8.dp))
-            Text(text = "발랄한 직각 요정", color = DarkGray)
-        }
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .weight(1f)
+                .background(Color.Green)
+        )
+        Spacer(modifier = Modifier.size(8.dp))
+        Text(text = subTitle, color = DarkGray)
     }
 }
 
 @Composable
 private fun KeywordHighlightHeader() {
+    val context = LocalContext.current
     Box {
         Box(
             modifier = Modifier
@@ -167,13 +176,13 @@ private fun KeywordHighlightHeader() {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "오늘의 짝꿍을",
+                text = context.getString(R.string.keyword_highlight_1),
                 fontSize = 26.sp,
                 textAlign = TextAlign.Center
             )
             Spacer(modifier = Modifier.padding(top = 8.dp))
             Text(
-                text = "느낌충만하게 뽑아봐!",
+                text = context.getString(R.string.keyword_highlight_2),
                 fontSize = 26.sp,
                 textAlign = TextAlign.Center
             )
@@ -209,7 +218,7 @@ fun KeywordBubbleButton(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "이 친구로 뽑을래?",
+                text = with(LocalContext.current) { getString(R.string.keyword_select_confirm) },
                 modifier = Modifier
                     .padding(
                         top = 18.dp,
