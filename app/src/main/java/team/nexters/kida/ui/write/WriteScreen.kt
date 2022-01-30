@@ -12,6 +12,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -50,7 +51,7 @@ fun WriteScreen(
         backgroundColor = Theme.colors.background,
         topBar = {
             TopAppBar(
-                title = { Text(text = "Write") },
+                title = { Text(text = viewModel.date) },
                 backgroundColor = MaterialTheme.colors.background,
                 contentPadding = rememberInsetsPaddingValues(
                     insets = LocalWindowInsets.current.statusBars,
@@ -77,44 +78,34 @@ fun WriteScreen(
                 backgroundColor = Color.White
             ) {
                 Column(
-                    modifier = Modifier.padding(start = 20.dp, end = 30.dp, top = 30.dp)
+                    modifier = Modifier.padding(start = 20.dp, end = 20.dp, top = 30.dp)
                 ) {
-                    todayKeyword(viewModel)
+                    TodayKeyword(viewModel)
                     Spacer(modifier = Modifier.height(34.dp))
-                    TextField(
+                    NonInnerPaddingTextField(
                         value = viewModel.title,
+                        placeholder = "제목",
+                        textSize = 20,
                         onValueChange = {
                             viewModel.onEvent(WriteEvent.OnTitleChange(it))
                         },
-                        placeholder = {
-                            Text(text = "제목", fontSize = 20.sp)
-                        },
                         modifier = Modifier
-                            .fillMaxWidth(),
-                        colors = TextFieldDefaults.textFieldColors(
-                            backgroundColor = Color.Transparent,
-                            focusedIndicatorColor = Color.Transparent,
-                            unfocusedIndicatorColor = Color.Transparent
-                        )
+                            .fillMaxWidth()
+                            .padding(bottom = 18.dp, start = 2.dp, end = 2.dp)
                     )
                     Divider(color = Color.LightGray, thickness = 1.dp)
-                    TextField(
+                    NonInnerPaddingTextField(
                         value = viewModel.content,
+                        placeholder = "공백 포함 150자 이내로 써 주세요.",
+                        textSize = 12,
                         onValueChange = {
                             viewModel.onEvent(WriteEvent.OnContentChange(it))
                         },
-                        placeholder = {
-                            Text(text = "공백 포함 150자 이내로 써 주세요.")
-                        },
                         modifier = Modifier
                             .fillMaxWidth()
-                            .fillMaxHeight(),
-                        colors = TextFieldDefaults.textFieldColors(
-                            backgroundColor = Color.Transparent,
-                            focusedIndicatorColor = Color.Transparent,
-                            unfocusedIndicatorColor = Color.Transparent
-                        ),
-                        singleLine = false)
+                            .fillMaxHeight()
+                            .padding(top = 20.dp, bottom = 20.dp, start = 2.dp, end = 2.dp)
+                    )
                 }
             }
             Button(
@@ -136,7 +127,7 @@ fun WriteScreen(
 }
 
 @Composable
-fun todayKeyword(viewModel: WriteViewModel) {
+fun TodayKeyword(viewModel: WriteViewModel) {
     Row(modifier = Modifier.padding(top = 6.dp))
     {
         Column(
@@ -157,4 +148,35 @@ fun todayKeyword(viewModel: WriteViewModel) {
             contentDescription = "emoji",
         )
     }
+}
+
+@Composable
+fun NonInnerPaddingTextField(
+    placeholder: String,
+    value: String,
+    textSize: Int,
+    onValueChange: (String) -> Unit,
+    modifier: Modifier
+) {
+    BasicTextField(
+        modifier = modifier,
+        value = value,
+        onValueChange = onValueChange,
+        textStyle = TextStyle(
+            color = Color.Black,
+            fontSize = textSize.sp
+        ),
+        decorationBox = { innerTextField ->
+            Row(modifier = Modifier.fillMaxWidth()) {
+                if (value.isEmpty()) {
+                    Text(
+                        text = placeholder,
+                        color = Color.Gray,
+                        fontSize = textSize.sp
+                    )
+                }
+            }
+            innerTextField()
+        }
+    )
 }
