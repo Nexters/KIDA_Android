@@ -99,7 +99,8 @@ fun WriteScreen(
                         placeholder = "공백 포함 150자 이내로 써 주세요.",
                         textSize = 12,
                         onValueChange = {
-                            viewModel.onEvent(WriteEvent.OnContentChange(it))
+                            if (it.length <= 150)
+                                viewModel.onEvent(WriteEvent.OnContentChange(it))
                         },
                         modifier = Modifier
                             .fillMaxWidth()
@@ -108,13 +109,27 @@ fun WriteScreen(
                     )
                 }
             }
+            val btnDisabled =
+                (viewModel.content.isEmpty() || viewModel.title.isEmpty() || viewModel.keyword.isEmpty())
             Button(
-                onClick = { viewModel.onEvent(WriteEvent.OnSaveDiary) },
+                enabled = !btnDisabled,
+                onClick = {
+                    if (!btnDisabled) {
+                        viewModel.onEvent(WriteEvent.OnSaveDiary)
+                    }
+                },
                 shape = RoundedCornerShape(10.dp),
-                colors = ButtonDefaults.buttonColors(
-                    backgroundColor = Color.Black,
-                    contentColor = Color.White
-                ),
+                colors = if (btnDisabled) {
+                    ButtonDefaults.buttonColors(
+                        backgroundColor = Color.LightGray,
+                        contentColor = Color.DarkGray
+                    )
+                } else {
+                    ButtonDefaults.buttonColors(
+                        backgroundColor = Color.Black,
+                        contentColor = Color.White
+                    )
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(start = 55.dp, end = 55.dp, top = 4.dp)

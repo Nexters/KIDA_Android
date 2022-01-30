@@ -65,10 +65,6 @@ class WriteViewModel @Inject constructor(
             }
             is WriteEvent.OnSaveDiary -> {
                 viewModelScope.launch {
-                    if (title.isBlank() || content.isBlank() || keyword.isBlank()) {
-                        sendUiEvent(UiEvent.ShowSnackbar(message = "좀 채워라~"))
-                        return@launch
-                    }
                     repository.insertDiary(
                         Diary(
                             title = title,
