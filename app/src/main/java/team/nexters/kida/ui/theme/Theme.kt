@@ -22,7 +22,11 @@ fun Theme(
         LightColorPalette
     }
     val themeColors = ThemeColors()
-    CompositionLocalProvider(LocalThemeColors provides themeColors) {
+    val kidaTypography = KidaTypography()
+    CompositionLocalProvider(
+        LocalThemeColors provides themeColors,
+        LocalKidaTypography provides kidaTypography
+    ) {
         MaterialTheme(
             colors = colors,
             typography = Typography,
@@ -36,4 +40,7 @@ object Theme {
     val colors: ThemeColors
         @Composable
         get() = LocalThemeColors.current
+    val typography: KidaTypography
+        @Composable
+        get() = LocalKidaTypography.current
 }
