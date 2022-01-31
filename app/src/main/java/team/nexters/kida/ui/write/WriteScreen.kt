@@ -1,32 +1,44 @@
 package team.nexters.kida.ui.write
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.FloatingActionButton
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Card
+import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
-import androidx.compose.material.TextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.insets.LocalWindowInsets
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.rememberInsetsPaddingValues
 import com.google.accompanist.insets.ui.TopAppBar
-import kotlinx.coroutines.flow.collect
+import team.nexters.kida.R
+import team.nexters.kida.ui.theme.Theme
 import team.nexters.kida.util.UiEvent
 
 @Composable
@@ -42,7 +54,8 @@ fun WriteScreen(
                 is UiEvent.ShowSnackbar -> {
                     scaffoldState.snackbarHostState.showSnackbar(event.message)
                 }
-                else -> {}
+                else -> {
+                }
             }
         }
     }
@@ -50,10 +63,12 @@ fun WriteScreen(
     Scaffold(
         scaffoldState = scaffoldState,
         modifier = Modifier
-            .fillMaxSize(),
+            .fillMaxSize()
+            .navigationBarsPadding(),
+        backgroundColor = Theme.colors.background,
         topBar = {
             TopAppBar(
-                title = { Text(text = "Write") },
+                title = { Text(text = viewModel.date) },
                 backgroundColor = MaterialTheme.colors.background,
                 contentPadding = rememberInsetsPaddingValues(
                     insets = LocalWindowInsets.current.statusBars,
@@ -68,58 +83,131 @@ fun WriteScreen(
                     }
                 }
             )
-        },
-        floatingActionButton = {
-            FloatingActionButton(
-                modifier = Modifier.navigationBarsPadding(),
-                onClick = { viewModel.onEvent(WriteEvent.OnSaveDiary) }
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Check,
-                    contentDescription = "Save"
-                )
-            }
         }
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp)
-        ) {
-            TextField(
-                value = viewModel.title,
-                onValueChange = {
-                    viewModel.onEvent(WriteEvent.OnTitleChange(it))
+        Column(Modifier.fillMaxSize()) {
+            Card(
+                modifier = Modifier
+                    .padding(20.dp)
+                    .weight(1f),
+                elevation = 10.dp,
+                shape = RoundedCornerShape(10.dp),
+                backgroundColor = Color.White
+            ) {
+                Column(
+                    modifier = Modifier.padding(start = 20.dp, end = 20.dp, top = 30.dp)
+                ) {
+                    TodayKeyword(viewModel)
+                    Spacer(modifier = Modifier.height(34.dp))
+                    NonInnerPaddingTextField(
+                        value = viewModel.title,
+                        placeholder = "제목",
+                        textSize = 20,
+                        onValueChange = {
+                            viewModel.onEvent(WriteEvent.OnTitleChange(it))
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 18.dp, start = 2.dp, end = 2.dp)
+                    )
+                    Divider(color = Color.LightGray, thickness = 1.dp)
+                    NonInnerPaddingTextField(
+                        value = viewModel.content,
+                        placeholder = "공백 포함 150자 이내로 써 주세요.",
+                        textSize = 12,
+                        onValueChange = {
+                            if (it.length <= 150)
+                                viewModel.onEvent(WriteEvent.OnContentChange(it))
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .fillMaxHeight()
+                            .padding(top = 20.dp, bottom = 20.dp, start = 2.dp, end = 2.dp)
+                    )
+                }
+            }
+            val btnDisabled =
+                (viewModel.content.isEmpty() || viewModel.title.isEmpty() || viewModel.keyword.isEmpty())
+            Button(
+                enabled = !btnDisabled,
+                onClick = {
+                    if (!btnDisabled) {
+                        viewModel.onEvent(WriteEvent.OnSaveDiary)
+                    }
                 },
-                placeholder = {
-                    Text(text = "Title")
+                shape = RoundedCornerShape(10.dp),
+                colors = if (btnDisabled) {
+                    ButtonDefaults.buttonColors(
+                        backgroundColor = Color.LightGray,
+                        contentColor = Color.DarkGray
+                    )
+                } else {
+                    ButtonDefaults.buttonColors(
+                        backgroundColor = Color.Black,
+                        contentColor = Color.White
+                    )
                 },
-                modifier = Modifier.fillMaxWidth()
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            TextField(
-                value = viewModel.content,
-                onValueChange = {
-                    viewModel.onEvent(WriteEvent.OnContentChange(it))
-                },
-                placeholder = {
-                    Text(text = "Content")
-                },
-                modifier = Modifier.fillMaxWidth(),
-                singleLine = false,
-                maxLines = 5
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            TextField(
-                value = viewModel.keyword,
-                onValueChange = {
-                    viewModel.onEvent(WriteEvent.OnKeywordChange(it))
-                },
-                placeholder = {
-                    Text(text = "Keyword")
-                },
-                modifier = Modifier.fillMaxWidth()
-            )
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 55.dp, end = 55.dp, top = 4.dp)
+            ) {
+                Text(text = "작성하기", fontSize = 18.sp, modifier = Modifier.padding(vertical = 12.dp))
+            }
+            Spacer(modifier = Modifier.size(32.dp))
         }
     }
+}
+
+@Composable
+fun TodayKeyword(viewModel: WriteViewModel) {
+    Row(modifier = Modifier.padding(top = 6.dp)) {
+        Column(
+            Modifier.weight(1f)
+        ) {
+            Text(
+                text = "오늘의 키워드",
+                fontSize = 16.sp
+            )
+            Text(
+                modifier = Modifier.padding(top = 12.dp),
+                text = viewModel.keyword,
+                fontSize = 40.sp
+            )
+        }
+        Image(
+            painterResource(R.drawable.ic_launcher_foreground),
+            contentDescription = "emoji",
+        )
+    }
+}
+
+@Composable
+fun NonInnerPaddingTextField(
+    placeholder: String,
+    value: String,
+    textSize: Int,
+    onValueChange: (String) -> Unit,
+    modifier: Modifier
+) {
+    BasicTextField(
+        modifier = modifier,
+        value = value,
+        onValueChange = onValueChange,
+        textStyle = TextStyle(
+            color = Color.Black,
+            fontSize = textSize.sp
+        ),
+        decorationBox = { innerTextField ->
+            Row(modifier = Modifier.fillMaxWidth()) {
+                if (value.isEmpty()) {
+                    Text(
+                        text = placeholder,
+                        color = Color.Gray,
+                        fontSize = textSize.sp
+                    )
+                }
+            }
+            innerTextField()
+        }
+    )
 }

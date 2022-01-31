@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import team.nexters.kida.data.diary.Diary
 import team.nexters.kida.data.diary.DiaryRepository
+import team.nexters.kida.util.DateUtils
 import team.nexters.kida.util.UiEvent
 import javax.inject.Inject
 
@@ -24,13 +25,15 @@ class WriteViewModel @Inject constructor(
     var diary by mutableStateOf<Diary?>(null)
         private set
 
+    val date by mutableStateOf(DateUtils.today())
+
     var title by mutableStateOf("")
         private set
 
     var content by mutableStateOf("")
         private set
 
-    var keyword by mutableStateOf("")
+    var keyword by mutableStateOf("가을")
         private set
 
     private val _uiEvent = Channel<UiEvent>()
@@ -62,10 +65,6 @@ class WriteViewModel @Inject constructor(
             }
             is WriteEvent.OnSaveDiary -> {
                 viewModelScope.launch {
-                    if (title.isBlank() || content.isBlank() || keyword.isBlank()) {
-                        sendUiEvent(UiEvent.ShowSnackbar(message = "좀 채워라~"))
-                        return@launch
-                    }
                     repository.insertDiary(
                         Diary(
                             title = title,
