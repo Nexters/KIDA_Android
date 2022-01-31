@@ -24,7 +24,27 @@ val notoSansFamily = FontFamily(
 // Set of Material typography styles to start with
 val Typography = Typography(
     body1 = TextStyle(
-        fontFamily = FontFamily.Default,
+        fontFamily = gmarketSansFamily,
+        fontWeight = FontWeight.Normal,
+        fontSize = 16.sp
+    ),
+    button = TextStyle(
+        fontFamily = gmarketSansFamily,
+        fontWeight = FontWeight.Normal,
+        fontSize = 18.sp
+    ),
+    h1 = TextStyle(
+        fontFamily = gmarketSansFamily,
+        fontWeight = FontWeight.Normal,
+        fontSize = 26.sp
+    ),
+    h2 = TextStyle(
+        fontFamily = gmarketSansFamily,
+        fontWeight = FontWeight.Normal,
+        fontSize = 20.sp
+    ),
+    h3 = TextStyle(
+        fontFamily = notoSansFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp
     )
