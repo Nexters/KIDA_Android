@@ -27,7 +27,6 @@ import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
@@ -68,7 +67,7 @@ fun WriteScreen(
         backgroundColor = Theme.colors.background,
         topBar = {
             TopAppBar(
-                title = { Text(text = viewModel.date) },
+                title = { Text(text = viewModel.date, style = Theme.typography.h3) },
                 backgroundColor = MaterialTheme.colors.background,
                 contentPadding = rememberInsetsPaddingValues(
                     insets = LocalWindowInsets.current.statusBars,
@@ -92,7 +91,7 @@ fun WriteScreen(
                     .weight(1f),
                 elevation = 10.dp,
                 shape = RoundedCornerShape(10.dp),
-                backgroundColor = Color.White
+                backgroundColor = Theme.colors.white
             ) {
                 Column(
                     modifier = Modifier.padding(start = 20.dp, end = 20.dp, top = 30.dp)
@@ -101,8 +100,8 @@ fun WriteScreen(
                     Spacer(modifier = Modifier.height(34.dp))
                     NonInnerPaddingTextField(
                         value = viewModel.title,
+                        style = Theme.typography.h2,
                         placeholder = "제목",
-                        textSize = 20,
                         onValueChange = {
                             viewModel.onEvent(WriteEvent.OnTitleChange(it))
                         },
@@ -110,11 +109,11 @@ fun WriteScreen(
                             .fillMaxWidth()
                             .padding(bottom = 18.dp, start = 2.dp, end = 2.dp)
                     )
-                    Divider(color = Color.LightGray, thickness = 1.dp)
+                    Divider(color = Theme.colors.disabled, thickness = 1.dp)
                     NonInnerPaddingTextField(
                         value = viewModel.content,
                         placeholder = "공백 포함 150자 이내로 써 주세요.",
-                        textSize = 12,
+                        style = Theme.typography.contents,
                         onValueChange = {
                             if (it.length <= 150)
                                 viewModel.onEvent(WriteEvent.OnContentChange(it))
@@ -138,20 +137,24 @@ fun WriteScreen(
                 shape = RoundedCornerShape(10.dp),
                 colors = if (btnDisabled) {
                     ButtonDefaults.buttonColors(
-                        backgroundColor = Color.LightGray,
-                        contentColor = Color.DarkGray
+                        backgroundColor = Theme.colors.btnDisabled,
+                        contentColor = Theme.colors.disabled
                     )
                 } else {
                     ButtonDefaults.buttonColors(
-                        backgroundColor = Color.Black,
-                        contentColor = Color.White
+                        backgroundColor = Theme.colors.black,
+                        contentColor = Theme.colors.white
                     )
                 },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(start = 55.dp, end = 55.dp, top = 4.dp)
             ) {
-                Text(text = "작성하기", fontSize = 18.sp, modifier = Modifier.padding(vertical = 12.dp))
+                Text(
+                    "작성하기",
+                    fontSize = 18.sp,
+                    modifier = Modifier.padding(12.dp)
+                )
             }
             Spacer(modifier = Modifier.size(32.dp))
         }
@@ -166,12 +169,15 @@ fun TodayKeyword(viewModel: WriteViewModel) {
         ) {
             Text(
                 text = "오늘의 키워드",
-                fontSize = 16.sp
+                fontSize = 16.sp,
+                style = Theme.typography.h3
             )
             Text(
-                modifier = Modifier.padding(top = 12.dp),
                 text = viewModel.keyword,
-                fontSize = 40.sp
+                fontSize = 40.sp,
+                style = Theme.typography.display.copy(
+                    color = Theme.colors.primary
+                )
             )
         }
         Image(
@@ -185,7 +191,7 @@ fun TodayKeyword(viewModel: WriteViewModel) {
 fun NonInnerPaddingTextField(
     placeholder: String,
     value: String,
-    textSize: Int,
+    style: TextStyle,
     onValueChange: (String) -> Unit,
     modifier: Modifier
 ) {
@@ -193,17 +199,14 @@ fun NonInnerPaddingTextField(
         modifier = modifier,
         value = value,
         onValueChange = onValueChange,
-        textStyle = TextStyle(
-            color = Color.Black,
-            fontSize = textSize.sp
-        ),
+        textStyle = style.copy(color = Theme.colors.darkGray),
         decorationBox = { innerTextField ->
             Row(modifier = Modifier.fillMaxWidth()) {
                 if (value.isEmpty()) {
                     Text(
                         text = placeholder,
-                        color = Color.Gray,
-                        fontSize = textSize.sp
+                        color = Theme.colors.disabled,
+                        style = style
                     )
                 }
             }
