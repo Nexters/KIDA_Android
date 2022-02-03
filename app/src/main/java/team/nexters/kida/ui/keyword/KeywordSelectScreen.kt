@@ -1,7 +1,11 @@
 package team.nexters.kida.ui.keyword
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -15,6 +19,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -37,8 +42,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -57,6 +67,7 @@ import team.nexters.kida.R
 import team.nexters.kida.component.HorizontalPagerIndicator
 import team.nexters.kida.data.keyword.Keyword
 import team.nexters.kida.ui.theme.Theme
+import team.nexters.kida.ui.theme.notoSansFamily
 import team.nexters.kida.util.DateUtils
 import kotlin.math.absoluteValue
 
@@ -127,7 +138,7 @@ private fun KeywordSelectContent(
                 .weight(1f),
             count = 8,
             state = pagerState,
-            contentPadding = PaddingValues(horizontal = 20.dp),
+            contentPadding = PaddingValues(horizontal = 40.dp),
         ) { page ->
             // Calculate the absolute offset for the current page from the
             // scroll position. We use the absolute value which allows us to mirror
@@ -258,22 +269,72 @@ fun KeywordSelectConfirmButton(
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
 ) {
     val backgroundColors by animateColorAsState(targetValue = if (enabled) Theme.colors.primary else Theme.colors.disabled)
+    Column(
+        modifier = modifier,
+        horizontalAlignment = Alignment.End
+    ) {
+        AnimatedVisibility(
+            visible = enabled,
+            enter = fadeIn(),
+            exit = fadeOut()
+        ) {
+            KeywordSelectSnackbar()
+        }
+
+        Box(
+            modifier = modifier
+                .size(32.dp)
+                .clip(CircleShape)
+                .background(backgroundColors)
+                .clickable(
+                    onClick = onClick,
+                    enabled = enabled,
+                    role = Role.Button,
+                    interactionSource = interactionSource,
+                    indication = null
+                ),
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(imageVector = Icons.Default.ArrowForward, contentDescription = "confirm")
+        }
+    }
+}
+
+// TODO size detail
+@Composable
+fun KeywordSelectSnackbar() {
+    val context = LocalContext.current
     Box(
-        modifier = modifier
-            .size(32.dp)
-            .clip(CircleShape)
-            .background(backgroundColors)
-            .clickable(
-                onClick = onClick,
-                enabled = enabled,
-                role = Role.Button,
-                interactionSource = interactionSource,
-                indication = null
-            ),
+        modifier = Modifier
+            .wrapContentSize(),
         contentAlignment = Alignment.Center
     ) {
-        Icon(imageVector = Icons.Default.ArrowForward, contentDescription = "confirm")
+        Image(
+            modifier = Modifier,
+            imageVector = ImageVector.vectorResource(id = R.drawable.keyword_snackbar),
+            contentDescription = null
+        )
+        Text(
+            text = context.getString(R.string.keyword_select_snackbar),
+            modifier = Modifier
+                .align(Alignment.Center),
+            style = TextStyle(
+                fontFamily = notoSansFamily,
+                fontWeight = FontWeight.SemiBold,
+                fontSize = with(LocalDensity.current) {
+                    16.dp.toSp()
+                }
+            ),
+            textAlign = TextAlign.Center,
+            color = Color.White
+        )
     }
+}
+
+@Preview
+@Composable
+fun KeywordSelectSnackbarPreview() {
+    KeywordSelectSnackbar()
 }
 
 @Preview
