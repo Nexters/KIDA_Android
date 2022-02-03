@@ -3,6 +3,8 @@ name: Kida CI
 on:
   pull_request:
     types: [ opened, ready_for_review, synchronize ]
+    paths-ignore:
+      - '**.md'
 #  push:
 #    branches:
 #      - main
