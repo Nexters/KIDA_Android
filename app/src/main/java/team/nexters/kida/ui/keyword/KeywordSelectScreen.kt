@@ -1,6 +1,7 @@
 package team.nexters.kida.ui.keyword
 
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -24,9 +26,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -93,6 +98,14 @@ private fun KeywordSelectContent(
     keywords: List<Keyword>
 ) {
     val pagerState = rememberPagerState()
+    var selectedItemPosition by remember { mutableStateOf(-1) }
+    var confirmButtonEnabled by remember { mutableStateOf(false) }
+
+    // update confirm button state
+    LaunchedEffect(selectedItemPosition) {
+        confirmButtonEnabled = selectedItemPosition != -1
+    }
+
     Column(
         horizontalAlignment = Alignment.Start,
         modifier = Modifier
@@ -102,7 +115,11 @@ private fun KeywordSelectContent(
 
         Spacer(modifier = Modifier.size(20.dp))
 
-        KeywordSelectHeader(pagerState, onConfirmClick = onClickButton)
+        KeywordSelectHeader(
+            buttonEnabled = confirmButtonEnabled,
+            pagerState = pagerState,
+            onConfirmClick = onClickButton
+        )
         Spacer(modifier = Modifier.size(20.dp))
         HorizontalPager(
             modifier = Modifier
@@ -116,7 +133,19 @@ private fun KeywordSelectContent(
             // scroll position. We use the absolute value which allows us to mirror
             // any effects for both directions
             val pageOffset = calculateCurrentOffsetForPage(page).absoluteValue
-            KeywordSelectPagerCardItem(page = page, pageOffset = pageOffset)
+
+            // clear selected page
+            if (pagerState.isScrollInProgress) {
+                selectedItemPosition = -1
+            }
+            KeywordSelectPagerCardItem(
+                page = page,
+                pageOffset = pageOffset,
+                animatePosition = selectedItemPosition,
+                onClick = {
+                    selectedItemPosition = it
+                }
+            )
         }
 
         Spacer(modifier = Modifier.size(24.dp))
@@ -125,6 +154,7 @@ private fun KeywordSelectContent(
 
 @Composable
 fun KeywordSelectHeader(
+    buttonEnabled: Boolean,
     pagerState: PagerState,
     onConfirmClick: () -> Unit
 ) {
@@ -156,7 +186,8 @@ fun KeywordSelectHeader(
 
         KeywordSelectConfirmButton(
             onClick = onConfirmClick,
-            modifier = Modifier.align(Alignment.BottomEnd)
+            modifier = Modifier.align(Alignment.BottomEnd),
+            enabled = buttonEnabled
         )
     }
 }
@@ -164,15 +195,38 @@ fun KeywordSelectHeader(
 @Preview
 @Composable
 fun KeywordSelectHeaderPreview() {
-    KeywordSelectHeader(pagerState = rememberPagerState(), onConfirmClick = {})
+    KeywordSelectHeader(true, pagerState = rememberPagerState(), onConfirmClick = {})
 }
 
 @Composable
-fun KeywordSelectPagerCardItem(page: Int, pageOffset: Float) {
+fun KeywordSelectPagerCardItem(
+    page: Int,
+    pageOffset: Float,
+    animatePosition: Int,
+    onClick: (Int) -> Unit
+) {
+    var clicked by remember { mutableStateOf(false) }
+
+    LaunchedEffect(animatePosition) {
+        clicked = animatePosition != -1
+    }
+    val canAnimated = animatePosition == -1 || animatePosition == page
+    val animatePadding by animateDpAsState(targetValue = if (canAnimated && clicked) (-10).dp else 0.dp)
+
     Card(
         modifier = Modifier
             .fillMaxSize()
+            .clickable(
+                onClick = {
+                    clicked = !clicked
+                    onClick(if (clicked) page else -1)
+                },
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null
+            )
+            .offset(y = animatePadding)
             .graphicsLayer {
+
                 // We animate the scaleX + scaleY, between 85% and 100%
                 lerp(
                     start = 0.85f,
