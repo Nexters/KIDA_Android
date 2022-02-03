@@ -114,7 +114,7 @@ fun WriteScreen(
                     NonInnerPaddingTextField(
                         value = viewModel.content,
                         placeholder = "공백 포함 150자 이내로 써 주세요.",
-                        style = Theme.typography.contents,
+                        style = Theme.typography.h4,
                         onValueChange = {
                             if (it.length <= 150)
                                 viewModel.onEvent(WriteEvent.OnContentChange(it))
