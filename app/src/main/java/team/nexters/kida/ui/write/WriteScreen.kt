@@ -1,6 +1,5 @@
 package team.nexters.kida.ui.write
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -27,16 +26,13 @@ import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.insets.LocalWindowInsets
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.rememberInsetsPaddingValues
 import com.google.accompanist.insets.ui.TopAppBar
-import team.nexters.kida.R
 import team.nexters.kida.ui.theme.Theme
 import team.nexters.kida.util.UiEvent
 
@@ -47,6 +43,7 @@ fun WriteScreen(
     keyword: String
 ) {
     val scaffoldState = rememberScaffoldState()
+    viewModel.onEvent(WriteEvent.OnKeywordChange(keyword))
     LaunchedEffect(key1 = true) {
         viewModel.uiEvent.collect { event ->
             when (event) {
@@ -68,7 +65,7 @@ fun WriteScreen(
         backgroundColor = Theme.colors.background,
         topBar = {
             TopAppBar(
-                title = { Text(text = viewModel.date, style = Theme.typography.h3) },
+                title = { Text(text = viewModel.date, style = Theme.typography.header) },
                 backgroundColor = MaterialTheme.colors.background,
                 contentPadding = rememberInsetsPaddingValues(
                     insets = LocalWindowInsets.current.statusBars,
@@ -153,7 +150,6 @@ fun WriteScreen(
             ) {
                 Text(
                     "작성하기",
-                    fontSize = 18.sp,
                     modifier = Modifier.padding(12.dp)
                 )
             }
@@ -164,26 +160,16 @@ fun WriteScreen(
 
 @Composable
 fun TodayKeyword(viewModel: WriteViewModel) {
-    Row(modifier = Modifier.padding(top = 6.dp)) {
-        Column(
-            Modifier.weight(1f)
-        ) {
-            Text(
-                text = "오늘의 키워드",
-                fontSize = 16.sp,
-                style = Theme.typography.h3
+    Column {
+        Text(
+            text = "뽑은 키워드",
+            style = Theme.typography.h3
+        )
+        Text(
+            text = viewModel.keyword,
+            style = Theme.typography.h1.copy(
+                color = Theme.colors.primary
             )
-            Text(
-                text = viewModel.keyword,
-                fontSize = 40.sp,
-                style = Theme.typography.display.copy(
-                    color = Theme.colors.primary
-                )
-            )
-        }
-        Image(
-            painterResource(R.drawable.ic_launcher_foreground),
-            contentDescription = "emoji",
         )
     }
 }

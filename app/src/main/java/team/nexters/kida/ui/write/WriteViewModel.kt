@@ -33,7 +33,7 @@ class WriteViewModel @Inject constructor(
     var content by mutableStateOf("")
         private set
 
-    var keyword by mutableStateOf("가을")
+    var keyword by mutableStateOf("")
         private set
 
     private val _uiEvent = Channel<UiEvent>()
