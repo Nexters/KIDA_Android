@@ -25,6 +25,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
@@ -34,15 +35,18 @@ import com.google.accompanist.insets.LocalWindowInsets
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.rememberInsetsPaddingValues
 import com.google.accompanist.insets.ui.TopAppBar
+import team.nexters.kida.R
 import team.nexters.kida.ui.theme.Theme
 import team.nexters.kida.util.DateUtils
 
 @Composable
 fun KeywordConfirmScreen(
+    keyword: String,
     upPress: () -> Unit,
-    onConfirm: () -> Unit
+    onConfirm: (String) -> Unit
 ) {
     val scaffoldState = rememberScaffoldState()
+    val context = LocalContext.current
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
@@ -70,16 +74,15 @@ fun KeywordConfirmScreen(
         ) {
             Spacer(modifier = Modifier.size(26.dp))
             Text(
-                text = "오늘의 키워드",
+                text = context.getString(R.string.keyword_confirm_title),
                 style = TextStyle(
                     color = Theme.colors.darkGray,
                     fontSize = 16.sp
                 )
             )
             Spacer(modifier = Modifier.size(12.dp))
-            // TODO input keyword
             Text(
-                text = "가을",
+                text = keyword,
                 style = TextStyle(
                     color = Theme.colors.primary,
                     fontSize = 40.sp,
@@ -97,7 +100,7 @@ fun KeywordConfirmScreen(
             Spacer(modifier = Modifier.size(31.dp))
 
             Button(
-                onClick = { onConfirm() },
+                onClick = { onConfirm(keyword) },
                 shape = RoundedCornerShape(10.dp),
                 colors = ButtonDefaults.buttonColors(
                     backgroundColor = Color.Black,
@@ -108,13 +111,13 @@ fun KeywordConfirmScreen(
                     .height(56.dp)
                     .padding(start = 55.dp, end = 55.dp)
             ) {
-                Text(text = "글쓰러 가자", fontSize = 18.sp)
+                Text(text = context.getString(R.string.keyword_confirm_submit), fontSize = 18.sp)
             }
 
             Spacer(modifier = Modifier.size(9.dp))
 
             Text(
-                text = "다시 뽑을래",
+                text = context.getString(R.string.keyword_confirm_retry),
                 style = TextStyle(
                     color = Theme.colors.darkGray,
                     textDecoration = TextDecoration.Underline,

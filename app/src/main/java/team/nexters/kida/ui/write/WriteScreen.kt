@@ -43,7 +43,8 @@ import team.nexters.kida.util.UiEvent
 @Composable
 fun WriteScreen(
     onPopBackStack: () -> Unit,
-    viewModel: WriteViewModel = hiltViewModel()
+    viewModel: WriteViewModel = hiltViewModel(),
+    keyword: String
 ) {
     val scaffoldState = rememberScaffoldState()
     LaunchedEffect(key1 = true) {

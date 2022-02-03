@@ -29,10 +29,6 @@ data class ThemeColors(
 )
 
 /* customized colors */
-val ThemeColors.underlineYellow: Color
-    @Composable
-    get() = Color(0xFFFFF8B8)
-
 val ThemeColors.splashBackground: Color
     @Composable
     get() = Color(0xFFfdfde3)
