@@ -97,6 +97,7 @@ dependencies {
     implementation(Dep.Android.material)
 
     implementation(Dep.Compose.ui)
+    implementation(Dep.Compose.uiUtil)
     implementation(Dep.Compose.uiTooling)
 
     implementation(Dep.Compose.foundation)

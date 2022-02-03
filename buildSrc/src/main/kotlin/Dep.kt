@@ -71,6 +71,7 @@ object Dep {
 
         const val ui = "androidx.compose.ui:ui:$version"
         const val uiTooling = "androidx.compose.ui:ui-tooling:$version"
+        const val uiUtil = "androidx.compose.ui:ui-util:$version"
         const val foundation = "androidx.compose.foundation:foundation:$version"
 
         const val activity = "androidx.activity:activity-compose:1.4.0"

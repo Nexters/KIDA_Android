@@ -2,14 +2,6 @@
     <string name="app_name">Kida</string>
 
     <!-- keyword -->
-    <string name="keyword_pager_1">발랄한 직각 요정</string>
-    <string name="keyword_pager_2">둥글둥글 뭉게구름</string>
-    <string name="keyword_pager_3">아야 아파</string>
-    <string name="keyword_pager_4">솜뭉치로 맞아볼래</string>
-    <string name="keyword_pager_5">시니컬한 뿌꾸</string>
-    <string name="keyword_pager_6">쥬낸 졸림</string>
-
-    <string name="keyword_highlight_1">오늘의 짝꿍을</string>
-    <string name="keyword_highlight_2">느낌충만하게 뽑아봐!</string>
+    <string name="keyword_highlight_1">오늘의 카드를\n선택해봐!</string>
     <string name="keyword_select_confirm">이 친구로 뽑을래?</string>
 </resources>
