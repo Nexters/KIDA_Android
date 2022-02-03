@@ -4,4 +4,8 @@
     <!-- keyword -->
     <string name="keyword_highlight_1">오늘의 카드를\n선택해봐!</string>
     <string name="keyword_select_confirm">이 친구로 뽑을래?</string>
+    
+    <string name="keyword_confirm_title">오늘의 키워드</string>
+    <string name="keyword_confirm_submit">글쓰러 가자</string>
+    <string name="keyword_confirm_retry">다시 뽑을래</string>
 </resources>

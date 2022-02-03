@@ -24,7 +24,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -50,25 +50,19 @@ import com.google.accompanist.pager.calculateCurrentOffsetForPage
 import com.google.accompanist.pager.rememberPagerState
 import team.nexters.kida.R
 import team.nexters.kida.component.HorizontalPagerIndicator
+import team.nexters.kida.data.keyword.Keyword
 import team.nexters.kida.ui.theme.Theme
 import team.nexters.kida.util.DateUtils
-import team.nexters.kida.util.UiEvent
 import kotlin.math.absoluteValue
 
 @Composable
 fun KeywordSelectScreen(
-    onNavigate: (UiEvent.Navigate) -> Unit,
-    viewModel: KeywordViewModel = hiltViewModel()
+    onNavigate: (Keyword) -> Unit,
+    viewModel: KeywordViewModel = hiltViewModel(),
 ) {
     val scaffoldState = rememberScaffoldState()
-    LaunchedEffect(key1 = true) {
-        viewModel.uiEvent.collect { event ->
-            when (event) {
-                is UiEvent.Navigate -> onNavigate(event)
-                else -> {}
-            }
-        }
-    }
+    val keywords by viewModel.keywords.collectAsState()
+
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
@@ -84,14 +78,19 @@ fun KeywordSelectScreen(
         modifier = Modifier.fillMaxSize()
     ) {
         KeywordSelectContent(
-            onClickButton = { viewModel.onEvent(KeywordEvent.OnKeywordClick) },
+            onClickButton = {
+                // TODO filtering
+                onNavigate(keywords.random())
+            },
+            keywords
         )
     }
 }
 
 @Composable
 private fun KeywordSelectContent(
-    onClickButton: () -> Unit
+    onClickButton: () -> Unit,
+    keywords: List<Keyword>
 ) {
     val pagerState = rememberPagerState()
     Column(

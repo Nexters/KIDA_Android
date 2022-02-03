@@ -12,6 +12,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navOptions
+import team.nexters.kida.data.keyword.Keyword
 import team.nexters.kida.ui.detail.DetailScreen
 import team.nexters.kida.ui.keyword.KeywordConfirmScreen
 import team.nexters.kida.ui.keyword.KeywordSelectScreen
@@ -42,14 +43,18 @@ fun AppNavGraph(
         addKeyword(navController)
         addList(navController)
         composable(
-            route = Screen.Write.route + "?diaryId={diaryId}",
-            arguments = listOf(diaryIdArgument())
+            route = Screen.Write.route + "?diaryId={diaryId}&keyword={keyword}",
+            arguments = listOf(
+                diaryIdArgument(),
+                navArgument("keyword") { type = NavType.StringType }
+            )
         ) {
             BackHandler(onBack = { navController.popBackStack() })
             WriteScreen(
                 onPopBackStack = {
                     navController.popBackStack()
-                }
+                },
+                keyword = it.arguments?.getString("keyword") ?: ""
             )
         }
         composable(
@@ -91,9 +96,9 @@ private fun NavGraphBuilder.addKeyword(
 ) {
     composable(Screen.Keyword.route) { _: NavBackStackEntry ->
         KeywordSelectScreen(
-            onNavigate = {
+            onNavigate = { keyword ->
                 navController.navigate(
-                    it.route,
+                    "${Screen.KeywordConfirm.route}?keyword=${keyword.name}",
                     navOptions {
                         popUpTo(Screen.Keyword.route) {
                             saveState = true
@@ -105,12 +110,20 @@ private fun NavGraphBuilder.addKeyword(
         )
     }
 
-    composable(Screen.KeywordConfirm.route) {
+    composable(
+        route = "${Screen.KeywordConfirm.route}?keyword={keyword}",
+        arguments = listOf(
+            navArgument("keyword") { type = NavType.StringType }
+        )
+    ) {
+        val arguments = requireNotNull(it.arguments)
+        val keyword = arguments.getString("keyword")
         KeywordConfirmScreen(
+            keyword = keyword ?: "",
             upPress = { navController.popBackStack() },
-            onConfirm = {
+            onConfirm = { newKeyword ->
                 navController.navigate(
-                    Screen.List.route,
+                    Screen.Write.route + "?diaryId={diaryId}&keyword=$newKeyword",
                     navOptions {
                         popUpTo(Screen.KeywordConfirm.route) {
                             saveState = true
