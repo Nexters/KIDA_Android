@@ -12,8 +12,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navOptions
-import team.nexters.kida.data.keyword.Keyword
-import team.nexters.kida.ui.detail.DetailScreen
 import team.nexters.kida.ui.keyword.KeywordConfirmScreen
 import team.nexters.kida.ui.keyword.KeywordSelectScreen
 import team.nexters.kida.ui.list.ListScreen
@@ -26,7 +24,6 @@ sealed class Screen(val route: String) {
     object KeywordConfirm : Screen("keyword-confirm")
     object List : Screen("list")
     object Write : Screen("write")
-    object Detail : Screen("detail")
 }
 
 @Composable
@@ -42,35 +39,7 @@ fun AppNavGraph(
         addSplash(navController)
         addKeyword(navController)
         addList(navController)
-        composable(
-            route = Screen.Write.route + "?diaryId={diaryId}&keyword={keyword}",
-            arguments = listOf(
-                diaryIdArgument(),
-                navArgument("keyword") { type = NavType.StringType }
-            )
-        ) {
-            BackHandler(onBack = { navController.popBackStack() })
-            WriteScreen(
-                onPopBackStack = {
-                    navController.popBackStack()
-                },
-                keyword = it.arguments?.getString("keyword") ?: ""
-            )
-        }
-        composable(
-            route = Screen.Detail.route + "?diaryId={diaryId}",
-            arguments = listOf(diaryIdArgument())
-        ) {
-            BackHandler(onBack = { navController.popBackStack() })
-            DetailScreen(
-                onNavigate = {
-                    navController.navigate(it.route)
-                },
-                onPopBackStack = {
-                    navController.popBackStack()
-                }
-            )
-        }
+        addWrite(navController)
     }
 }
 
@@ -144,6 +113,26 @@ private fun NavGraphBuilder.addList(
             onNavigate = {
                 navController.navigate(it.route)
             }
+        )
+    }
+}
+
+private fun NavGraphBuilder.addWrite(
+    navController: NavController
+) {
+    composable(
+        route = Screen.Write.route + "?diaryId={diaryId}&keyword={keyword}",
+        arguments = listOf(
+            diaryIdArgument(),
+            navArgument("keyword") { type = NavType.StringType }
+        )
+    ) {
+        BackHandler(onBack = { navController.popBackStack() })
+        WriteScreen(
+            onPopBackStack = {
+                navController.popBackStack()
+            },
+            keyword = it.arguments?.getString("keyword") ?: ""
         )
     }
 }

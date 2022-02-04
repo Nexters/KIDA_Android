@@ -3,13 +3,13 @@ package team.nexters.kida.ui.list
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import team.nexters.kida.data.diary.DiaryRepository
 import team.nexters.kida.ui.Screen
 import team.nexters.kida.util.UiEvent
-import javax.inject.Inject
 
 @HiltViewModel
 class ListViewModel @Inject constructor(
@@ -23,9 +23,6 @@ class ListViewModel @Inject constructor(
 
     fun onEvent(event: ListEvent) {
         when (event) {
-            is ListEvent.OnDiaryClick -> {
-                sendUiEvent(UiEvent.Navigate(Screen.Detail.route + "?diaryId=${event.diary.id}"))
-            }
             is ListEvent.OnWriteClick -> {
                 sendUiEvent(UiEvent.Navigate(Screen.Write.route))
             }
