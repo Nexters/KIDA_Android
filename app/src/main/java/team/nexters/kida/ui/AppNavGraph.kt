@@ -29,7 +29,8 @@ sealed class Screen(val route: String) {
 @Composable
 fun AppNavGraph(
     navController: NavHostController,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    finishApp: () -> Unit
 ) {
     NavHost(
         modifier = modifier,
@@ -38,7 +39,7 @@ fun AppNavGraph(
     ) {
         addSplash(navController)
         addKeyword(navController)
-        addList(navController)
+        addList(navController, finishApp)
         addWrite(navController)
     }
 }
@@ -106,14 +107,17 @@ private fun NavGraphBuilder.addKeyword(
 }
 
 private fun NavGraphBuilder.addList(
-    navController: NavController
+    navController: NavController,
+    onBack: () -> Unit
 ) {
     composable(Screen.List.route) {
+        BackHandler(onBack = onBack)
         ListScreen(
             onNavigate = {
                 navController.navigate(it.route)
             }
         )
+        // TODO clear back stacks
     }
 }
 
@@ -131,6 +135,14 @@ private fun NavGraphBuilder.addWrite(
         WriteScreen(
             onPopBackStack = {
                 navController.popBackStack()
+            },
+            onNavigateToList = {
+                navController.navigate(Screen.List.route) {
+                    launchSingleTop = true
+                    popUpTo(Screen.Write.route + "?diaryId={diaryId}&keyword={keyword}") {
+                        inclusive = true
+                    }
+                }
             },
             keyword = it.arguments?.getString("keyword") ?: ""
         )

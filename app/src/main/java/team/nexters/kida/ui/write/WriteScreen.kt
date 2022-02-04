@@ -37,12 +37,14 @@ import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.rememberInsetsPaddingValues
 import com.google.accompanist.insets.ui.TopAppBar
 import team.nexters.kida.R
+import team.nexters.kida.ui.Screen
 import team.nexters.kida.ui.theme.Theme
 import team.nexters.kida.util.UiEvent
 
 @Composable
 fun WriteScreen(
     onPopBackStack: () -> Unit,
+    onNavigateToList: () -> Unit,
     viewModel: WriteViewModel = hiltViewModel(),
     keyword: String
 ) {
@@ -54,7 +56,10 @@ fun WriteScreen(
                 is UiEvent.ShowSnackbar -> {
                     scaffoldState.snackbarHostState.showSnackbar(event.message)
                 }
-                else -> {
+                is UiEvent.Navigate -> {
+                    if (event.route == Screen.List.route) {
+                        onNavigateToList()
+                    }
                 }
             }
         }
