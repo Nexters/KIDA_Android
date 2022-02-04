@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Card
@@ -27,8 +29,12 @@ import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -37,12 +43,14 @@ import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.rememberInsetsPaddingValues
 import com.google.accompanist.insets.ui.TopAppBar
 import team.nexters.kida.R
+import team.nexters.kida.ui.Screen
 import team.nexters.kida.ui.theme.Theme
 import team.nexters.kida.util.UiEvent
 
 @Composable
 fun WriteScreen(
     onPopBackStack: () -> Unit,
+    onNavigateToList: () -> Unit,
     viewModel: WriteViewModel = hiltViewModel(),
     keyword: String
 ) {
@@ -54,7 +62,10 @@ fun WriteScreen(
                 is UiEvent.ShowSnackbar -> {
                     scaffoldState.snackbarHostState.showSnackbar(event.message)
                 }
-                else -> {
+                is UiEvent.Navigate -> {
+                    if (event.route == Screen.List.route) {
+                        onNavigateToList()
+                    }
                 }
             }
         }
@@ -85,6 +96,8 @@ fun WriteScreen(
             )
         }
     ) {
+        val focusManager = LocalFocusManager.current
+        val keyboardController = LocalSoftwareKeyboardController.current
         Column(Modifier.fillMaxSize()) {
             Card(
                 modifier = Modifier
@@ -108,7 +121,11 @@ fun WriteScreen(
                         },
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(bottom = 18.dp, start = 2.dp, end = 2.dp)
+                            .padding(bottom = 18.dp, start = 2.dp, end = 2.dp),
+                        keyboardOptions = KeyboardOptions.Default.copy(
+                            imeAction = ImeAction.Next
+                        ),
+                        keyboardActions = KeyboardActions(onNext = { focusManager.moveFocus(FocusDirection.Down) })
                     )
                     Divider(color = Theme.colors.disabled, thickness = 1.dp)
                     NonInnerPaddingTextField(
@@ -122,7 +139,11 @@ fun WriteScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .fillMaxHeight()
-                            .padding(top = 20.dp, bottom = 20.dp, start = 2.dp, end = 2.dp)
+                            .padding(top = 20.dp, bottom = 20.dp, start = 2.dp, end = 2.dp),
+                        keyboardOptions = KeyboardOptions.Default.copy(
+                            imeAction = ImeAction.Done
+                        ),
+                        keyboardActions = KeyboardActions(onDone = { keyboardController?.hide() })
                     )
                 }
             }
@@ -194,7 +215,9 @@ fun NonInnerPaddingTextField(
     value: String,
     style: TextStyle,
     onValueChange: (String) -> Unit,
-    modifier: Modifier
+    modifier: Modifier,
+    keyboardOptions: KeyboardOptions,
+    keyboardActions: KeyboardActions
 ) {
     BasicTextField(
         modifier = modifier,
@@ -212,6 +235,8 @@ fun NonInnerPaddingTextField(
                 }
             }
             innerTextField()
-        }
+        },
+        keyboardOptions = keyboardOptions,
+        keyboardActions = keyboardActions
     )
 }
