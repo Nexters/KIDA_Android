@@ -1,6 +1,5 @@
 package team.nexters.kida.ui.list
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -28,7 +27,6 @@ fun DiaryItem(
 ) {
     Surface(
         modifier = modifier
-            .clickable { onEvent(ListEvent.OnDiaryClick(diary)) }
             .padding(vertical = 6.dp),
         shape = RoundedCornerShape(10.dp),
         color = Theme.colors.white,
