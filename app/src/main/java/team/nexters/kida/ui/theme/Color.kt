@@ -11,6 +11,7 @@ val BtnDisabled = Color(0xFFDFDFDF)
 val Disabled = Color(0xFF9C9C9C)
 val DarkGray = Color(0xFF535353)
 val BackGround = Color(0xFFF8F8F8)
+val BgLayered = Color(0xFF303030)
 
 /**
  *  Figma 에서 정의된 system color
@@ -25,7 +26,12 @@ data class ThemeColors(
     val disabled: Color = Disabled,
     val darkGray: Color = DarkGray,
     val black: Color = Color.Black,
-    val background: Color = BackGround
+    val background: Color = BackGround,
+    val bgLayered: Color = BgLayered,
+    val bgLayered2: Color = Color(0xFF3D3D3D),
+    val label2: Color = Color(0xFFFF964E),
+    val btnRe: Color = Color(0xFF868686),
+    val btnActive: Color = Color(0xFFF66705)
 )
 
 /* customized colors */
