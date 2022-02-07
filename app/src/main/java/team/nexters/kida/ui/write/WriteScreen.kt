@@ -43,6 +43,7 @@ import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.rememberInsetsPaddingValues
 import com.google.accompanist.insets.ui.TopAppBar
 import team.nexters.kida.R
+import team.nexters.kida.data.keyword.Keyword
 import team.nexters.kida.ui.Screen
 import team.nexters.kida.ui.theme.Theme
 import team.nexters.kida.util.UiEvent
@@ -52,7 +53,7 @@ fun WriteScreen(
     onPopBackStack: () -> Unit,
     onNavigateToList: () -> Unit,
     viewModel: WriteViewModel = hiltViewModel(),
-    keyword: String
+    keyword: Keyword
 ) {
     val scaffoldState = rememberScaffoldState()
     LaunchedEffect(key1 = true) {

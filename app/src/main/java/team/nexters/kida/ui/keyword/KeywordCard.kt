@@ -1,8 +1,13 @@
 package team.nexters.kida.ui.keyword
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.Serializable
 import team.nexters.kida.R
 
-enum class KeywordCard(val resId: Int) {
+@Serializable
+@Parcelize
+enum class KeywordCard(val resId: Int) : Parcelable {
     ONE(R.drawable.card1),
     TWO(R.drawable.card2),
     THREE(R.drawable.card3),

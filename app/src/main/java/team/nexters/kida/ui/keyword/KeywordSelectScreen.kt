@@ -69,7 +69,7 @@ import kotlin.math.absoluteValue
 
 @Composable
 fun KeywordSelectScreen(
-    onNavigate: (Keyword) -> Unit,
+    onNavigate: (Keyword, KeywordCard) -> Unit,
     viewModel: KeywordViewModel = hiltViewModel(),
 ) {
     val scaffoldState = rememberScaffoldState()
@@ -93,7 +93,7 @@ fun KeywordSelectScreen(
         KeywordSelectContent(
             onClickButton = {
                 // TODO filtering
-                onNavigate(keywords.random())
+                onNavigate(keywords.random(), it)
             },
             keywords
         )
@@ -102,7 +102,7 @@ fun KeywordSelectScreen(
 
 @Composable
 private fun KeywordSelectContent(
-    onClickButton: () -> Unit,
+    onClickButton: (KeywordCard) -> Unit,
     keywords: List<Keyword>
 ) {
     val pagerState = rememberPagerState()
@@ -126,7 +126,7 @@ private fun KeywordSelectContent(
         KeywordSelectHeader(
             buttonEnabled = confirmButtonEnabled,
             pagerState = pagerState,
-            onConfirmClick = onClickButton
+            onConfirmClick = { onClickButton(KeywordCard.values()[selectedItemPosition]) }
         )
         Spacer(modifier = Modifier.size(20.dp))
         HorizontalPager(
@@ -223,7 +223,8 @@ fun KeywordSelectPagerCardItem(
     val animatePadding by animateDpAsState(targetValue = if (canAnimated && clicked) (-10).dp else 0.dp)
 
     Image(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
             .clickable(
                 onClick = {
                     clicked = !clicked
