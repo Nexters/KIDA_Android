@@ -21,8 +21,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
@@ -224,9 +222,8 @@ fun KeywordSelectPagerCardItem(
     val canAnimated = animatePosition == -1 || animatePosition == page
     val animatePadding by animateDpAsState(targetValue = if (canAnimated && clicked) (-10).dp else 0.dp)
 
-    Card(
-        modifier = Modifier
-            .fillMaxSize()
+    Image(
+        modifier = Modifier.fillMaxSize()
             .clickable(
                 onClick = {
                     clicked = !clicked
@@ -255,10 +252,9 @@ fun KeywordSelectPagerCardItem(
                     fraction = 1f - pageOffset.coerceIn(0f, 1f)
                 )
             },
-        backgroundColor = Color.Green,
-        shape = RoundedCornerShape(10.dp)
-    ) {
-    }
+        painter = painterResource(id = KeywordCard.values()[page].resId),
+        contentDescription = null
+    )
 }
 
 @Composable
