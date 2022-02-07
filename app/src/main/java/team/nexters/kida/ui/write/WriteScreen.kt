@@ -20,7 +20,6 @@ import androidx.compose.material.Card
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
@@ -81,7 +80,7 @@ fun WriteScreen(
         topBar = {
             TopAppBar(
                 title = { Text(text = viewModel.date, style = Theme.typography.h3) },
-                backgroundColor = MaterialTheme.colors.background,
+                backgroundColor = Theme.colors.background,
                 contentPadding = rememberInsetsPaddingValues(
                     insets = LocalWindowInsets.current.statusBars,
                     applyBottom = false,
@@ -106,7 +105,7 @@ fun WriteScreen(
                     .weight(1f),
                 elevation = 10.dp,
                 shape = RoundedCornerShape(10.dp),
-                backgroundColor = Theme.colors.textDefault
+                backgroundColor = Theme.colors.bgLayered
             ) {
                 Column(
                     modifier = Modifier.padding(start = 20.dp, end = 20.dp, top = 30.dp)
@@ -161,11 +160,11 @@ fun WriteScreen(
                 colors = if (btnDisabled) {
                     ButtonDefaults.buttonColors(
                         backgroundColor = Theme.colors.btnDisabled,
-                        contentColor = Theme.colors.btnDisabled
+                        contentColor = Theme.colors.placeholderInactive
                     )
                 } else {
                     ButtonDefaults.buttonColors(
-                        backgroundColor = Theme.colors.textDefault,
+                        backgroundColor = Theme.colors.btnActive,
                         contentColor = Theme.colors.textDefault
                     )
                 },
