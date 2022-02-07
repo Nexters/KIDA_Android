@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.insets.LocalWindowInsets
@@ -68,7 +69,9 @@ fun ListScreen(
         LazyColumn(
             modifier = Modifier.fillMaxWidth(),
             contentPadding = rememberInsetsPaddingValues(
-                insets = LocalWindowInsets.current.navigationBars
+                insets = LocalWindowInsets.current.navigationBars,
+                additionalStart = 20.dp,
+                additionalEnd = 20.dp
             )
         ) {
             items(diaries.value) { diary ->
