@@ -203,7 +203,7 @@ fun TodayKeyword(viewModel: WriteViewModel) {
             )
         }
         Image(
-            painterResource(R.drawable.ic_launcher_foreground),
+            painterResource(R.drawable.logo),
             contentDescription = "emoji",
         )
     }

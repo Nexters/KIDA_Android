@@ -24,11 +24,8 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -45,6 +42,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.TextStyle
@@ -81,10 +79,11 @@ fun KeywordSelectScreen(
 
     Scaffold(
         scaffoldState = scaffoldState,
+        backgroundColor = Theme.colors.background,
         topBar = {
             TopAppBar(
-                title = { Text(text = DateUtils.today()) },
-                backgroundColor = MaterialTheme.colors.background,
+                title = { Text(text = DateUtils.today(), color = Theme.colors.textDefault) },
+                backgroundColor = Theme.colors.background,
                 contentPadding = rememberInsetsPaddingValues(
                     insets = LocalWindowInsets.current.statusBars,
                     applyBottom = false,
@@ -124,7 +123,7 @@ private fun KeywordSelectContent(
             .navigationBarsPadding()
     ) {
 
-        Spacer(modifier = Modifier.size(20.dp))
+        Spacer(modifier = Modifier.size(12.dp))
 
         KeywordSelectHeader(
             buttonEnabled = confirmButtonEnabled,
@@ -179,7 +178,8 @@ fun KeywordSelectHeader(
             Text(
                 text = context.getString(R.string.keyword_highlight_1),
                 fontSize = 30.sp,
-                textAlign = TextAlign.Start
+                textAlign = TextAlign.Start,
+                color = Theme.colors.textDefault
             )
 
             HorizontalPagerIndicator(
@@ -295,7 +295,11 @@ fun KeywordSelectConfirmButton(
                 ),
             contentAlignment = Alignment.Center
         ) {
-            Icon(imageVector = Icons.Default.ArrowForward, contentDescription = "confirm")
+            Icon(
+                painter = painterResource(R.drawable.ic_arrow),
+                contentDescription = "confirm",
+                tint = Theme.colors.background
+            )
         }
     }
 }

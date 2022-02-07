@@ -1,6 +1,5 @@
 package team.nexters.kida.ui.theme
 
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
@@ -31,11 +30,6 @@ data class ThemeColors(
     val label: Color = Color(0xFF7D7D7D),
     val label2: Color = Color(0xFFFF964E),
 )
-
-/* customized colors */
-val ThemeColors.splashBackground: Color
-    @Composable
-    get() = Color(0xFFfdfde3)
 
 val LocalThemeColors = staticCompositionLocalOf {
     ThemeColors()

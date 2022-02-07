@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Kida</string>
+    <string name="app_name">키다</string>
 
     <!-- keyword -->
     <string name="keyword_highlight_1">오늘의 카드를\n선택해봐!</string>
