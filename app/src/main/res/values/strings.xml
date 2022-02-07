@@ -9,4 +9,12 @@
     <string name="keyword_confirm_title">뽑은 키워드</string>
     <string name="keyword_confirm_submit">일기 쓰러가기</string>
     <string name="keyword_confirm_retry">다시 뽑을래</string>
+
+    <!-- pop up -->
+    <string name="popup_info_title">우리는\n키워드 다이어리</string>
+    <string name="popup_info_content">오늘의 카드를 뽑아 나온 키워드로\n너만의 일기를 만들어봐!\n키다에 온 걸 진심으로 환영해 :)</string>
+    <string name="popup_info_btn">뽑으러 가자!</string>
+    <string name="popup_error_info">삐빅 에러</string>
+    <string name="popup_error_title">하루에 한번만!</string>
+    <string name="popup_error_content">igo.. 아쉽지만,\n키다는 하루에 한번만 쓸 수 있어!\n내일 다시 보자 :)</string>
 </resources>
