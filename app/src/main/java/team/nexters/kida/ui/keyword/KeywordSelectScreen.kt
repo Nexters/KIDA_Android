@@ -143,7 +143,7 @@ private fun KeywordSelectContent(
             modifier = Modifier
                 .fillMaxHeight()
                 .weight(1f),
-            count = 8,
+            count = KeywordCard.values().size,
             state = pagerState,
             contentPadding = PaddingValues(horizontal = 40.dp),
         ) { page ->
