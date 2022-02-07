@@ -71,7 +71,7 @@ private fun NavGraphBuilder.addSplash(
 private fun NavGraphBuilder.addKeyword(
     navController: NavController
 ) {
-    composable(Screen.Keyword.route) { _: NavBackStackEntry ->
+    composable(Screen.Keyword.route) {
         KeywordSelectScreen(
             onNavigate = { keyword, card ->
                 navController.navigate(
@@ -83,7 +83,8 @@ private fun NavGraphBuilder.addKeyword(
                         restoreState = true
                     }
                 )
-            }
+            },
+            onInfoClick = {}
         )
     }
 
@@ -115,6 +116,8 @@ private fun NavGraphBuilder.addKeyword(
                         restoreState = true
                     }
                 )
+            },
+            onInfoClick = {
             }
         )
     }

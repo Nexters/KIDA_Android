@@ -22,6 +22,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.rememberScaffoldState
@@ -71,6 +72,7 @@ import kotlin.math.absoluteValue
 fun KeywordSelectScreen(
     onNavigate: (Keyword, KeywordCard) -> Unit,
     viewModel: KeywordViewModel = hiltViewModel(),
+    onInfoClick: () -> Unit
 ) {
     val scaffoldState = rememberScaffoldState()
     val keywords by viewModel.keywords.collectAsState()
@@ -85,7 +87,15 @@ fun KeywordSelectScreen(
                 contentPadding = rememberInsetsPaddingValues(
                     insets = LocalWindowInsets.current.statusBars,
                     applyBottom = false,
-                )
+                ),
+                actions = {
+                    IconButton(onClick = onInfoClick) {
+                        Image(
+                            painter = painterResource(R.drawable.ic_info),
+                            contentDescription = null,
+                        )
+                    }
+                }
             )
         },
         modifier = Modifier.fillMaxSize()
