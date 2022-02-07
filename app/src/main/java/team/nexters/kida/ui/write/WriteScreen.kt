@@ -43,6 +43,7 @@ import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.rememberInsetsPaddingValues
 import com.google.accompanist.insets.ui.TopAppBar
 import team.nexters.kida.R
+import team.nexters.kida.data.keyword.Keyword
 import team.nexters.kida.ui.Screen
 import team.nexters.kida.ui.theme.Theme
 import team.nexters.kida.util.UiEvent
@@ -52,7 +53,7 @@ fun WriteScreen(
     onPopBackStack: () -> Unit,
     onNavigateToList: () -> Unit,
     viewModel: WriteViewModel = hiltViewModel(),
-    keyword: String
+    keyword: Keyword
 ) {
     val scaffoldState = rememberScaffoldState()
     LaunchedEffect(key1 = true) {
@@ -105,7 +106,7 @@ fun WriteScreen(
                     .weight(1f),
                 elevation = 10.dp,
                 shape = RoundedCornerShape(10.dp),
-                backgroundColor = Theme.colors.white
+                backgroundColor = Theme.colors.textDefault
             ) {
                 Column(
                     modifier = Modifier.padding(start = 20.dp, end = 20.dp, top = 30.dp)
@@ -127,7 +128,7 @@ fun WriteScreen(
                         ),
                         keyboardActions = KeyboardActions(onNext = { focusManager.moveFocus(FocusDirection.Down) })
                     )
-                    Divider(color = Theme.colors.disabled, thickness = 1.dp)
+                    Divider(color = Theme.colors.btnDisabled, thickness = 1.dp)
                     NonInnerPaddingTextField(
                         value = viewModel.content,
                         placeholder = "공백 포함 150자 이내로 써 주세요.",
@@ -160,12 +161,12 @@ fun WriteScreen(
                 colors = if (btnDisabled) {
                     ButtonDefaults.buttonColors(
                         backgroundColor = Theme.colors.btnDisabled,
-                        contentColor = Theme.colors.disabled
+                        contentColor = Theme.colors.btnDisabled
                     )
                 } else {
                     ButtonDefaults.buttonColors(
-                        backgroundColor = Theme.colors.black,
-                        contentColor = Theme.colors.white
+                        backgroundColor = Theme.colors.textDefault,
+                        contentColor = Theme.colors.textDefault
                     )
                 },
                 modifier = Modifier
@@ -198,12 +199,12 @@ fun TodayKeyword(viewModel: WriteViewModel) {
                 text = viewModel.keyword,
                 fontSize = 40.sp,
                 style = Theme.typography.display.copy(
-                    color = Theme.colors.primary
+                    color = Theme.colors.btnActive
                 )
             )
         }
         Image(
-            painterResource(R.drawable.ic_launcher_foreground),
+            painterResource(R.drawable.logo),
             contentDescription = "emoji",
         )
     }
@@ -223,13 +224,13 @@ fun NonInnerPaddingTextField(
         modifier = modifier,
         value = value,
         onValueChange = onValueChange,
-        textStyle = style.copy(color = Theme.colors.darkGray),
+        textStyle = style.copy(color = Theme.colors.btnDisabled),
         decorationBox = { innerTextField ->
             Row(modifier = Modifier.fillMaxWidth()) {
                 if (value.isEmpty()) {
                     Text(
                         text = placeholder,
-                        color = Theme.colors.disabled,
+                        color = Theme.colors.btnDisabled,
                         style = style
                     )
                 }

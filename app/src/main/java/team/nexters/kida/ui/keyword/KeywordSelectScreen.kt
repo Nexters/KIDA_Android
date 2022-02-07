@@ -21,14 +21,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
 import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -45,6 +40,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.TextStyle
@@ -73,7 +69,7 @@ import kotlin.math.absoluteValue
 
 @Composable
 fun KeywordSelectScreen(
-    onNavigate: (Keyword) -> Unit,
+    onNavigate: (Keyword, KeywordCard) -> Unit,
     viewModel: KeywordViewModel = hiltViewModel(),
 ) {
     val scaffoldState = rememberScaffoldState()
@@ -81,10 +77,11 @@ fun KeywordSelectScreen(
 
     Scaffold(
         scaffoldState = scaffoldState,
+        backgroundColor = Theme.colors.background,
         topBar = {
             TopAppBar(
-                title = { Text(text = DateUtils.today()) },
-                backgroundColor = MaterialTheme.colors.background,
+                title = { Text(text = DateUtils.today(), color = Theme.colors.textDefault) },
+                backgroundColor = Theme.colors.background,
                 contentPadding = rememberInsetsPaddingValues(
                     insets = LocalWindowInsets.current.statusBars,
                     applyBottom = false,
@@ -96,7 +93,7 @@ fun KeywordSelectScreen(
         KeywordSelectContent(
             onClickButton = {
                 // TODO filtering
-                onNavigate(keywords.random())
+                onNavigate(keywords.random(), it)
             },
             keywords
         )
@@ -105,7 +102,7 @@ fun KeywordSelectScreen(
 
 @Composable
 private fun KeywordSelectContent(
-    onClickButton: () -> Unit,
+    onClickButton: (KeywordCard) -> Unit,
     keywords: List<Keyword>
 ) {
     val pagerState = rememberPagerState()
@@ -124,12 +121,12 @@ private fun KeywordSelectContent(
             .navigationBarsPadding()
     ) {
 
-        Spacer(modifier = Modifier.size(20.dp))
+        Spacer(modifier = Modifier.size(12.dp))
 
         KeywordSelectHeader(
             buttonEnabled = confirmButtonEnabled,
             pagerState = pagerState,
-            onConfirmClick = onClickButton
+            onConfirmClick = { onClickButton(KeywordCard.values()[selectedItemPosition]) }
         )
         Spacer(modifier = Modifier.size(20.dp))
         HorizontalPager(
@@ -179,17 +176,18 @@ fun KeywordSelectHeader(
             Text(
                 text = context.getString(R.string.keyword_highlight_1),
                 fontSize = 30.sp,
-                textAlign = TextAlign.Start
+                textAlign = TextAlign.Start,
+                color = Theme.colors.textDefault
             )
 
             HorizontalPagerIndicator(
                 modifier = Modifier.padding(top = 24.dp),
                 pagerState = pagerState,
                 spacing = 6.dp,
-                activeColor = Theme.colors.primary,
+                activeColor = Theme.colors.btnActive,
                 activeIndicatorWidth = 18.dp,
                 activeIndicatorHeight = 6.dp,
-                inactiveColor = Theme.colors.disabled,
+                inactiveColor = Theme.colors.btnIndicatorInActive,
                 inactiveIndicatorHeight = 6.dp,
                 inactiveIndicatorWidth = 6.dp
             )
@@ -224,7 +222,7 @@ fun KeywordSelectPagerCardItem(
     val canAnimated = animatePosition == -1 || animatePosition == page
     val animatePadding by animateDpAsState(targetValue = if (canAnimated && clicked) (-10).dp else 0.dp)
 
-    Card(
+    Image(
         modifier = Modifier
             .fillMaxSize()
             .clickable(
@@ -255,10 +253,9 @@ fun KeywordSelectPagerCardItem(
                     fraction = 1f - pageOffset.coerceIn(0f, 1f)
                 )
             },
-        backgroundColor = Color.Green,
-        shape = RoundedCornerShape(10.dp)
-    ) {
-    }
+        painter = painterResource(id = KeywordCard.values()[page].resId),
+        contentDescription = null
+    )
 }
 
 @Composable
@@ -268,7 +265,7 @@ fun KeywordSelectConfirmButton(
     enabled: Boolean = true,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
 ) {
-    val backgroundColors by animateColorAsState(targetValue = if (enabled) Theme.colors.primary else Theme.colors.disabled)
+    val backgroundColors by animateColorAsState(targetValue = if (enabled) Theme.colors.btnActive else Theme.colors.btnDefault)
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.End
@@ -295,7 +292,11 @@ fun KeywordSelectConfirmButton(
                 ),
             contentAlignment = Alignment.Center
         ) {
-            Icon(imageVector = Icons.Default.ArrowForward, contentDescription = "confirm")
+            Icon(
+                painter = painterResource(R.drawable.ic_arrow),
+                contentDescription = "confirm",
+                tint = Theme.colors.background
+            )
         }
     }
 }

@@ -20,6 +20,7 @@ object Dep {
         const val coroutineVersion = "1.6.0"
         const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib:$version"
         const val coroutine = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion"
+        const val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2"
     }
 
     object Android {

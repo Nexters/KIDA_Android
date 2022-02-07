@@ -13,6 +13,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -29,7 +30,7 @@ fun DiaryItem(
         modifier = modifier
             .padding(vertical = 6.dp),
         shape = RoundedCornerShape(10.dp),
-        color = Theme.colors.white,
+        color = Theme.colors.textDefault,
         elevation = 4.dp,
     ) {
         Row(
@@ -48,7 +49,7 @@ fun DiaryItem(
                     Text(
                         text = diary.title,
                         style = TextStyle(
-                            color = Theme.colors.black,
+                            color = Color.Black,
                             fontSize = 18.sp
                         )
                     )
@@ -60,7 +61,7 @@ fun DiaryItem(
                     Text(
                         text = "#${diary.keyword}",
                         style = TextStyle(
-                            color = Theme.colors.primary,
+                            color = Theme.colors.btnActive,
                             fontSize = 12.sp
                         )
                     )
@@ -68,7 +69,7 @@ fun DiaryItem(
                     Text(
                         text = diary.keyword,
                         style = TextStyle(
-                            color = Theme.colors.disabled,
+                            color = Theme.colors.btnDisabled,
                             fontSize = 12.sp
                         )
                     )
@@ -80,7 +81,7 @@ fun DiaryItem(
                     Text(
                         text = diary.content,
                         style = TextStyle(
-                            color = Theme.colors.darkGray
+                            color = Theme.colors.btnDisabled
                         )
                     )
                 }

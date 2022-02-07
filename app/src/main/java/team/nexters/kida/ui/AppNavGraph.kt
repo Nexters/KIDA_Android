@@ -1,5 +1,7 @@
 package team.nexters.kida.ui
 
+import android.os.Bundle
+import android.os.Parcelable
 import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -12,6 +14,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navOptions
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
+import team.nexters.kida.data.keyword.Keyword
+import team.nexters.kida.ui.keyword.KeywordCard
 import team.nexters.kida.ui.keyword.KeywordConfirmScreen
 import team.nexters.kida.ui.keyword.KeywordSelectScreen
 import team.nexters.kida.ui.list.ListScreen
@@ -66,9 +73,9 @@ private fun NavGraphBuilder.addKeyword(
 ) {
     composable(Screen.Keyword.route) { _: NavBackStackEntry ->
         KeywordSelectScreen(
-            onNavigate = { keyword ->
+            onNavigate = { keyword, card ->
                 navController.navigate(
-                    "${Screen.KeywordConfirm.route}?keyword=${keyword.name}",
+                    "${Screen.KeywordConfirm.route}?keyword=${keyword.encodedData()}&card=${card.encodedData()}",
                     navOptions {
                         popUpTo(Screen.Keyword.route) {
                             saveState = true
@@ -81,19 +88,26 @@ private fun NavGraphBuilder.addKeyword(
     }
 
     composable(
-        route = "${Screen.KeywordConfirm.route}?keyword={keyword}",
+        route = "${Screen.KeywordConfirm.route}?keyword={keyword}&card={card}",
         arguments = listOf(
-            navArgument("keyword") { type = NavType.StringType }
+            navArgument("keyword") {
+                type = createParcelableNavType<Keyword>()
+            },
+            navArgument("card") {
+                type = createParcelableNavType<KeywordCard>()
+            }
         )
     ) {
         val arguments = requireNotNull(it.arguments)
-        val keyword = arguments.getString("keyword")
+        val keyword = requireNotNull(arguments.getParcelable<Keyword>("keyword"))
+        val card = requireNotNull(arguments.getParcelable<KeywordCard>("card"))
         KeywordConfirmScreen(
-            keyword = keyword ?: "",
+            keyword = keyword,
+            card = card,
             upPress = { navController.popBackStack() },
             onConfirm = { newKeyword ->
                 navController.navigate(
-                    Screen.Write.route + "?diaryId={diaryId}&keyword=$newKeyword",
+                    Screen.Write.route + "?diaryId={diaryId}&keyword=${newKeyword.encodedData()}",
                     navOptions {
                         popUpTo(Screen.KeywordConfirm.route) {
                             saveState = true
@@ -128,9 +142,10 @@ private fun NavGraphBuilder.addWrite(
         route = Screen.Write.route + "?diaryId={diaryId}&keyword={keyword}",
         arguments = listOf(
             diaryIdArgument(),
-            navArgument("keyword") { type = NavType.StringType }
+            navArgument("keyword") { type = createParcelableNavType<Keyword>() }
         )
     ) {
+        val keyword = requireNotNull(it.arguments?.getParcelable<Keyword>("keyword"))
         BackHandler(onBack = { navController.popBackStack() })
         WriteScreen(
             onPopBackStack = {
@@ -144,7 +159,7 @@ private fun NavGraphBuilder.addWrite(
                     }
                 }
             },
-            keyword = it.arguments?.getString("keyword") ?: ""
+            keyword = keyword
         )
     }
 }
@@ -152,4 +167,30 @@ private fun NavGraphBuilder.addWrite(
 private fun diaryIdArgument() = navArgument(name = "diaryId") {
     type = NavType.IntType
     defaultValue = -1
+}
+
+// nav graph 에서 data 변환용
+private inline fun <reified T : Parcelable> T.encodedData(): String {
+    return Json.encodeToString(this)
+}
+
+inline fun <reified T : Parcelable> createParcelableNavType(
+    isNullableAllowed: Boolean = false
+): NavType<T> {
+    return object : NavType<T>(isNullableAllowed) {
+        override val name: String
+            get() = "SupportParcelable"
+
+        override fun put(bundle: Bundle, key: String, value: T) {
+            bundle.putParcelable(key, value)
+        }
+
+        override fun get(bundle: Bundle, key: String): T? {
+            return bundle.getParcelable(key)
+        }
+
+        override fun parseValue(value: String): T {
+            return Json.decodeFromString(value)
+        }
+    }
 }

@@ -60,7 +60,7 @@ fun ListScreen(
                         Text(
                             text = "내 일기",
                             style = TextStyle(
-                                color = Theme.colors.black,
+                                color = Theme.colors.textDefault,
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 16.sp,
                                 textAlign = TextAlign.Center
@@ -95,7 +95,7 @@ fun ListScreen(
                 Text(
                     text = "내가 쓴 일기",
                     style = TextStyle(
-                        color = Theme.colors.black,
+                        color = Theme.colors.textDefault,
                         fontSize = 20.sp
                     )
                 )

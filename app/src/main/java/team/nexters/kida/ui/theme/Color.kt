@@ -1,17 +1,8 @@
 package team.nexters.kida.ui.theme
 
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
-
-/* color palette */
-val Primary = Color(0xFFF66705)
-val BtnDisabled = Color(0xFFDFDFDF)
-val Disabled = Color(0xFF9C9C9C)
-val DarkGray = Color(0xFF535353)
-val BackGround = Color(0xFFF8F8F8)
-val BgLayered = Color(0xFF303030)
 
 /**
  *  Figma 에서 정의된 system color
@@ -20,24 +11,25 @@ val BgLayered = Color(0xFF303030)
  */
 @Immutable
 data class ThemeColors(
-    val primary: Color = Primary,
-    val white: Color = Color.White,
-    val btnDisabled: Color = BtnDisabled,
-    val disabled: Color = Disabled,
-    val darkGray: Color = DarkGray,
-    val black: Color = Color.Black,
-    val background: Color = BackGround,
-    val bgLayered: Color = BgLayered,
+    /* BG */
+    val background: Color = Color(0xFF252525),
+    val popup: Color = Color(0xFF323232),
+    val bgLayered: Color = Color(0xFF303030),
     val bgLayered2: Color = Color(0xFF3D3D3D),
-    val label2: Color = Color(0xFFFF964E),
+    /* BTN */
+    val btnActive: Color = Color(0xFFF66705),
+    val btnDefault: Color = Color.White,
+    val btnDefault2: Color = Color(0xFFA6A6A6),
+    val btnDisabled: Color = Color(0xFF646464),
+    val btnIndicatorInActive: Color = Color(0xFF5A5A5A),
+    /* TEXT */
+    val textDefault: Color = Color.White,
+    val textContent: Color = Color(0xFFC9C9C9),
     val btnRe: Color = Color(0xFF868686),
-    val btnActive: Color = Color(0xFFF66705)
+    val placeholderInactive: Color = Color(0xFF9D9D9D),
+    val label: Color = Color(0xFF7D7D7D),
+    val label2: Color = Color(0xFFFF964E),
 )
-
-/* customized colors */
-val ThemeColors.splashBackground: Color
-    @Composable
-    get() = Color(0xFFfdfde3)
 
 val LocalThemeColors = staticCompositionLocalOf {
     ThemeColors()

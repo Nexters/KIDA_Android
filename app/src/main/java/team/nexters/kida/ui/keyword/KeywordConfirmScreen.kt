@@ -1,5 +1,6 @@
 package team.nexters.kida.ui.keyword
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -14,7 +15,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
@@ -28,6 +28,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
@@ -38,17 +39,18 @@ import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.rememberInsetsPaddingValues
 import com.google.accompanist.insets.ui.TopAppBar
 import team.nexters.kida.R
+import team.nexters.kida.data.keyword.Keyword
 import team.nexters.kida.ui.theme.Theme
 import team.nexters.kida.util.DateUtils
 
 @Composable
 fun KeywordConfirmScreen(
-    keyword: String,
+    keyword: Keyword,
+    card: KeywordCard,
     upPress: () -> Unit,
-    onConfirm: (String) -> Unit
+    onConfirm: (Keyword) -> Unit
 ) {
     val scaffoldState = rememberScaffoldState()
-    val context = LocalContext.current
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
@@ -82,14 +84,15 @@ fun KeywordConfirmScreen(
                 onConfirmClick = onConfirm
             )
 
-            Card(
+            Image(
                 modifier = Modifier
                     .align(Alignment.TopCenter)
                     .fillMaxWidth()
                     .fillMaxHeight(0.568f)
                     .padding(top = 20.dp, start = 67.dp, end = 67.dp),
-                backgroundColor = Theme.colors.primary
-            ) {}
+                painter = painterResource(id = card.resId),
+                contentDescription = null
+            )
         }
     }
 }
@@ -97,9 +100,9 @@ fun KeywordConfirmScreen(
 @Composable
 fun KeywordConfirmBottomContent(
     modifier: Modifier = Modifier,
-    keyword: String,
+    keyword: Keyword,
     onRetryClick: () -> Unit,
-    onConfirmClick: (String) -> Unit
+    onConfirmClick: (Keyword) -> Unit
 ) {
     val context = LocalContext.current
     Box(
@@ -134,7 +137,7 @@ fun KeywordConfirmBottomContent(
                         shape = RoundedCornerShape(20.dp)
                     )
                     .padding(horizontal = 20.dp),
-                text = keyword,
+                text = keyword.name,
                 fontSize = 24.sp,
                 color = Color.White
             )
@@ -178,5 +181,5 @@ fun KeywordConfirmBottomContent(
 @Preview
 @Composable
 fun KeywordConfirmBottomContentPreview() {
-    KeywordConfirmBottomContent(keyword = "가을", onRetryClick = { }, onConfirmClick = {})
+    KeywordConfirmBottomContent(keyword = Keyword("가을"), onRetryClick = { }, onConfirmClick = {})
 }
