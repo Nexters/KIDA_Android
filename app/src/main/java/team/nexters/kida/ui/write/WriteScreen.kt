@@ -27,8 +27,11 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
@@ -98,6 +101,11 @@ fun WriteScreen(
     ) {
         val focusManager = LocalFocusManager.current
         val keyboardController = LocalSoftwareKeyboardController.current
+        val focusRequester = remember { FocusRequester() }
+
+        LaunchedEffect(Unit) {
+            focusRequester.requestFocus()
+        }
         Column(Modifier.fillMaxSize()) {
             Card(
                 modifier = Modifier
@@ -121,11 +129,16 @@ fun WriteScreen(
                         },
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(bottom = 18.dp, start = 2.dp, end = 2.dp),
+                            .padding(bottom = 18.dp, start = 2.dp, end = 2.dp)
+                            .focusRequester(focusRequester),
                         keyboardOptions = KeyboardOptions.Default.copy(
                             imeAction = ImeAction.Next
                         ),
-                        keyboardActions = KeyboardActions(onNext = { focusManager.moveFocus(FocusDirection.Down) })
+                        keyboardActions = KeyboardActions(onNext = {
+                            focusManager.moveFocus(
+                                FocusDirection.Down
+                            )
+                        })
                     )
                     Divider(color = Theme.colors.btnDisabled, thickness = 1.dp)
                     NonInnerPaddingTextField(
