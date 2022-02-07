@@ -186,10 +186,10 @@ fun KeywordSelectHeader(
                 modifier = Modifier.padding(top = 24.dp),
                 pagerState = pagerState,
                 spacing = 6.dp,
-                activeColor = Theme.colors.primary,
+                activeColor = Theme.colors.btnActive,
                 activeIndicatorWidth = 18.dp,
                 activeIndicatorHeight = 6.dp,
-                inactiveColor = Theme.colors.disabled,
+                inactiveColor = Theme.colors.btnIndicatorInActive,
                 inactiveIndicatorHeight = 6.dp,
                 inactiveIndicatorWidth = 6.dp
             )
@@ -268,7 +268,7 @@ fun KeywordSelectConfirmButton(
     enabled: Boolean = true,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
 ) {
-    val backgroundColors by animateColorAsState(targetValue = if (enabled) Theme.colors.primary else Theme.colors.disabled)
+    val backgroundColors by animateColorAsState(targetValue = if (enabled) Theme.colors.btnActive else Theme.colors.btnDefault)
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.End

@@ -38,7 +38,7 @@ fun SplashScreen(
         Spacer(modifier = Modifier.size(164.dp))
         Box(
             modifier = Modifier
-                .background(Theme.colors.primary)
+                .background(Theme.colors.btnActive)
                 .size(136.dp, 136.dp)
 
         )

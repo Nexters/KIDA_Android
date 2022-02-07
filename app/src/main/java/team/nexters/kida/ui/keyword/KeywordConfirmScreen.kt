@@ -88,7 +88,7 @@ fun KeywordConfirmScreen(
                     .fillMaxWidth()
                     .fillMaxHeight(0.568f)
                     .padding(top = 20.dp, start = 67.dp, end = 67.dp),
-                backgroundColor = Theme.colors.primary
+                backgroundColor = Theme.colors.btnActive
             ) {}
         }
     }
