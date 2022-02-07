@@ -40,8 +40,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.insets.LocalWindowInsets
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.rememberInsetsPaddingValues
-import com.google.accompanist.insets.ui.TopAppBar
 import team.nexters.kida.R
+import team.nexters.kida.component.CenterAppBar
 import team.nexters.kida.data.keyword.Keyword
 import team.nexters.kida.ui.Screen
 import team.nexters.kida.ui.theme.Theme
@@ -78,7 +78,7 @@ fun WriteScreen(
             .navigationBarsPadding(),
         backgroundColor = Theme.colors.background,
         topBar = {
-            TopAppBar(
+            CenterAppBar(
                 title = { Text(text = viewModel.date, style = Theme.typography.h3) },
                 backgroundColor = Theme.colors.background,
                 contentPadding = rememberInsetsPaddingValues(

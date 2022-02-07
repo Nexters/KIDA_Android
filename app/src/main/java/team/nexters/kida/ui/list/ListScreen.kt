@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.insets.LocalWindowInsets
 import com.google.accompanist.insets.rememberInsetsPaddingValues
-import com.google.accompanist.insets.ui.TopAppBar
+import team.nexters.kida.component.CenterAppBar
 import team.nexters.kida.ui.theme.Theme
 import team.nexters.kida.util.UiEvent
 
@@ -44,7 +44,7 @@ fun ListScreen(
         scaffoldState = scaffoldState,
         backgroundColor = Theme.colors.background,
         topBar = {
-            TopAppBar(
+            CenterAppBar(
                 title = {
                     Box(Modifier.fillMaxWidth()) {
                         Text(

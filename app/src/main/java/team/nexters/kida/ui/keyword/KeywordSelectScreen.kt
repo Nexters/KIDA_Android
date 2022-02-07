@@ -54,12 +54,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.insets.LocalWindowInsets
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.rememberInsetsPaddingValues
-import com.google.accompanist.insets.ui.TopAppBar
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.calculateCurrentOffsetForPage
 import com.google.accompanist.pager.rememberPagerState
 import team.nexters.kida.R
+import team.nexters.kida.component.CenterAppBar
 import team.nexters.kida.component.HorizontalPagerIndicator
 import team.nexters.kida.data.keyword.Keyword
 import team.nexters.kida.ui.theme.Theme
@@ -79,7 +79,7 @@ fun KeywordSelectScreen(
         scaffoldState = scaffoldState,
         backgroundColor = Theme.colors.background,
         topBar = {
-            TopAppBar(
+            CenterAppBar(
                 title = { Text(text = DateUtils.today(), color = Theme.colors.textDefault) },
                 backgroundColor = Theme.colors.background,
                 contentPadding = rememberInsetsPaddingValues(

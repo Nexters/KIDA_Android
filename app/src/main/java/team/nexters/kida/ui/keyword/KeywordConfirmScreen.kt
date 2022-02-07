@@ -17,7 +17,6 @@ import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
@@ -37,8 +36,8 @@ import androidx.compose.ui.unit.sp
 import com.google.accompanist.insets.LocalWindowInsets
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.rememberInsetsPaddingValues
-import com.google.accompanist.insets.ui.TopAppBar
 import team.nexters.kida.R
+import team.nexters.kida.component.CenterAppBar
 import team.nexters.kida.data.keyword.Keyword
 import team.nexters.kida.ui.theme.Theme
 import team.nexters.kida.util.DateUtils
@@ -53,10 +52,11 @@ fun KeywordConfirmScreen(
     val scaffoldState = rememberScaffoldState()
     Scaffold(
         scaffoldState = scaffoldState,
+        backgroundColor = Theme.colors.background,
         topBar = {
-            TopAppBar(
+            CenterAppBar(
                 title = { Text(text = DateUtils.today()) },
-                backgroundColor = MaterialTheme.colors.background,
+                backgroundColor = Theme.colors.background,
                 contentPadding = rememberInsetsPaddingValues(
                     insets = LocalWindowInsets.current.statusBars,
                     applyBottom = false,
