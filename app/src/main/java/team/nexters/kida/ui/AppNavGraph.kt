@@ -5,13 +5,13 @@ import android.os.Parcelable
 import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.dialog
 import androidx.navigation.navArgument
 import androidx.navigation.navOptions
 import kotlinx.serialization.decodeFromString
@@ -22,6 +22,8 @@ import team.nexters.kida.ui.keyword.KeywordCard
 import team.nexters.kida.ui.keyword.KeywordConfirmScreen
 import team.nexters.kida.ui.keyword.KeywordSelectScreen
 import team.nexters.kida.ui.list.ListScreen
+import team.nexters.kida.ui.popup.PopupErrorContent
+import team.nexters.kida.ui.popup.PopupInfoContent
 import team.nexters.kida.ui.splash.SplashScreen
 import team.nexters.kida.ui.write.WriteScreen
 
@@ -31,6 +33,8 @@ sealed class Screen(val route: String) {
     object KeywordConfirm : Screen("keyword-confirm")
     object List : Screen("list")
     object Write : Screen("write")
+    object PopupInfo : Screen("popup-info")
+    object PopupError : Screen("popup-error")
 }
 
 @Composable
@@ -48,6 +52,7 @@ fun AppNavGraph(
         addKeyword(navController)
         addList(navController, finishApp)
         addWrite(navController)
+        addPopup(navController)
     }
 }
 
@@ -71,7 +76,7 @@ private fun NavGraphBuilder.addSplash(
 private fun NavGraphBuilder.addKeyword(
     navController: NavController
 ) {
-    composable(Screen.Keyword.route) { _: NavBackStackEntry ->
+    composable(Screen.Keyword.route) {
         KeywordSelectScreen(
             onNavigate = { keyword, card ->
                 navController.navigate(
@@ -83,7 +88,8 @@ private fun NavGraphBuilder.addKeyword(
                         restoreState = true
                     }
                 )
-            }
+            },
+            onInfoClick = { navController.navigate(Screen.PopupInfo.route) }
         )
     }
 
@@ -115,6 +121,10 @@ private fun NavGraphBuilder.addKeyword(
                         restoreState = true
                     }
                 )
+            },
+            onInfoClick = {
+                // TODO 조건 추가
+                navController.navigate(Screen.PopupError.route)
             }
         )
     }
@@ -160,6 +170,22 @@ private fun NavGraphBuilder.addWrite(
                 }
             },
             keyword = keyword
+        )
+    }
+}
+
+private fun NavGraphBuilder.addPopup(
+    navController: NavController
+) {
+    dialog(Screen.PopupInfo.route) {
+        PopupInfoContent(
+            popUpTo = { navController.popBackStack() }
+        )
+    }
+
+    dialog(Screen.PopupError.route) {
+        PopupErrorContent(
+            popUpTo = { navController.popBackStack() }
         )
     }
 }

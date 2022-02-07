@@ -47,7 +47,8 @@ fun KeywordConfirmScreen(
     keyword: Keyword,
     card: KeywordCard,
     upPress: () -> Unit,
-    onConfirm: (Keyword) -> Unit
+    onConfirm: (Keyword) -> Unit,
+    onInfoClick: () -> Unit
 ) {
     val scaffoldState = rememberScaffoldState()
     Scaffold(
@@ -64,6 +65,14 @@ fun KeywordConfirmScreen(
                 navigationIcon = {
                     IconButton(onClick = { upPress() }) {
                         Icon(Icons.Default.ArrowBack, null)
+                    }
+                },
+                actions = {
+                    IconButton(onClick = onInfoClick) {
+                        Image(
+                            painter = painterResource(R.drawable.ic_info),
+                            contentDescription = null,
+                        )
                     }
                 }
             )
