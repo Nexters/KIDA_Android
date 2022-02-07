@@ -20,7 +20,6 @@ import androidx.compose.material.Card
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
@@ -28,8 +27,11 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
@@ -41,8 +43,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.insets.LocalWindowInsets
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.rememberInsetsPaddingValues
-import com.google.accompanist.insets.ui.TopAppBar
 import team.nexters.kida.R
+import team.nexters.kida.component.CenterAppBar
 import team.nexters.kida.data.keyword.Keyword
 import team.nexters.kida.ui.Screen
 import team.nexters.kida.ui.theme.Theme
@@ -79,9 +81,9 @@ fun WriteScreen(
             .navigationBarsPadding(),
         backgroundColor = Theme.colors.background,
         topBar = {
-            TopAppBar(
+            CenterAppBar(
                 title = { Text(text = viewModel.date, style = Theme.typography.h3) },
-                backgroundColor = MaterialTheme.colors.background,
+                backgroundColor = Theme.colors.background,
                 contentPadding = rememberInsetsPaddingValues(
                     insets = LocalWindowInsets.current.statusBars,
                     applyBottom = false,
@@ -99,6 +101,11 @@ fun WriteScreen(
     ) {
         val focusManager = LocalFocusManager.current
         val keyboardController = LocalSoftwareKeyboardController.current
+        val focusRequester = remember { FocusRequester() }
+
+        LaunchedEffect(Unit) {
+            focusRequester.requestFocus()
+        }
         Column(Modifier.fillMaxSize()) {
             Card(
                 modifier = Modifier
@@ -106,7 +113,7 @@ fun WriteScreen(
                     .weight(1f),
                 elevation = 10.dp,
                 shape = RoundedCornerShape(10.dp),
-                backgroundColor = Theme.colors.textDefault
+                backgroundColor = Theme.colors.bgLayered
             ) {
                 Column(
                     modifier = Modifier.padding(start = 20.dp, end = 20.dp, top = 30.dp)
@@ -122,11 +129,16 @@ fun WriteScreen(
                         },
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(bottom = 18.dp, start = 2.dp, end = 2.dp),
+                            .padding(bottom = 18.dp, start = 2.dp, end = 2.dp)
+                            .focusRequester(focusRequester),
                         keyboardOptions = KeyboardOptions.Default.copy(
                             imeAction = ImeAction.Next
                         ),
-                        keyboardActions = KeyboardActions(onNext = { focusManager.moveFocus(FocusDirection.Down) })
+                        keyboardActions = KeyboardActions(onNext = {
+                            focusManager.moveFocus(
+                                FocusDirection.Down
+                            )
+                        })
                     )
                     Divider(color = Theme.colors.btnDisabled, thickness = 1.dp)
                     NonInnerPaddingTextField(
@@ -161,11 +173,11 @@ fun WriteScreen(
                 colors = if (btnDisabled) {
                     ButtonDefaults.buttonColors(
                         backgroundColor = Theme.colors.btnDisabled,
-                        contentColor = Theme.colors.btnDisabled
+                        contentColor = Theme.colors.placeholderInactive
                     )
                 } else {
                     ButtonDefaults.buttonColors(
-                        backgroundColor = Theme.colors.textDefault,
+                        backgroundColor = Theme.colors.btnActive,
                         contentColor = Theme.colors.textDefault
                     )
                 },
