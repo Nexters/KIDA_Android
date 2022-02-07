@@ -34,6 +34,7 @@ import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.rememberInsetsPaddingValues
 import com.google.accompanist.insets.ui.TopAppBar
 import team.nexters.kida.ui.theme.Theme
+import team.nexters.kida.util.DateUtils
 import team.nexters.kida.util.UiEvent
 
 @Composable
@@ -65,7 +66,7 @@ fun WriteScreen(
         backgroundColor = Theme.colors.background,
         topBar = {
             TopAppBar(
-                title = { Text(text = viewModel.date, style = Theme.typography.header) },
+                title = { Text(text = DateUtils.todayDate(viewModel.date), style = Theme.typography.header) },
                 backgroundColor = MaterialTheme.colors.background,
                 contentPadding = rememberInsetsPaddingValues(
                     insets = LocalWindowInsets.current.statusBars,
