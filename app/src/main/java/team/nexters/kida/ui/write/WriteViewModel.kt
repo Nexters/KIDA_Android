@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import team.nexters.kida.data.diary.Diary
 import team.nexters.kida.data.diary.DiaryRepository
+import team.nexters.kida.ui.Screen
 import team.nexters.kida.util.UiEvent
 import java.util.Date
 import javax.inject.Inject
@@ -74,7 +75,7 @@ class WriteViewModel @Inject constructor(
                             id = diary?.id
                         )
                     )
-                    sendUiEvent(UiEvent.PopBackStack)
+                    sendUiEvent(UiEvent.Navigate(Screen.List.route))
                 }
             }
         }

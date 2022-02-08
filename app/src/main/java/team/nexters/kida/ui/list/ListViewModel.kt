@@ -23,9 +23,6 @@ class ListViewModel @Inject constructor(
 
     fun onEvent(event: ListEvent) {
         when (event) {
-            is ListEvent.OnDiaryClick -> {
-                sendUiEvent(UiEvent.Navigate(Screen.Detail.route + "?diaryId=${event.diary.id}"))
-            }
             is ListEvent.OnWriteClick -> {
                 sendUiEvent(UiEvent.Navigate(Screen.Write.route))
             }

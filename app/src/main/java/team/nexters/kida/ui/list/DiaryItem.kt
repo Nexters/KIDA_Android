@@ -1,6 +1,5 @@
 package team.nexters.kida.ui.list
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,10 +14,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import team.nexters.kida.data.diary.Diary
 import team.nexters.kida.ui.theme.Theme
+import java.util.Date
 
 @Composable
 fun DiaryItem(
@@ -28,10 +29,9 @@ fun DiaryItem(
 ) {
     Surface(
         modifier = modifier
-            .clickable { onEvent(ListEvent.OnDiaryClick(diary)) }
             .padding(vertical = 6.dp),
         shape = RoundedCornerShape(10.dp),
-        color = Theme.colors.white,
+        color = Theme.colors.bgLayered,
         elevation = 4.dp,
     ) {
         Row(
@@ -50,7 +50,7 @@ fun DiaryItem(
                     Text(
                         text = diary.title,
                         style = TextStyle(
-                            color = Theme.colors.black,
+                            color = Theme.colors.textDefault,
                             fontSize = 18.sp
                         )
                     )
@@ -62,7 +62,7 @@ fun DiaryItem(
                     Text(
                         text = "#${diary.keyword}",
                         style = TextStyle(
-                            color = Theme.colors.primary,
+                            color = Theme.colors.btnActive,
                             fontSize = 12.sp
                         )
                     )
@@ -70,7 +70,7 @@ fun DiaryItem(
                     Text(
                         text = diary.keyword,
                         style = TextStyle(
-                            color = Theme.colors.disabled,
+                            color = Theme.colors.textContent,
                             fontSize = 12.sp
                         )
                     )
@@ -82,11 +82,17 @@ fun DiaryItem(
                     Text(
                         text = diary.content,
                         style = TextStyle(
-                            color = Theme.colors.darkGray
+                            color = Theme.colors.textContent
                         )
                     )
                 }
             }
         }
     }
+}
+
+@Preview
+@Composable
+fun DiaryItemPreview() {
+    DiaryItem(diary = Diary(title = "hihi", content = "asdf", keyword = "zzzz", date = Date()), onEvent = {})
 }

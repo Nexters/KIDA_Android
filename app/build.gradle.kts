@@ -4,6 +4,8 @@ plugins {
     kotlin("kapt")
     id("dagger.hilt.android.plugin")
     id("com.google.devtools.ksp") version "1.6.10-1.0.2"
+    id("kotlin-parcelize")
+    kotlin("plugin.serialization") version "1.6.10"
 }
 
 android {
@@ -91,6 +93,7 @@ dependencies {
 
     implementation(Dep.Kotlin.stdlib)
     implementation(Dep.Kotlin.coroutine)
+    implementation(Dep.Kotlin.serialization)
 
     implementation(Dep.Android.core)
     implementation(Dep.Android.appcompat)

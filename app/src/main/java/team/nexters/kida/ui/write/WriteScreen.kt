@@ -11,13 +11,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Card
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
@@ -25,14 +26,23 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.insets.LocalWindowInsets
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.rememberInsetsPaddingValues
-import com.google.accompanist.insets.ui.TopAppBar
+import team.nexters.kida.component.CenterAppBar
+import team.nexters.kida.data.keyword.Keyword
+import team.nexters.kida.ui.Screen
 import team.nexters.kida.ui.theme.Theme
 import team.nexters.kida.util.DateUtils
 import team.nexters.kida.util.UiEvent
@@ -40,11 +50,12 @@ import team.nexters.kida.util.UiEvent
 @Composable
 fun WriteScreen(
     onPopBackStack: () -> Unit,
+    onNavigateToList: () -> Unit,
     viewModel: WriteViewModel = hiltViewModel(),
-    keyword: String
+    keyword: Keyword
 ) {
     val scaffoldState = rememberScaffoldState()
-    viewModel.onEvent(WriteEvent.OnKeywordChange(keyword))
+    viewModel.onEvent(WriteEvent.OnKeywordChange(keyword.name))
     LaunchedEffect(key1 = true) {
         viewModel.uiEvent.collect { event ->
             when (event) {
@@ -52,7 +63,10 @@ fun WriteScreen(
                 is UiEvent.ShowSnackbar -> {
                     scaffoldState.snackbarHostState.showSnackbar(event.message)
                 }
-                else -> {
+                is UiEvent.Navigate -> {
+                    if (event.route == Screen.List.route) {
+                        onNavigateToList()
+                    }
                 }
             }
         }
@@ -65,9 +79,14 @@ fun WriteScreen(
             .navigationBarsPadding(),
         backgroundColor = Theme.colors.background,
         topBar = {
-            TopAppBar(
-                title = { Text(text = DateUtils.todayDate(viewModel.date), style = Theme.typography.header) },
-                backgroundColor = MaterialTheme.colors.background,
+            CenterAppBar(
+                title = {
+                    Text(
+                        text = DateUtils.todayDate(viewModel.date),
+                        style = Theme.typography.h3
+                    )
+                },
+                backgroundColor = Theme.colors.background,
                 contentPadding = rememberInsetsPaddingValues(
                     insets = LocalWindowInsets.current.statusBars,
                     applyBottom = false,
@@ -83,6 +102,13 @@ fun WriteScreen(
             )
         }
     ) {
+        val focusManager = LocalFocusManager.current
+        val keyboardController = LocalSoftwareKeyboardController.current
+        val focusRequester = remember { FocusRequester() }
+
+        LaunchedEffect(Unit) {
+            focusRequester.requestFocus()
+        }
         Column(Modifier.fillMaxSize()) {
             Card(
                 modifier = Modifier
@@ -90,7 +116,7 @@ fun WriteScreen(
                     .weight(1f),
                 elevation = 10.dp,
                 shape = RoundedCornerShape(10.dp),
-                backgroundColor = Theme.colors.white
+                backgroundColor = Theme.colors.bgLayered
             ) {
                 Column(
                     modifier = Modifier.padding(start = 20.dp, end = 20.dp, top = 30.dp)
@@ -107,8 +133,17 @@ fun WriteScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(bottom = 18.dp, start = 2.dp, end = 2.dp)
+                            .focusRequester(focusRequester),
+                        keyboardOptions = KeyboardOptions.Default.copy(
+                            imeAction = ImeAction.Next
+                        ),
+                        keyboardActions = KeyboardActions(onNext = {
+                            focusManager.moveFocus(
+                                FocusDirection.Down
+                            )
+                        })
                     )
-                    Divider(color = Theme.colors.disabled, thickness = 1.dp)
+                    Divider(color = Theme.colors.btnDisabled, thickness = 1.dp)
                     NonInnerPaddingTextField(
                         value = viewModel.content,
                         placeholder = "공백 포함 150자 이내로 써 주세요.",
@@ -120,7 +155,11 @@ fun WriteScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .fillMaxHeight()
-                            .padding(top = 20.dp, bottom = 20.dp, start = 2.dp, end = 2.dp)
+                            .padding(top = 20.dp, bottom = 20.dp, start = 2.dp, end = 2.dp),
+                        keyboardOptions = KeyboardOptions.Default.copy(
+                            imeAction = ImeAction.Done
+                        ),
+                        keyboardActions = KeyboardActions(onDone = { keyboardController?.hide() })
                     )
                 }
             }
@@ -137,12 +176,12 @@ fun WriteScreen(
                 colors = if (btnDisabled) {
                     ButtonDefaults.buttonColors(
                         backgroundColor = Theme.colors.btnDisabled,
-                        contentColor = Theme.colors.disabled
+                        contentColor = Theme.colors.placeholderInactive
                     )
                 } else {
                     ButtonDefaults.buttonColors(
-                        backgroundColor = Theme.colors.black,
-                        contentColor = Theme.colors.white
+                        backgroundColor = Theme.colors.btnActive,
+                        contentColor = Theme.colors.textDefault
                     )
                 },
                 modifier = Modifier
@@ -168,9 +207,7 @@ fun TodayKeyword(viewModel: WriteViewModel) {
         )
         Text(
             text = viewModel.keyword,
-            style = Theme.typography.h1.copy(
-                color = Theme.colors.primary
-            )
+            style = Theme.typography.h1
         )
     }
 }
@@ -181,24 +218,28 @@ fun NonInnerPaddingTextField(
     value: String,
     style: TextStyle,
     onValueChange: (String) -> Unit,
-    modifier: Modifier
+    modifier: Modifier,
+    keyboardOptions: KeyboardOptions,
+    keyboardActions: KeyboardActions
 ) {
     BasicTextField(
         modifier = modifier,
         value = value,
         onValueChange = onValueChange,
-        textStyle = style.copy(color = Theme.colors.darkGray),
+        textStyle = style.copy(color = Theme.colors.btnDisabled),
         decorationBox = { innerTextField ->
             Row(modifier = Modifier.fillMaxWidth()) {
                 if (value.isEmpty()) {
                     Text(
                         text = placeholder,
-                        color = Theme.colors.disabled,
+                        color = Theme.colors.btnDisabled,
                         style = style
                     )
                 }
             }
             innerTextField()
-        }
+        },
+        keyboardOptions = keyboardOptions,
+        keyboardActions = keyboardActions
     )
 }

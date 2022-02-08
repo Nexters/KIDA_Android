@@ -1,31 +1,22 @@
 package team.nexters.kida.ui.theme
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
-import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 
-private val DarkColorPalette = darkColors()
-
-private val LightColorPalette = lightColors()
-
 @Composable
 fun Theme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
-    val colors = if (darkTheme) {
-        DarkColorPalette
-    } else {
-        LightColorPalette
-    }
+    // no support light theme
+    val colors = darkColors()
+
     val themeColors = ThemeColors()
-    val kidaTypography = KidaTypography()
+    val typography = KidaTypography()
     CompositionLocalProvider(
         LocalThemeColors provides themeColors,
-        LocalKidaTypography provides kidaTypography
+        LocalKidaTypography provides typography
     ) {
         MaterialTheme(
             colors = colors,

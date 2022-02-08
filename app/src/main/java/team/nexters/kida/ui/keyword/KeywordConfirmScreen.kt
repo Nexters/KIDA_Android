@@ -1,10 +1,12 @@
 package team.nexters.kida.ui.keyword
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -15,7 +17,6 @@ import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
@@ -26,33 +27,37 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.google.accompanist.insets.LocalWindowInsets
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.rememberInsetsPaddingValues
-import com.google.accompanist.insets.ui.TopAppBar
 import team.nexters.kida.R
+import team.nexters.kida.component.CenterAppBar
+import team.nexters.kida.data.keyword.Keyword
 import team.nexters.kida.ui.theme.Theme
 import team.nexters.kida.util.DateUtils
 
 @Composable
 fun KeywordConfirmScreen(
-    keyword: String,
+    keyword: Keyword,
+    card: KeywordCard,
     upPress: () -> Unit,
-    onConfirm: (String) -> Unit
+    onConfirm: (Keyword) -> Unit,
+    onInfoClick: () -> Unit
 ) {
     val scaffoldState = rememberScaffoldState()
-    val context = LocalContext.current
     Scaffold(
         scaffoldState = scaffoldState,
+        backgroundColor = Theme.colors.background,
         topBar = {
-            TopAppBar(
+            CenterAppBar(
                 title = { Text(text = DateUtils.today()) },
-                backgroundColor = MaterialTheme.colors.background,
+                backgroundColor = Theme.colors.background,
                 contentPadding = rememberInsetsPaddingValues(
                     insets = LocalWindowInsets.current.statusBars,
                     applyBottom = false,
@@ -61,73 +66,129 @@ fun KeywordConfirmScreen(
                     IconButton(onClick = { upPress() }) {
                         Icon(Icons.Default.ArrowBack, null)
                     }
+                },
+                actions = {
+                    IconButton(onClick = onInfoClick) {
+                        Image(
+                            painter = painterResource(R.drawable.ic_info),
+                            contentDescription = null,
+                        )
+                    }
                 }
             )
         },
         modifier = Modifier.fillMaxSize()
     ) {
-        Column(
+        Box(
             modifier = Modifier
                 .fillMaxSize()
-                .navigationBarsPadding(),
+                .navigationBarsPadding()
+        ) {
+
+            // bottom content
+            KeywordConfirmBottomContent(
+                modifier = Modifier.align(Alignment.BottomCenter),
+                keyword = keyword,
+                onRetryClick = upPress,
+                onConfirmClick = onConfirm
+            )
+
+            Image(
+                modifier = Modifier
+                    .align(Alignment.TopCenter)
+                    .fillMaxWidth()
+                    .fillMaxHeight(0.568f)
+                    .padding(top = 20.dp, start = 67.dp, end = 67.dp),
+                painter = painterResource(id = card.resId),
+                contentDescription = null
+            )
+        }
+    }
+}
+
+@Composable
+fun KeywordConfirmBottomContent(
+    modifier: Modifier = Modifier,
+    keyword: Keyword,
+    onRetryClick: () -> Unit,
+    onConfirmClick: (Keyword) -> Unit
+) {
+    val context = LocalContext.current
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .background(
+                color = Theme.colors.bgLayered,
+                shape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp)
+            )
+    ) {
+        // TODO particle
+
+        Column(
+            modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Spacer(modifier = Modifier.size(26.dp))
+            Spacer(modifier = Modifier.size(106.dp))
+
             Text(
                 text = context.getString(R.string.keyword_confirm_title),
-                style = TextStyle(
-                    color = Theme.colors.darkGray,
-                    fontSize = 16.sp
-                )
+                fontSize = 12.sp,
+                color = Theme.colors.label2
             )
-            Spacer(modifier = Modifier.size(12.dp))
+
+            Spacer(modifier = Modifier.size(8.dp))
+
+            // TODO font padding
             Text(
-                text = keyword,
-                style = TextStyle(
-                    color = Theme.colors.primary,
-                    fontSize = 40.sp,
-                    fontWeight = FontWeight.Bold
-                )
-            )
-
-            Box(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .weight(1f)
-                    .background(Theme.colors.primary)
+                    .background(
+                        color = Theme.colors.bgLayered2,
+                        shape = RoundedCornerShape(20.dp)
+                    )
+                    .padding(horizontal = 20.dp),
+                text = keyword.name,
+                fontSize = 24.sp,
+                color = Color.White
             )
 
-            Spacer(modifier = Modifier.size(31.dp))
+            Spacer(modifier = Modifier.size(36.dp))
 
             Button(
-                onClick = { onConfirm(keyword) },
-                shape = RoundedCornerShape(10.dp),
+                onClick = { onConfirmClick(keyword) },
+                shape = RoundedCornerShape(8.dp),
                 colors = ButtonDefaults.buttonColors(
-                    backgroundColor = Color.Black,
+                    backgroundColor = Theme.colors.btnActive,
                     contentColor = Color.White
                 ),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(56.dp)
-                    .padding(start = 55.dp, end = 55.dp)
+                    .height(50.dp)
+                    .padding(horizontal = 20.dp)
             ) {
-                Text(text = context.getString(R.string.keyword_confirm_submit), fontSize = 18.sp)
+                Text(text = context.getString(R.string.keyword_confirm_submit), fontSize = 16.sp)
             }
 
-            Spacer(modifier = Modifier.size(9.dp))
+            Spacer(modifier = Modifier.size(12.dp))
 
             Text(
                 text = context.getString(R.string.keyword_confirm_retry),
                 style = TextStyle(
-                    color = Theme.colors.darkGray,
+                    color = Theme.colors.btnRe,
                     textDecoration = TextDecoration.Underline,
                     fontSize = 14.sp
                 ),
                 modifier = Modifier
                     .padding(5.dp)
-                    .clickable { upPress() }
+                    .clickable { onRetryClick() }
             )
-            Spacer(modifier = Modifier.size(35.dp))
+
+            Spacer(modifier = Modifier.size(30.dp))
         }
     }
+}
+
+@Preview
+@Composable
+fun KeywordConfirmBottomContentPreview() {
+    KeywordConfirmBottomContent(keyword = Keyword("가을"), onRetryClick = { }, onConfirmClick = {})
 }
