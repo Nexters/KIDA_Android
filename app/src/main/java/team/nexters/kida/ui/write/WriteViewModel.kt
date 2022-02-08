@@ -13,8 +13,8 @@ import kotlinx.coroutines.launch
 import team.nexters.kida.data.diary.Diary
 import team.nexters.kida.data.diary.DiaryRepository
 import team.nexters.kida.ui.Screen
-import team.nexters.kida.util.DateUtils
 import team.nexters.kida.util.UiEvent
+import java.util.Date
 import javax.inject.Inject
 
 @HiltViewModel
@@ -26,7 +26,7 @@ class WriteViewModel @Inject constructor(
     var diary by mutableStateOf<Diary?>(null)
         private set
 
-    val date by mutableStateOf(DateUtils.today())
+    val date by mutableStateOf(Date())
 
     var title by mutableStateOf("")
         private set
@@ -34,7 +34,7 @@ class WriteViewModel @Inject constructor(
     var content by mutableStateOf("")
         private set
 
-    var keyword by mutableStateOf("가을")
+    var keyword by mutableStateOf("")
         private set
 
     private val _uiEvent = Channel<UiEvent>()
@@ -68,6 +68,7 @@ class WriteViewModel @Inject constructor(
                 viewModelScope.launch {
                     repository.insertDiary(
                         Diary(
+                            date = date,
                             title = title,
                             content = content,
                             keyword = keyword,

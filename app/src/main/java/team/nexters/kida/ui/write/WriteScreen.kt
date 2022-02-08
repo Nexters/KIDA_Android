@@ -1,6 +1,5 @@
 package team.nexters.kida.ui.write
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -34,20 +33,18 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.insets.LocalWindowInsets
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.rememberInsetsPaddingValues
-import team.nexters.kida.R
 import team.nexters.kida.component.CenterAppBar
 import team.nexters.kida.data.keyword.Keyword
 import team.nexters.kida.ui.Screen
 import team.nexters.kida.ui.theme.Theme
+import team.nexters.kida.util.DateUtils
 import team.nexters.kida.util.UiEvent
 
 @Composable
@@ -58,6 +55,7 @@ fun WriteScreen(
     keyword: Keyword
 ) {
     val scaffoldState = rememberScaffoldState()
+    viewModel.onEvent(WriteEvent.OnKeywordChange(keyword.name))
     LaunchedEffect(key1 = true) {
         viewModel.uiEvent.collect { event ->
             when (event) {
@@ -82,7 +80,12 @@ fun WriteScreen(
         backgroundColor = Theme.colors.background,
         topBar = {
             CenterAppBar(
-                title = { Text(text = viewModel.date, style = Theme.typography.h3) },
+                title = {
+                    Text(
+                        text = DateUtils.todayDate(viewModel.date),
+                        style = Theme.typography.h3
+                    )
+                },
                 backgroundColor = Theme.colors.background,
                 contentPadding = rememberInsetsPaddingValues(
                     insets = LocalWindowInsets.current.statusBars,
@@ -187,7 +190,6 @@ fun WriteScreen(
             ) {
                 Text(
                     "작성하기",
-                    fontSize = 18.sp,
                     modifier = Modifier.padding(12.dp)
                 )
             }
@@ -198,26 +200,14 @@ fun WriteScreen(
 
 @Composable
 fun TodayKeyword(viewModel: WriteViewModel) {
-    Row(modifier = Modifier.padding(top = 6.dp)) {
-        Column(
-            Modifier.weight(1f)
-        ) {
-            Text(
-                text = "오늘의 키워드",
-                fontSize = 16.sp,
-                style = Theme.typography.h3
-            )
-            Text(
-                text = viewModel.keyword,
-                fontSize = 40.sp,
-                style = Theme.typography.display.copy(
-                    color = Theme.colors.btnActive
-                )
-            )
-        }
-        Image(
-            painterResource(R.drawable.logo),
-            contentDescription = "emoji",
+    Column {
+        Text(
+            text = "뽑은 키워드",
+            style = Theme.typography.h3
+        )
+        Text(
+            text = viewModel.keyword,
+            style = Theme.typography.h1
         )
     }
 }

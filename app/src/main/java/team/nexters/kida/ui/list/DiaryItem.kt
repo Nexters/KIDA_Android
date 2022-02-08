@@ -19,6 +19,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import team.nexters.kida.data.diary.Diary
 import team.nexters.kida.ui.theme.Theme
+import team.nexters.kida.util.DateUtils
+import java.util.Date
 
 @Composable
 fun DiaryItem(
@@ -67,7 +69,7 @@ fun DiaryItem(
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        text = diary.keyword,
+                        text = DateUtils.listDate(diary.date),
                         style = TextStyle(
                             color = Theme.colors.textContent,
                             fontSize = 12.sp
@@ -93,5 +95,5 @@ fun DiaryItem(
 @Preview
 @Composable
 fun DiaryItemPreview() {
-    DiaryItem(diary = Diary(title = "hihi", content = "asdf", keyword = "zzzz"), onEvent = {})
+    DiaryItem(diary = Diary(title = "hihi", content = "asdf", keyword = "zzzz", date = Date()), onEvent = {})
 }
