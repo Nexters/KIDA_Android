@@ -14,6 +14,6 @@ object DateUtils {
     }
 
     fun listDate(date: Date): String {
-        return DateFormat.format("yyyy.mm.dd", date).toString()
+        return DateFormat.format("yyyy.MM.dd", date).toString()
     }
 }
