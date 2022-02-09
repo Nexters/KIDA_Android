@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -33,73 +34,83 @@ fun DiaryItem(
     onEvent: (ListEvent) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Box {
-        Surface(
-            modifier = modifier
-                .align(Alignment.TopStart)
-                .padding(top = 6.dp, bottom = 6.dp, end = 12.dp),
-            shape = RoundedCornerShape(10.dp),
-            color = Theme.colors.bgLayered,
-        ) {
+    Column(
+        modifier = modifier.padding(top = 6.dp, bottom = 6.dp),
+        verticalArrangement = Arrangement.Center
+    ) {
+        Box {
             Column(
+                modifier = modifier
+                    .fillMaxWidth()
+                    .padding(end = 12.dp)
+                    .background(
+                        color = Theme.colors.bgLayered2,
+                        shape = RoundedCornerShape(
+                            topStart = CornerSize(10.dp),
+                            topEnd = CornerSize(10.dp),
+                            bottomEnd = CornerSize(0.dp),
+                            bottomStart = CornerSize(0.dp)
+                        )
+                    )
+                    .padding(all = 20.dp)
+                    .align(Alignment.TopStart),
                 verticalArrangement = Arrangement.Center,
             ) {
                 Row(
-                    modifier = modifier
-                        .fillMaxWidth()
-                        .background(Theme.colors.bgLayered2)
-                        .padding(all = 20.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Column(
-                        verticalArrangement = Arrangement.Center,
-                    ) {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Text(
-                                text = "#${diary.keyword}",
-                                style = TextStyle(
-                                    color = Theme.colors.label2,
-                                    fontSize = 12.sp
-                                )
-                            )
-                            Spacer(modifier = Modifier.width(10.dp))
-                            Text(
-                                text = DateUtils.listDate(diary.date),
-                                style = TextStyle(
-                                    color = Theme.colors.label,
-                                    fontSize = 12.sp
-                                )
-                            )
-                        }
-                        Spacer(modifier = Modifier.height(10.dp))
-                        Text(
-                            text = diary.title,
-                            style = TextStyle(
-                                color = Theme.colors.textDefault,
-                                fontSize = 16.sp
-                            )
+                    Text(
+                        text = "#${diary.keyword}",
+                        style = TextStyle(
+                            color = Theme.colors.label2,
+                            fontSize = 12.sp
                         )
-                    }
-
+                    )
+                    Spacer(modifier = Modifier.width(10.dp))
+                    Text(
+                        text = DateUtils.listDate(diary.date),
+                        style = TextStyle(
+                            color = Theme.colors.label,
+                            fontSize = 12.sp
+                        )
+                    )
                 }
+                Spacer(modifier = Modifier.height(10.dp))
                 Text(
-                    modifier = modifier.padding(all = 20.dp),
-                    text = diary.content,
+                    text = diary.title,
                     style = TextStyle(
-                        color = Theme.colors.textContent,
-                        fontSize = 14.sp
+                        color = Theme.colors.textDefault,
+                        fontSize = 16.sp
                     )
                 )
             }
+            Box(modifier = modifier
+                .width(22.dp)
+                .height(22.dp)
+                .clip(shape = BalloonTailShape())
+                .background(Theme.colors.bgLayered2)
+                .align(Alignment.CenterEnd)
+            )
         }
-        Box(modifier = modifier
-            .width(22.dp)
-            .height(22.dp)
-            .clip(shape = BalloonTailShape())
-            .background(Theme.colors.bgLayered2)
-            .align(Alignment.CenterEnd)
+        Text(
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(end = 12.dp)
+                .background(
+                    color = Theme.colors.bgLayered,
+                    shape = RoundedCornerShape(
+                        topStart = CornerSize(0.dp),
+                        topEnd = CornerSize(0.dp),
+                        bottomEnd = CornerSize(10.dp),
+                        bottomStart = CornerSize(10.dp)
+                    )
+                )
+                .padding(all = 20.dp),
+            text = diary.content,
+            style = TextStyle(
+                color = Theme.colors.textContent,
+                fontSize = 14.sp
+            )
         )
     }
 }
