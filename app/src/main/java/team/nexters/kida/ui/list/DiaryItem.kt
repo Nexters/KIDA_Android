@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -26,7 +25,7 @@ import team.nexters.kida.component.BalloonTailShape
 import team.nexters.kida.data.diary.Diary
 import team.nexters.kida.ui.theme.Theme
 import team.nexters.kida.util.DateUtils
-import java.util.*
+import java.util.Date
 
 @Composable
 fun DiaryItem(
@@ -84,12 +83,13 @@ fun DiaryItem(
                     )
                 )
             }
-            Box(modifier = modifier
-                .width(22.dp)
-                .height(22.dp)
-                .clip(shape = BalloonTailShape())
-                .background(Theme.colors.bgLayered2)
-                .align(Alignment.CenterEnd)
+            Box(
+                modifier = modifier
+                    .width(22.dp)
+                    .height(22.dp)
+                    .clip(shape = BalloonTailShape())
+                    .background(Theme.colors.bgLayered2)
+                    .align(Alignment.CenterEnd)
             )
         }
         Text(
@@ -120,5 +120,6 @@ fun DiaryItem(
 fun DiaryItemPreview() {
     DiaryItem(
         diary = Diary(title = "hihi", content = "asdf", keyword = "zzzz", date = Date()),
-        onEvent = {})
+        onEvent = {}
+    )
 }
