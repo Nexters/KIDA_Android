@@ -71,7 +71,7 @@ fun ListScreen(
             contentPadding = rememberInsetsPaddingValues(
                 insets = LocalWindowInsets.current.navigationBars,
                 additionalStart = 20.dp,
-                additionalEnd = 20.dp
+                additionalEnd = 8.dp
             )
         ) {
             items(diaries.value) { diary ->
