@@ -1,9 +1,11 @@
 package team.nexters.kida.ui.list
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -20,7 +22,7 @@ import androidx.compose.ui.unit.sp
 import team.nexters.kida.data.diary.Diary
 import team.nexters.kida.ui.theme.Theme
 import team.nexters.kida.util.DateUtils
-import java.util.Date
+import java.util.*
 
 @Composable
 fun DiaryItem(
@@ -33,61 +35,58 @@ fun DiaryItem(
             .padding(vertical = 6.dp),
         shape = RoundedCornerShape(10.dp),
         color = Theme.colors.bgLayered,
-        elevation = 4.dp,
     ) {
-        Row(
-            modifier = modifier.padding(all = 20.dp),
-            verticalAlignment = Alignment.CenterVertically,
+        Column(
+            verticalArrangement = Arrangement.Center,
         ) {
-            Column(
+            Row(
                 modifier = modifier
-                    .weight(1F)
-                    .padding(top = 6.dp),
-                verticalArrangement = Arrangement.Center,
+                    .fillMaxWidth()
+                    .background(Theme.colors.bgLayered2)
+                    .padding(all = 20.dp),
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
+                Column(
+                    verticalArrangement = Arrangement.Center,
                 ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = "#${diary.keyword}",
+                            style = TextStyle(
+                                color = Theme.colors.label2,
+                                fontSize = 12.sp
+                            )
+                        )
+                        Spacer(modifier = Modifier.width(10.dp))
+                        Text(
+                            text = DateUtils.listDate(diary.date),
+                            style = TextStyle(
+                                color = Theme.colors.label,
+                                fontSize = 12.sp
+                            )
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(10.dp))
                     Text(
                         text = diary.title,
                         style = TextStyle(
                             color = Theme.colors.textDefault,
-                            fontSize = 18.sp
+                            fontSize = 16.sp
                         )
                     )
                 }
-                Spacer(modifier = Modifier.height(5.dp))
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = "#${diary.keyword}",
-                        style = TextStyle(
-                            color = Theme.colors.btnActive,
-                            fontSize = 12.sp
-                        )
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(
-                        text = DateUtils.listDate(diary.date),
-                        style = TextStyle(
-                            color = Theme.colors.textContent,
-                            fontSize = 12.sp
-                        )
-                    )
-                }
-                Spacer(modifier = Modifier.height(17.dp))
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = diary.content,
-                        style = TextStyle(
-                            color = Theme.colors.textContent
-                        )
-                    )
-                }
+
             }
+            Text(
+                modifier = modifier.padding(all = 20.dp),
+                text = diary.content,
+                style = TextStyle(
+                    color = Theme.colors.textContent,
+                    fontSize = 14.sp
+                )
+            )
         }
     }
 }
@@ -95,5 +94,7 @@ fun DiaryItem(
 @Preview
 @Composable
 fun DiaryItemPreview() {
-    DiaryItem(diary = Diary(title = "hihi", content = "asdf", keyword = "zzzz", date = Date()), onEvent = {})
+    DiaryItem(
+        diary = Diary(title = "hihi", content = "asdf", keyword = "zzzz", date = Date()),
+        onEvent = {})
 }
