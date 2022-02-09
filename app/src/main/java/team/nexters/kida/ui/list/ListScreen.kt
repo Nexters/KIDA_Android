@@ -47,7 +47,7 @@ fun ListScreen(
                 title = {
                     Box(Modifier.fillMaxWidth()) {
                         Text(
-                            text = "내 일기",
+                            text = "나의 일기",
                             style = TextStyle(
                                 color = Theme.colors.textDefault,
                                 fontWeight = FontWeight.Bold,
@@ -71,7 +71,7 @@ fun ListScreen(
             contentPadding = rememberInsetsPaddingValues(
                 insets = LocalWindowInsets.current.navigationBars,
                 additionalStart = 20.dp,
-                additionalEnd = 20.dp
+                additionalEnd = 8.dp
             )
         ) {
             items(diaries.value) { diary ->
