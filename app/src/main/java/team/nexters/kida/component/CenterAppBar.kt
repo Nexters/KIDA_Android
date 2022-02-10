@@ -39,7 +39,7 @@ val AppBarHeight = 56.dp
 val AppBarHorizontalPadding = 4.dp
 val TitleIconModifier = Modifier.fillMaxHeight()
 var iconWidth = 72.dp - AppBarHorizontalPadding
-var withoutIconWidth = 16.dp - AppBarHorizontalPadding
+var withoutIconWidth = 18.dp - AppBarHorizontalPadding
 
 @Composable
 fun CenterAppBar(

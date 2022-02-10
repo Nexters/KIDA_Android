@@ -84,16 +84,36 @@ fun KeywordSelectScreen(
         backgroundColor = Theme.colors.background,
         topBar = {
             CenterAppBar(
-                title = { Text(text = DateUtils.today(), color = Theme.colors.textDefault) },
+                title = {
+                    Text(
+                        text = DateUtils.today(),
+                        color = Theme.colors.textDefault, fontSize = 14.sp
+                    )
+                },
                 backgroundColor = Theme.colors.background,
                 contentPadding = rememberInsetsPaddingValues(
                     insets = LocalWindowInsets.current.statusBars,
                     applyBottom = false,
                 ),
                 actions = {
-                    IconButton(onClick = onInfoClick) {
+                    IconButton(
+                        modifier = Modifier.wrapContentSize(),
+                        onClick = onInfoClick
+                    ) {
                         Image(
                             painter = painterResource(R.drawable.ic_info),
+                            contentDescription = null,
+                        )
+                    }
+                },
+                navigationIcon = {
+                    IconButton(
+                        modifier = Modifier.wrapContentSize(),
+                        onClick = {}
+                    ) {
+                        Image(
+                            modifier = Modifier.size(width = 30.dp, height = 14.dp),
+                            painter = painterResource(R.drawable.icon),
                             contentDescription = null,
                         )
                     }

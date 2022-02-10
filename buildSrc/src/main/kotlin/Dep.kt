@@ -29,7 +29,7 @@ object Dep {
 
         const val material = "com.google.android.material:material:1.4.0"
 
-        const val lifecycleVersion = "2.4.0"
+        private const val lifecycleVersion = "2.4.0"
         const val lifecycleViewModel =
             "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
         const val lifecycleRuntime = "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
@@ -38,7 +38,7 @@ object Dep {
         const val lifecycleCompose =
             "androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycleVersion"
 
-        const val navigationCompose = "androidx.navigation:navigation-compose:2.4.0"
+        const val navigationCompose = "androidx.navigation:navigation-compose:2.4.1"
         const val hiltNavigationCompose = "androidx.hilt:hilt-navigation-compose:1.0.0"
     }
 

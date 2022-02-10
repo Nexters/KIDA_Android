@@ -125,6 +125,9 @@ private fun NavGraphBuilder.addKeyword(
             onInfoClick = {
                 // TODO 조건 추가
                 navController.navigate(Screen.PopupError.route)
+            },
+            onIconClick = {
+                navController.popBackStack()
             }
         )
     }
@@ -139,9 +142,15 @@ private fun NavGraphBuilder.addList(
         ListScreen(
             onNavigate = {
                 navController.navigate(it.route)
+            },
+            onIconClick = {
+                navController.navigate(Screen.Keyword.route) {
+                    popUpTo(Screen.Keyword.route) {
+                        inclusive = true
+                    }
+                }
             }
         )
-        // TODO clear back stacks
     }
 }
 
@@ -165,6 +174,13 @@ private fun NavGraphBuilder.addWrite(
                 navController.navigate(Screen.List.route) {
                     launchSingleTop = true
                     popUpTo(Screen.Write.route + "?diaryId={diaryId}&keyword={keyword}") {
+                        inclusive = true
+                    }
+                }
+            },
+            onIconClick = {
+                navController.navigate(Screen.Keyword.route) {
+                    popUpTo(Screen.Keyword.route) {
                         inclusive = true
                     }
                 }
