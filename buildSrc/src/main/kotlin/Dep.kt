@@ -9,7 +9,7 @@ object Dep {
 
 
     object Plugins {
-        const val androidGradlePlugin = "com.android.tools.build:gradle:7.1.0"
+        const val androidGradlePlugin = "com.android.tools.build:gradle:7.1.1"
         const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Kotlin.version}"
         const val dagger = "com.google.dagger:hilt-android-gradle-plugin:${Dagger.version}"
         const val spotless = "com.diffplug.spotless:spotless-plugin-gradle:6.2.0"
@@ -61,7 +61,7 @@ object Dep {
     }
 
     object Compose {
-        const val version = "1.1.0-rc03"
+        const val version = "1.1.0"
 
         const val runtime = "androidx.compose.runtime:runtime:$version"
 
