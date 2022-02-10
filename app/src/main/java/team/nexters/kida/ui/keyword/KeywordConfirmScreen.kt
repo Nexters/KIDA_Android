@@ -12,15 +12,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -48,7 +46,8 @@ fun KeywordConfirmScreen(
     card: KeywordCard,
     upPress: () -> Unit,
     onConfirm: (Keyword) -> Unit,
-    onInfoClick: () -> Unit
+    onInfoClick: () -> Unit,
+    onIconClick: () -> Unit
 ) {
     val scaffoldState = rememberScaffoldState()
     Scaffold(
@@ -56,15 +55,28 @@ fun KeywordConfirmScreen(
         backgroundColor = Theme.colors.background,
         topBar = {
             CenterAppBar(
-                title = { Text(text = DateUtils.today()) },
+                title = {
+                    Text(
+                        text = DateUtils.today(),
+                        color = Theme.colors.textDefault,
+                        fontSize = 14.sp
+                    )
+                },
                 backgroundColor = Theme.colors.background,
                 contentPadding = rememberInsetsPaddingValues(
                     insets = LocalWindowInsets.current.statusBars,
                     applyBottom = false,
                 ),
                 navigationIcon = {
-                    IconButton(onClick = { upPress() }) {
-                        Icon(Icons.Default.ArrowBack, null)
+                    IconButton(
+                        modifier = Modifier.wrapContentSize(),
+                        onClick = onIconClick
+                    ) {
+                        Image(
+                            modifier = Modifier.size(width = 30.dp, height = 14.dp),
+                            painter = painterResource(R.drawable.icon),
+                            contentDescription = null,
+                        )
                     }
                 },
                 actions = {

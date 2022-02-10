@@ -1,5 +1,6 @@
 package team.nexters.kida.ui.write
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -9,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
@@ -17,12 +19,9 @@ import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Card
 import androidx.compose.material.Divider
-import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -33,6 +32,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
@@ -40,6 +40,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.insets.LocalWindowInsets
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.rememberInsetsPaddingValues
+import team.nexters.kida.R
 import team.nexters.kida.component.CenterAppBar
 import team.nexters.kida.data.keyword.Keyword
 import team.nexters.kida.ui.Screen
@@ -51,6 +52,7 @@ import team.nexters.kida.util.UiEvent
 fun WriteScreen(
     onPopBackStack: () -> Unit,
     onNavigateToList: () -> Unit,
+    onIconClick: () -> Unit,
     viewModel: WriteViewModel = hiltViewModel(),
     keyword: Keyword
 ) {
@@ -92,13 +94,18 @@ fun WriteScreen(
                     applyBottom = false,
                 ),
                 navigationIcon = {
-                    IconButton(onClick = { onPopBackStack() }) {
-                        Icon(
-                            Icons.Default.ArrowBack,
-                            null
+                    IconButton(
+                        modifier = Modifier.wrapContentSize(),
+                        onClick = onIconClick
+                    ) {
+                        Image(
+                            modifier = Modifier.size(width = 30.dp, height = 14.dp),
+                            painter = painterResource(R.drawable.icon),
+                            contentDescription = null,
                         )
                     }
-                }
+                },
+                actions = {}
             )
         }
     ) {
