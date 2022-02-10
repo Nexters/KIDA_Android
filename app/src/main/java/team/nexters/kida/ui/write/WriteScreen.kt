@@ -1,5 +1,9 @@
 package team.nexters.kida.ui.write
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -9,14 +13,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Card
-import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
@@ -27,19 +30,24 @@ import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.insets.LocalWindowInsets
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.rememberInsetsPaddingValues
+import team.nexters.kida.R
 import team.nexters.kida.component.CenterAppBar
 import team.nexters.kida.data.keyword.Keyword
 import team.nexters.kida.ui.Screen
@@ -83,7 +91,7 @@ fun WriteScreen(
                 title = {
                     Text(
                         text = DateUtils.todayDate(viewModel.date),
-                        style = Theme.typography.h3
+                        style = Theme.typography.header
                     )
                 },
                 backgroundColor = Theme.colors.background,
@@ -102,67 +110,10 @@ fun WriteScreen(
             )
         }
     ) {
-        val focusManager = LocalFocusManager.current
-        val keyboardController = LocalSoftwareKeyboardController.current
-        val focusRequester = remember { FocusRequester() }
-
-        LaunchedEffect(Unit) {
-            focusRequester.requestFocus()
-        }
         Column(Modifier.fillMaxSize()) {
-            Card(
-                modifier = Modifier
-                    .padding(20.dp)
-                    .weight(1f),
-                elevation = 10.dp,
-                shape = RoundedCornerShape(10.dp),
-                backgroundColor = Theme.colors.bgLayered
-            ) {
-                Column(
-                    modifier = Modifier.padding(start = 20.dp, end = 20.dp, top = 30.dp)
-                ) {
-                    TodayKeyword(viewModel)
-                    Spacer(modifier = Modifier.height(34.dp))
-                    NonInnerPaddingTextField(
-                        value = viewModel.title,
-                        style = Theme.typography.h2,
-                        placeholder = "제목",
-                        onValueChange = {
-                            viewModel.onEvent(WriteEvent.OnTitleChange(it))
-                        },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(bottom = 18.dp, start = 2.dp, end = 2.dp)
-                            .focusRequester(focusRequester),
-                        keyboardOptions = KeyboardOptions.Default.copy(
-                            imeAction = ImeAction.Next
-                        ),
-                        keyboardActions = KeyboardActions(onNext = {
-                            focusManager.moveFocus(
-                                FocusDirection.Down
-                            )
-                        })
-                    )
-                    Divider(color = Theme.colors.btnDisabled, thickness = 1.dp)
-                    NonInnerPaddingTextField(
-                        value = viewModel.content,
-                        placeholder = "공백 포함 150자 이내로 써 주세요.",
-                        style = Theme.typography.h4,
-                        onValueChange = {
-                            if (it.length <= 150)
-                                viewModel.onEvent(WriteEvent.OnContentChange(it))
-                        },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .fillMaxHeight()
-                            .padding(top = 20.dp, bottom = 20.dp, start = 2.dp, end = 2.dp),
-                        keyboardOptions = KeyboardOptions.Default.copy(
-                            imeAction = ImeAction.Done
-                        ),
-                        keyboardActions = KeyboardActions(onDone = { keyboardController?.hide() })
-                    )
-                }
-            }
+            writeUI(viewModel)
+
+            Spacer(modifier = Modifier.size(20.dp))
             val btnDisabled =
                 (viewModel.content.isEmpty() || viewModel.title.isEmpty() || viewModel.keyword.isEmpty())
             Button(
@@ -186,11 +137,11 @@ fun WriteScreen(
                 },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 55.dp, end = 55.dp, top = 4.dp)
+                    .padding(horizontal = 55.dp)
             ) {
                 Text(
-                    "작성하기",
-                    modifier = Modifier.padding(12.dp)
+                    "작성 완료",
+                    modifier = Modifier.padding(16.dp)
                 )
             }
             Spacer(modifier = Modifier.size(32.dp))
@@ -200,46 +151,176 @@ fun WriteScreen(
 
 @Composable
 fun TodayKeyword(viewModel: WriteViewModel) {
-    Column {
-        Text(
-            text = "뽑은 키워드",
-            style = Theme.typography.h3
-        )
-        Text(
-            text = viewModel.keyword,
-            style = Theme.typography.h1
-        )
+    Row(
+        horizontalArrangement = Arrangement.SpaceBetween,
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+            Image(
+                modifier = Modifier
+                    .align(Alignment.CenterStart)
+                    .height(34.dp)
+                    .width(32.dp),
+                painter = painterResource(R.drawable.particle2),
+                contentDescription = null
+            )
+            Image(
+                modifier = Modifier
+                    .align(Alignment.CenterStart)
+                    .padding(top = 20.dp, start = 16.dp)
+                    .height(22.dp)
+                    .width(22.dp),
+                painter = painterResource(R.drawable.particle3),
+                contentDescription = null
+            )
+
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Spacer(modifier = Modifier.height(10.dp))
+                Text(
+                    text = "뽑은 키워드",
+                    fontSize = 12.sp,
+                    color = Theme.colors.label2
+//            style = Theme.typography.h3.copy(color = Theme.colors.label2)
+                )
+                Spacer(modifier = Modifier.height(10.dp))
+                Text(
+                    text = viewModel.keyword,
+                    fontWeight = FontWeight.ExtraBold,
+//            style = Theme.typography.h1,
+                    fontSize = 24.sp
+                )
+            }
+            Image(
+                modifier = Modifier
+                    .align(Alignment.CenterEnd)
+                    .height(34.dp)
+                    .width(28.dp),
+                painter = painterResource(R.drawable.particle),
+                contentDescription = null
+            )
+            Image(
+                modifier = Modifier
+                    .align(Alignment.CenterEnd)
+                    .padding(top = 22.dp, end = 12.dp)
+                    .height(24.dp)
+                    .width(22.dp),
+                painter = painterResource(R.drawable.particle1),
+                contentDescription = null
+            )
+        }
+    }
+}
+
+// @Preview
+@Composable
+fun writeUI(viewModel: WriteViewModel) {
+    val focusManager = LocalFocusManager.current
+    val focusRequester = remember { FocusRequester() }
+    val keyboardController = LocalSoftwareKeyboardController.current
+
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 20.dp)
+            .background(color = Theme.colors.bgLayered, shape = RoundedCornerShape(10.dp))
+    ) {
+
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .fillMaxHeight(0.8f)
+                .fillMaxWidth()
+                .padding(14.dp)
+        ) {
+            TodayKeyword(viewModel)
+            Spacer(modifier = Modifier.height(24.dp))
+            InputBox(
+                value = viewModel.title,
+                label = "제목",
+                placeholder = "공백포함 20자",
+                contentSize = 16,
+                onValueChange = {
+                    if (it.length <= 20) viewModel.onEvent(WriteEvent.OnTitleChange(it))
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .focusRequester(focusRequester),
+                keyboardOptions = KeyboardOptions.Default.copy(
+                    imeAction = ImeAction.Next
+                ),
+                keyboardActions = KeyboardActions(onNext = {
+                    focusManager.moveFocus(
+                        FocusDirection.Down
+                    )
+                })
+            )
+            Spacer(modifier = Modifier.height(12.dp))
+            InputBox(
+                value = viewModel.content,
+                label = "내용",
+                placeholder = "공백포함 150자",
+                contentSize = 14,
+                onValueChange = {
+                    if (it.length <= 150) viewModel.onEvent(WriteEvent.OnContentChange(it))
+                },
+                modifier = Modifier
+                    .fillMaxSize()
+                    .focusRequester(focusRequester),
+                keyboardOptions = KeyboardOptions.Default.copy(
+                    imeAction = ImeAction.Done
+                ),
+                keyboardActions = KeyboardActions(onDone = { keyboardController?.hide() })
+            )
+        }
     }
 }
 
 @Composable
-fun NonInnerPaddingTextField(
-    placeholder: String,
+fun InputBox(
     value: String,
-    style: TextStyle,
-    onValueChange: (String) -> Unit,
+    label: String,
+    placeholder: String,
     modifier: Modifier,
+    contentSize: Int,
+    onValueChange: (String) -> Unit,
     keyboardOptions: KeyboardOptions,
     keyboardActions: KeyboardActions
 ) {
-    BasicTextField(
-        modifier = modifier,
-        value = value,
-        onValueChange = onValueChange,
-        textStyle = style.copy(color = Theme.colors.btnDisabled),
-        decorationBox = { innerTextField ->
-            Row(modifier = Modifier.fillMaxWidth()) {
-                if (value.isEmpty()) {
-                    Text(
-                        text = placeholder,
-                        color = Theme.colors.btnDisabled,
-                        style = style
-                    )
-                }
-            }
-            innerTextField()
-        },
-        keyboardOptions = keyboardOptions,
-        keyboardActions = keyboardActions
-    )
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(color = Theme.colors.bgLayered2, shape = RoundedCornerShape(10.dp))
+    ) {
+        Column(
+            Modifier.padding(20.dp)
+        ) {
+            Text(text = label, fontSize = 12.sp)
+            Spacer(Modifier.height(8.dp))
+            BasicTextField(
+                modifier = modifier,
+                value = value,
+                textStyle = TextStyle(
+                    fontSize = contentSize.sp,
+                    lineHeight = 24.sp,
+                    color = Theme.colors.textDefault,
+                ),
+                onValueChange = onValueChange,
+                decorationBox = { innerTextField ->
+                    Row(modifier = Modifier.fillMaxWidth()) {
+                        if (value.isEmpty()) {
+                            Text(
+                                text = placeholder,
+                                fontSize = contentSize.sp,
+                                color = Theme.colors.label
+                            )
+                        }
+                    }
+                    innerTextField()
+                },
+                keyboardOptions = keyboardOptions,
+                keyboardActions = keyboardActions
+            )
+        }
+    }
 }

@@ -22,7 +22,7 @@ val notoSansFamily = FontFamily(
 @Immutable
 data class KidaTypography constructor(
     val header: TextStyle = TextStyle(
-        fontFamily = notoSansFamily,
+//        fontFamily = notoSansFamily,
         fontWeight = FontWeight.SemiBold,
         fontSize = 14.sp,
     ),
@@ -76,7 +76,7 @@ val LocalKidaTypography = staticCompositionLocalOf {
 // Set of Material typography styles to start with
 val Typography = Typography(
     body1 = TextStyle(
-        fontFamily = notoSansFamily,
+//        fontFamily = notoSansFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp
     )
