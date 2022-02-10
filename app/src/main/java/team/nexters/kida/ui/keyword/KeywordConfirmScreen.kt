@@ -24,6 +24,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -99,7 +100,9 @@ fun KeywordConfirmScreen(
 
             // bottom content
             KeywordConfirmBottomContent(
-                modifier = Modifier.align(Alignment.BottomCenter),
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .fillMaxHeight(0.5f),
                 keyword = keyword,
                 onRetryClick = upPress,
                 onConfirmClick = onConfirm
@@ -134,13 +137,22 @@ fun KeywordConfirmBottomContent(
                 shape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp)
             )
     ) {
-        // TODO particle
+        Image(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 34.dp, end = 34.dp, top = 23.dp)
+                .align(Alignment.TopCenter),
+            painter = painterResource(id = R.drawable.particle),
+            contentScale = ContentScale.FillWidth,
+            contentDescription = null
+        )
 
         Column(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .align(Alignment.BottomCenter),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Spacer(modifier = Modifier.size(106.dp))
 
             Text(
                 text = context.getString(R.string.keyword_confirm_title),
@@ -150,16 +162,15 @@ fun KeywordConfirmBottomContent(
 
             Spacer(modifier = Modifier.size(8.dp))
 
-            // TODO font padding
             Text(
                 modifier = Modifier
                     .background(
                         color = Theme.colors.bgLayered2,
                         shape = RoundedCornerShape(20.dp)
                     )
-                    .padding(horizontal = 20.dp),
+                    .padding(horizontal = 20.dp, vertical = 14.dp),
                 text = keyword.name,
-                fontSize = 24.sp,
+                style = Theme.typography.h1,
                 color = Color.White
             )
 

@@ -1,6 +1,7 @@
 package team.nexters.kida.data.diary
 
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.mapLatest
 import javax.inject.Inject
 
 class DiaryRepositoryImpl @Inject constructor(
@@ -25,5 +26,10 @@ class DiaryRepositoryImpl @Inject constructor(
 
     override fun getDiaries(): Flow<List<Diary>> {
         return dao.getDiaries()
+    }
+
+    override fun canWriteDiary(): Flow<Boolean> {
+        return dao.getDiaryByOverToday()
+            .mapLatest { it.isEmpty() }
     }
 }

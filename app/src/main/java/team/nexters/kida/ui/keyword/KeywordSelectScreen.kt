@@ -66,7 +66,6 @@ import team.nexters.kida.component.CenterAppBar
 import team.nexters.kida.component.HorizontalPagerIndicator
 import team.nexters.kida.data.keyword.Keyword
 import team.nexters.kida.ui.theme.Theme
-import team.nexters.kida.ui.theme.notoSansFamily
 import team.nexters.kida.util.DateUtils
 import kotlin.math.absoluteValue
 
@@ -74,10 +73,13 @@ import kotlin.math.absoluteValue
 fun KeywordSelectScreen(
     onNavigate: (Keyword, KeywordCard) -> Unit,
     viewModel: KeywordViewModel = hiltViewModel(),
-    onInfoClick: () -> Unit
+    onInfoClick: () -> Unit,
+    onNavigatePopupError: () -> Unit
 ) {
     val scaffoldState = rememberScaffoldState()
     val keywords by viewModel.keywords.collectAsState()
+
+    val canWriteDiary by viewModel.canWriteDiary.collectAsState()
 
     Scaffold(
         scaffoldState = scaffoldState,
@@ -98,7 +100,7 @@ fun KeywordSelectScreen(
                 actions = {
                     IconButton(
                         modifier = Modifier.wrapContentSize(),
-                        onClick = onInfoClick
+                        onClick = { if (canWriteDiary) onInfoClick() else onNavigatePopupError() }
                     ) {
                         Image(
                             painter = painterResource(R.drawable.ic_info),
@@ -125,7 +127,7 @@ fun KeywordSelectScreen(
         KeywordSelectContent(
             onClickButton = {
                 // TODO filtering
-                onNavigate(keywords.random(), it)
+                if (canWriteDiary) onNavigate(keywords.random(), it) else onNavigatePopupError()
             },
             keywords
         )
@@ -352,7 +354,7 @@ fun KeywordSelectSnackbar(modifier: Modifier = Modifier) {
             modifier = Modifier
                 .align(Alignment.Center),
             style = TextStyle(
-                fontFamily = notoSansFamily,
+                // fontFamily = notoSansFamily,
                 fontWeight = FontWeight.SemiBold,
                 fontSize = with(LocalDensity.current) {
                     12.dp.toSp()
