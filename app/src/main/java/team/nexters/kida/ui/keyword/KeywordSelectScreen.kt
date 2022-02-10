@@ -74,10 +74,13 @@ import kotlin.math.absoluteValue
 fun KeywordSelectScreen(
     onNavigate: (Keyword, KeywordCard) -> Unit,
     viewModel: KeywordViewModel = hiltViewModel(),
-    onInfoClick: () -> Unit
+    onInfoClick: () -> Unit,
+    onNavigatePopupError: () -> Unit
 ) {
     val scaffoldState = rememberScaffoldState()
     val keywords by viewModel.keywords.collectAsState()
+
+    val canWriteDiary by viewModel.canWriteDiary.collectAsState()
 
     Scaffold(
         scaffoldState = scaffoldState,
@@ -98,7 +101,7 @@ fun KeywordSelectScreen(
                 actions = {
                     IconButton(
                         modifier = Modifier.wrapContentSize(),
-                        onClick = onInfoClick
+                        onClick = { if (canWriteDiary) onInfoClick() else onNavigatePopupError() }
                     ) {
                         Image(
                             painter = painterResource(R.drawable.ic_info),
@@ -125,7 +128,7 @@ fun KeywordSelectScreen(
         KeywordSelectContent(
             onClickButton = {
                 // TODO filtering
-                onNavigate(keywords.random(), it)
+                if (canWriteDiary) onNavigate(keywords.random(), it) else onNavigatePopupError()
             },
             keywords
         )

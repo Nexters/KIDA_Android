@@ -89,7 +89,8 @@ private fun NavGraphBuilder.addKeyword(
                     }
                 )
             },
-            onInfoClick = { navController.navigate(Screen.PopupInfo.route) }
+            onInfoClick = { navController.navigate(Screen.PopupInfo.route) },
+            onNavigatePopupError = { navController.navigate(Screen.PopupError.route) }
         )
     }
 
@@ -123,8 +124,7 @@ private fun NavGraphBuilder.addKeyword(
                 )
             },
             onInfoClick = {
-                // TODO 조건 추가
-                navController.navigate(Screen.PopupError.route)
+                navController.navigate(Screen.PopupInfo.route)
             },
             onIconClick = {
                 navController.popBackStack()
