@@ -37,7 +37,6 @@ fun SplashScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(modifier = Modifier.size(164.dp))
-        // TODO logo 교체 필요
         Image(
             modifier = Modifier.size(width = 132.dp, height = 136.dp),
             painter = painterResource(id = R.drawable.logo),

@@ -8,7 +8,7 @@
     
     <string name="keyword_confirm_title">뽑은 키워드</string>
     <string name="keyword_confirm_submit">일기 쓰러가기</string>
-    <string name="keyword_confirm_retry">다시 뽑을래</string>
+    <string name="keyword_confirm_retry">다시 뽑기</string>
 
     <!-- pop up -->
     <string name="popup_info_title">우리는\n키워드 다이어리</string>

@@ -30,9 +30,6 @@ class DiaryRepositoryImpl @Inject constructor(
 
     override fun canWriteDiary(): Flow<Boolean> {
         return dao.getDiaryByOverToday()
-            .mapLatest {
-                println(it)
-                it.isEmpty()
-            }
+            .mapLatest { it.isEmpty() }
     }
 }

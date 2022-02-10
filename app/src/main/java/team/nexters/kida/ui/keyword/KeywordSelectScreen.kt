@@ -66,7 +66,6 @@ import team.nexters.kida.component.CenterAppBar
 import team.nexters.kida.component.HorizontalPagerIndicator
 import team.nexters.kida.data.keyword.Keyword
 import team.nexters.kida.ui.theme.Theme
-import team.nexters.kida.ui.theme.notoSansFamily
 import team.nexters.kida.util.DateUtils
 import kotlin.math.absoluteValue
 
@@ -355,7 +354,7 @@ fun KeywordSelectSnackbar(modifier: Modifier = Modifier) {
             modifier = Modifier
                 .align(Alignment.Center),
             style = TextStyle(
-                fontFamily = notoSansFamily,
+                // fontFamily = notoSansFamily,
                 fontWeight = FontWeight.SemiBold,
                 fontSize = with(LocalDensity.current) {
                     12.dp.toSp()

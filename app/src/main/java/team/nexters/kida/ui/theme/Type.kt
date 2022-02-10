@@ -26,48 +26,48 @@ val notoSansFamily = FontFamily(
 @Immutable
 data class KidaTypography constructor(
     val header: TextStyle = TextStyle(
-        //fontFamily = notoSansFamily,
+        // fontFamily = notoSansFamily,
         fontWeight = FontWeight.SemiBold,
         fontSize = 14.sp,
     ),
     val display: TextStyle = TextStyle(
-        //fontFamily = notoSansFamily,
+        // fontFamily = notoSansFamily,
         fontWeight = FontWeight.SemiBold,
         fontSize = 28.sp,
     ),
     val h1: TextStyle = TextStyle(
-       // fontFamily = notoSansFamily,
+        // fontFamily = notoSansFamily,
         fontWeight = FontWeight.Bold,
         fontSize = 24.sp
     ),
     val h2: TextStyle = TextStyle(
-       // fontFamily = notoSansFamily,
+        // fontFamily = notoSansFamily,
         fontWeight = FontWeight.Medium,
         fontSize = 16.sp
     ),
     val h3: TextStyle = TextStyle(
-       // fontFamily = notoSansFamily,
+        // fontFamily = notoSansFamily,
         fontWeight = FontWeight.Medium,
         fontSize = 12.sp
     ),
     val h4: TextStyle = TextStyle(
-       // fontFamily = notoSansFamily,
+        // fontFamily = notoSansFamily,
         fontWeight = FontWeight.Medium,
         fontSize = 14.sp,
         lineHeight = 24.sp
     ),
     val body1: TextStyle = TextStyle(
-       // fontFamily = notoSansFamily,
+        // fontFamily = notoSansFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp
     ),
     val btn: TextStyle = TextStyle(
-      //  fontFamily = notoSansFamily,
+        //  fontFamily = notoSansFamily,
         fontWeight = FontWeight.Medium,
         fontSize = 16.sp
     ),
     val btn_re: TextStyle = TextStyle(
-       // fontFamily = notoSansFamily,
+        // fontFamily = notoSansFamily,
         fontWeight = FontWeight.Medium,
         fontSize = 14.sp
     )
@@ -80,7 +80,7 @@ val LocalKidaTypography = staticCompositionLocalOf {
 // Set of Material typography styles to start with
 val Typography = Typography(
     body1 = TextStyle(
-      //  fontFamily = notoSansFamily,
+        //  fontFamily = notoSansFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp
     )
