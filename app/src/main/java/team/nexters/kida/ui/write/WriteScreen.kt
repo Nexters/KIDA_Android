@@ -13,19 +13,16 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -59,6 +56,7 @@ import team.nexters.kida.util.UiEvent
 fun WriteScreen(
     onPopBackStack: () -> Unit,
     onNavigateToList: () -> Unit,
+    onIconClick: () -> Unit,
     viewModel: WriteViewModel = hiltViewModel(),
     keyword: Keyword
 ) {
@@ -100,13 +98,18 @@ fun WriteScreen(
                     applyBottom = false,
                 ),
                 navigationIcon = {
-                    IconButton(onClick = { onPopBackStack() }) {
-                        Icon(
-                            Icons.Default.ArrowBack,
-                            null
+                    IconButton(
+                        modifier = Modifier.wrapContentSize(),
+                        onClick = onIconClick
+                    ) {
+                        Image(
+                            modifier = Modifier.size(width = 30.dp, height = 14.dp),
+                            painter = painterResource(R.drawable.icon),
+                            contentDescription = null,
                         )
                     }
-                }
+                },
+                actions = {}
             )
         }
     ) {
@@ -153,28 +156,17 @@ fun WriteScreen(
 fun TodayKeyword(viewModel: WriteViewModel) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight(0.15f),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
             Image(
-                modifier = Modifier
-                    .align(Alignment.CenterStart)
-                    .height(34.dp)
-                    .width(32.dp),
-                painter = painterResource(R.drawable.particle2),
+                modifier = Modifier.fillMaxSize(),
+                painter = painterResource(R.drawable.particle),
                 contentDescription = null
             )
-            Image(
-                modifier = Modifier
-                    .align(Alignment.CenterStart)
-                    .padding(top = 20.dp, start = 16.dp)
-                    .height(22.dp)
-                    .width(22.dp),
-                painter = painterResource(R.drawable.particle3),
-                contentDescription = null
-            )
-
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Spacer(modifier = Modifier.height(10.dp))
                 Text(
@@ -191,23 +183,6 @@ fun TodayKeyword(viewModel: WriteViewModel) {
                     fontSize = 24.sp
                 )
             }
-            Image(
-                modifier = Modifier
-                    .align(Alignment.CenterEnd)
-                    .height(34.dp)
-                    .width(28.dp),
-                painter = painterResource(R.drawable.particle),
-                contentDescription = null
-            )
-            Image(
-                modifier = Modifier
-                    .align(Alignment.CenterEnd)
-                    .padding(top = 22.dp, end = 12.dp)
-                    .height(24.dp)
-                    .width(22.dp),
-                painter = painterResource(R.drawable.particle1),
-                contentDescription = null
-            )
         }
     }
 }

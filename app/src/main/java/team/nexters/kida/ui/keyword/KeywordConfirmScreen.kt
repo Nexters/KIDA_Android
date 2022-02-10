@@ -12,20 +12,19 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -48,7 +47,8 @@ fun KeywordConfirmScreen(
     card: KeywordCard,
     upPress: () -> Unit,
     onConfirm: (Keyword) -> Unit,
-    onInfoClick: () -> Unit
+    onInfoClick: () -> Unit,
+    onIconClick: () -> Unit
 ) {
     val scaffoldState = rememberScaffoldState()
     Scaffold(
@@ -56,15 +56,28 @@ fun KeywordConfirmScreen(
         backgroundColor = Theme.colors.background,
         topBar = {
             CenterAppBar(
-                title = { Text(text = DateUtils.today()) },
+                title = {
+                    Text(
+                        text = DateUtils.today(),
+                        color = Theme.colors.textDefault,
+                        fontSize = 14.sp
+                    )
+                },
                 backgroundColor = Theme.colors.background,
                 contentPadding = rememberInsetsPaddingValues(
                     insets = LocalWindowInsets.current.statusBars,
                     applyBottom = false,
                 ),
                 navigationIcon = {
-                    IconButton(onClick = { upPress() }) {
-                        Icon(Icons.Default.ArrowBack, null)
+                    IconButton(
+                        modifier = Modifier.wrapContentSize(),
+                        onClick = onIconClick
+                    ) {
+                        Image(
+                            modifier = Modifier.size(width = 30.dp, height = 14.dp),
+                            painter = painterResource(R.drawable.icon),
+                            contentDescription = null,
+                        )
                     }
                 },
                 actions = {
@@ -87,7 +100,9 @@ fun KeywordConfirmScreen(
 
             // bottom content
             KeywordConfirmBottomContent(
-                modifier = Modifier.align(Alignment.BottomCenter),
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .fillMaxHeight(0.5f),
                 keyword = keyword,
                 onRetryClick = upPress,
                 onConfirmClick = onConfirm
@@ -122,13 +137,22 @@ fun KeywordConfirmBottomContent(
                 shape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp)
             )
     ) {
-        // TODO particle
+        Image(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 34.dp, end = 34.dp, top = 23.dp)
+                .align(Alignment.TopCenter),
+            painter = painterResource(id = R.drawable.particle),
+            contentScale = ContentScale.FillWidth,
+            contentDescription = null
+        )
 
         Column(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .align(Alignment.BottomCenter),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Spacer(modifier = Modifier.size(106.dp))
 
             Text(
                 text = context.getString(R.string.keyword_confirm_title),
@@ -138,16 +162,15 @@ fun KeywordConfirmBottomContent(
 
             Spacer(modifier = Modifier.size(8.dp))
 
-            // TODO font padding
             Text(
                 modifier = Modifier
                     .background(
                         color = Theme.colors.bgLayered2,
                         shape = RoundedCornerShape(20.dp)
                     )
-                    .padding(horizontal = 20.dp),
+                    .padding(horizontal = 20.dp, vertical = 14.dp),
                 text = keyword.name,
-                fontSize = 24.sp,
+                style = Theme.typography.h1,
                 color = Color.White
             )
 

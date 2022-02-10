@@ -72,7 +72,7 @@ class WriteViewModel @Inject constructor(
                             title = title,
                             content = content,
                             keyword = keyword,
-                            id = diary?.id
+                            id = diary?.id ?: 0L
                         )
                     )
                     sendUiEvent(UiEvent.Navigate(Screen.List.route))

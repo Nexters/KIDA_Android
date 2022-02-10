@@ -23,4 +23,7 @@ interface DiaryDao {
 
     @Query("SELECT * FROM diary")
     fun getDiaries(): Flow<List<Diary>>
+
+    @Query("SELECT * FROM diary WHERE strftime('%Y-%m-%d', datetime(latestDate/1000, 'unixepoch')) >= DATE('now')")
+    fun getDiaryByOverToday(): Flow<List<Diary>>
 }

@@ -9,7 +9,7 @@ object Dep {
 
 
     object Plugins {
-        const val androidGradlePlugin = "com.android.tools.build:gradle:7.1.0"
+        const val androidGradlePlugin = "com.android.tools.build:gradle:7.1.1"
         const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Kotlin.version}"
         const val dagger = "com.google.dagger:hilt-android-gradle-plugin:${Dagger.version}"
         const val spotless = "com.diffplug.spotless:spotless-plugin-gradle:6.2.0"
@@ -29,7 +29,7 @@ object Dep {
 
         const val material = "com.google.android.material:material:1.4.0"
 
-        const val lifecycleVersion = "2.4.0"
+        private const val lifecycleVersion = "2.4.0"
         const val lifecycleViewModel =
             "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
         const val lifecycleRuntime = "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
@@ -38,7 +38,7 @@ object Dep {
         const val lifecycleCompose =
             "androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycleVersion"
 
-        const val navigationCompose = "androidx.navigation:navigation-compose:2.4.0"
+        const val navigationCompose = "androidx.navigation:navigation-compose:2.4.1"
         const val hiltNavigationCompose = "androidx.hilt:hilt-navigation-compose:1.0.0"
     }
 
@@ -61,7 +61,7 @@ object Dep {
     }
 
     object Compose {
-        const val version = "1.1.0-rc03"
+        const val version = "1.1.0"
 
         const val runtime = "androidx.compose.runtime:runtime:$version"
 

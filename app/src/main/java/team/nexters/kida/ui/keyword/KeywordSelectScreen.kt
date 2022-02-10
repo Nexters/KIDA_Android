@@ -11,11 +11,13 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -64,7 +66,6 @@ import team.nexters.kida.component.CenterAppBar
 import team.nexters.kida.component.HorizontalPagerIndicator
 import team.nexters.kida.data.keyword.Keyword
 import team.nexters.kida.ui.theme.Theme
-import team.nexters.kida.ui.theme.notoSansFamily
 import team.nexters.kida.util.DateUtils
 import kotlin.math.absoluteValue
 
@@ -72,26 +73,49 @@ import kotlin.math.absoluteValue
 fun KeywordSelectScreen(
     onNavigate: (Keyword, KeywordCard) -> Unit,
     viewModel: KeywordViewModel = hiltViewModel(),
-    onInfoClick: () -> Unit
+    onInfoClick: () -> Unit,
+    onNavigatePopupError: () -> Unit
 ) {
     val scaffoldState = rememberScaffoldState()
     val keywords by viewModel.keywords.collectAsState()
+
+    val canWriteDiary by viewModel.canWriteDiary.collectAsState()
 
     Scaffold(
         scaffoldState = scaffoldState,
         backgroundColor = Theme.colors.background,
         topBar = {
             CenterAppBar(
-                title = { Text(text = DateUtils.today(), color = Theme.colors.textDefault) },
+                title = {
+                    Text(
+                        text = DateUtils.today(),
+                        color = Theme.colors.textDefault, fontSize = 14.sp
+                    )
+                },
                 backgroundColor = Theme.colors.background,
                 contentPadding = rememberInsetsPaddingValues(
                     insets = LocalWindowInsets.current.statusBars,
                     applyBottom = false,
                 ),
                 actions = {
-                    IconButton(onClick = onInfoClick) {
+                    IconButton(
+                        modifier = Modifier.wrapContentSize(),
+                        onClick = { if (canWriteDiary) onInfoClick() else onNavigatePopupError() }
+                    ) {
                         Image(
                             painter = painterResource(R.drawable.ic_info),
+                            contentDescription = null,
+                        )
+                    }
+                },
+                navigationIcon = {
+                    IconButton(
+                        modifier = Modifier.wrapContentSize(),
+                        onClick = {}
+                    ) {
+                        Image(
+                            modifier = Modifier.size(width = 30.dp, height = 14.dp),
+                            painter = painterResource(R.drawable.icon),
                             contentDescription = null,
                         )
                     }
@@ -103,7 +127,7 @@ fun KeywordSelectScreen(
         KeywordSelectContent(
             onClickButton = {
                 // TODO filtering
-                onNavigate(keywords.random(), it)
+                if (canWriteDiary) onNavigate(keywords.random(), it) else onNavigatePopupError()
             },
             keywords
         )
@@ -180,6 +204,7 @@ fun KeywordSelectHeader(
     Box(
         modifier = Modifier
             .fillMaxWidth()
+            .height(IntrinsicSize.Min)
             .padding(horizontal = 40.dp)
     ) {
         Column(modifier = Modifier.fillMaxWidth()) {
@@ -191,7 +216,7 @@ fun KeywordSelectHeader(
             )
 
             HorizontalPagerIndicator(
-                modifier = Modifier.padding(top = 24.dp),
+                modifier = Modifier.padding(top = 20.dp),
                 pagerState = pagerState,
                 spacing = 6.dp,
                 activeColor = Theme.colors.btnActive,
@@ -285,7 +310,7 @@ fun KeywordSelectConfirmButton(
             enter = fadeIn(),
             exit = fadeOut()
         ) {
-            KeywordSelectSnackbar()
+            KeywordSelectSnackbar(modifier = Modifier.padding(bottom = 10.dp))
         }
 
         Box(
@@ -311,12 +336,11 @@ fun KeywordSelectConfirmButton(
     }
 }
 
-// TODO size detail
 @Composable
-fun KeywordSelectSnackbar() {
+fun KeywordSelectSnackbar(modifier: Modifier = Modifier) {
     val context = LocalContext.current
     Box(
-        modifier = Modifier
+        modifier = modifier
             .wrapContentSize(),
         contentAlignment = Alignment.Center
     ) {
@@ -330,10 +354,10 @@ fun KeywordSelectSnackbar() {
             modifier = Modifier
                 .align(Alignment.Center),
             style = TextStyle(
-                fontFamily = notoSansFamily,
+                // fontFamily = notoSansFamily,
                 fontWeight = FontWeight.SemiBold,
                 fontSize = with(LocalDensity.current) {
-                    16.dp.toSp()
+                    12.dp.toSp()
                 }
             ),
             textAlign = TextAlign.Center,
