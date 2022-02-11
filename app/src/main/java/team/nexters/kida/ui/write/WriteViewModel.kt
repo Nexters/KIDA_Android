@@ -25,7 +25,7 @@ class WriteViewModel @Inject constructor(
     var diary by mutableStateOf<Diary?>(null)
         private set
 
-    val date by mutableStateOf(Date())
+    var date by mutableStateOf(Date())
 
     var title by mutableStateOf("")
         private set
@@ -50,6 +50,7 @@ class WriteViewModel @Inject constructor(
         if (diaryId != -1) {
             viewModelScope.launch {
                 repository.getDiaryById(diaryId)?.let { diary ->
+                    date = diary.date
                     title = diary.title
                     preTitle = diary.title
                     content = diary.content
