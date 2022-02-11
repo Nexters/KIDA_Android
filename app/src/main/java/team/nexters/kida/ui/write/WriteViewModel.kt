@@ -36,16 +36,17 @@ class WriteViewModel @Inject constructor(
     var keyword by mutableStateOf("")
         private set
 
-    var preTitle = ""
-    var preContent = ""
-
     var isWriteMode by mutableStateOf(false)
 
     private val _uiEvent = Channel<UiEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
 
+    var preTitle = ""
+    var preContent = ""
+
+    private val diaryId = savedStateHandle.get<Int>("diaryId")!!
+
     init {
-        val diaryId = savedStateHandle.get<Int>("diaryId")!!
         if (diaryId != -1) {
             viewModelScope.launch {
                 repository.getDiaryById(diaryId)?.let { diary ->
@@ -72,18 +73,18 @@ class WriteViewModel @Inject constructor(
                 isWriteMode = true
             }
             is WriteEvent.OnSaveDiary -> {
-                viewModelScope.launch {
-                    repository.insertDiary(
-                        Diary(
-                            date = date,
-                            title = title,
-                            content = content,
-                            keyword = keyword,
-                            id = diary?.id ?: 0L
-                        )
-                    )
-                    sendUiEvent(UiEvent.Navigate(Screen.List.route))
+                Diary(
+                    date = date,
+                    title = title,
+                    content = content,
+                    keyword = keyword,
+                    id = if (diaryId != -1) diaryId.toLong() else 0L
+                ).let {
+                    viewModelScope.launch {
+                        repository.insertDiary(it)
+                    }
                 }
+                sendUiEvent(UiEvent.Navigate(Screen.List.route))
             }
         }
     }
