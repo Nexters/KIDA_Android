@@ -61,7 +61,8 @@ fun WriteScreen(
     keyword: Keyword
 ) {
     val scaffoldState = rememberScaffoldState()
-    viewModel.onEvent(WriteEvent.OnKeywordChange(keyword.name))
+    if(keyword.name.isNotBlank())
+        viewModel.onEvent(WriteEvent.OnKeywordChange(keyword.name))
     LaunchedEffect(key1 = true) {
         viewModel.uiEvent.collect { event ->
             when (event) {

@@ -22,7 +22,6 @@ class WriteViewModel @Inject constructor(
     private val repository: DiaryRepository,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
-
     var diary by mutableStateOf<Diary?>(null)
         private set
 
@@ -36,6 +35,10 @@ class WriteViewModel @Inject constructor(
 
     var keyword by mutableStateOf("")
         private set
+
+    // TODO 조건 달기
+    var isWriteMode = true
+    var btnScript = if (isWriteMode) "작성 완료" else "수정 완료"
 
     private val _uiEvent = Channel<UiEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()

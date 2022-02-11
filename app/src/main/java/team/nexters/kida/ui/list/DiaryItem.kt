@@ -1,6 +1,7 @@
 package team.nexters.kida.ui.list
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,26 +19,27 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import team.nexters.kida.component.BalloonTailShape
 import team.nexters.kida.data.diary.Diary
+import team.nexters.kida.ui.list.ListEvent.OnModifyClick
 import team.nexters.kida.ui.theme.Theme
 import team.nexters.kida.util.DateUtils
-import java.util.Date
 
 @Composable
 fun DiaryItem(
     diary: Diary,
-    onEvent: (ListEvent) -> Unit,
+    onEvent: (ListEvent, Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
-        modifier = modifier.padding(top = 6.dp, bottom = 6.dp),
+        modifier = modifier
+            .clickable(onClick = { onEvent(OnModifyClick, diary.id) })
+            .padding(top = 6.dp, bottom = 6.dp),
         verticalArrangement = Arrangement.Center
-    ) {
-        Box {
+        ) {
+        Box() {
             Column(
                 modifier = modifier
                     .fillMaxWidth()
@@ -113,13 +115,4 @@ fun DiaryItem(
             )
         )
     }
-}
-
-@Preview
-@Composable
-fun DiaryItemPreview() {
-    DiaryItem(
-        diary = Diary(title = "hihi", content = "asdf", keyword = "zzzz", date = Date()),
-        onEvent = {}
-    )
 }
