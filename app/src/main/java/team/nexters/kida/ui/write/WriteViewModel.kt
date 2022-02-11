@@ -36,9 +36,10 @@ class WriteViewModel @Inject constructor(
     var keyword by mutableStateOf("")
         private set
 
-    // TODO 조건 달기
-    var isWriteMode = true
-    var btnScript = if (isWriteMode) "작성 완료" else "수정 완료"
+    var preTitle = ""
+    var preContent = ""
+
+    var isWriteMode by mutableStateOf(false)
 
     private val _uiEvent = Channel<UiEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
@@ -49,7 +50,9 @@ class WriteViewModel @Inject constructor(
             viewModelScope.launch {
                 repository.getDiaryById(diaryId)?.let { diary ->
                     title = diary.title
+                    preTitle = diary.title
                     content = diary.content
+                    preContent = diary.content
                     keyword = diary.keyword
                 }
             }
@@ -66,6 +69,7 @@ class WriteViewModel @Inject constructor(
             }
             is WriteEvent.OnKeywordChange -> {
                 keyword = event.keyword
+                isWriteMode = true
             }
             is WriteEvent.OnSaveDiary -> {
                 viewModelScope.launch {

@@ -61,7 +61,7 @@ fun WriteScreen(
     keyword: Keyword
 ) {
     val scaffoldState = rememberScaffoldState()
-    if(keyword.name.isNotBlank())
+    if (keyword.name.isNotBlank())
         viewModel.onEvent(WriteEvent.OnKeywordChange(keyword.name))
     LaunchedEffect(key1 = true) {
         viewModel.uiEvent.collect { event ->
@@ -118,8 +118,12 @@ fun WriteScreen(
             writeUI(viewModel)
 
             Spacer(modifier = Modifier.size(20.dp))
-            val btnDisabled =
+            val btnDisabled = if (viewModel.isWriteMode) {
                 (viewModel.content.isEmpty() || viewModel.title.isEmpty() || viewModel.keyword.isEmpty())
+            } else {
+                viewModel.title == viewModel.preTitle && viewModel.content == viewModel.preContent
+            }
+
             Button(
                 enabled = !btnDisabled,
                 onClick = {
@@ -144,7 +148,7 @@ fun WriteScreen(
                     .padding(horizontal = 55.dp)
             ) {
                 Text(
-                    "작성 완료",
+                    if (viewModel.isWriteMode) "작성 완료" else "수정완료",
                     modifier = Modifier.padding(16.dp)
                 )
             }
