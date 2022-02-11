@@ -22,11 +22,10 @@ class WriteViewModel @Inject constructor(
     private val repository: DiaryRepository,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
-
     var diary by mutableStateOf<Diary?>(null)
         private set
 
-    val date by mutableStateOf(Date())
+    var date by mutableStateOf(Date())
 
     var title by mutableStateOf("")
         private set
@@ -37,16 +36,25 @@ class WriteViewModel @Inject constructor(
     var keyword by mutableStateOf("")
         private set
 
+    var isWriteMode by mutableStateOf(false)
+
     private val _uiEvent = Channel<UiEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
 
+    var preTitle = ""
+    var preContent = ""
+
+    private val diaryId = savedStateHandle.get<Int>("diaryId")!!
+
     init {
-        val diaryId = savedStateHandle.get<Int>("diaryId")!!
         if (diaryId != -1) {
             viewModelScope.launch {
                 repository.getDiaryById(diaryId)?.let { diary ->
+                    date = diary.date
                     title = diary.title
+                    preTitle = diary.title
                     content = diary.content
+                    preContent = diary.content
                     keyword = diary.keyword
                 }
             }
@@ -63,20 +71,21 @@ class WriteViewModel @Inject constructor(
             }
             is WriteEvent.OnKeywordChange -> {
                 keyword = event.keyword
+                isWriteMode = true
             }
             is WriteEvent.OnSaveDiary -> {
-                viewModelScope.launch {
-                    repository.insertDiary(
-                        Diary(
-                            date = date,
-                            title = title,
-                            content = content,
-                            keyword = keyword,
-                            id = diary?.id ?: 0L
-                        )
-                    )
-                    sendUiEvent(UiEvent.Navigate(Screen.List.route))
+                Diary(
+                    date = date,
+                    title = title,
+                    content = content,
+                    keyword = keyword,
+                    id = if (diaryId != -1) diaryId.toLong() else 0L
+                ).let {
+                    viewModelScope.launch {
+                        repository.insertDiary(it)
+                    }
                 }
+                sendUiEvent(UiEvent.Navigate(Screen.List.route))
             }
         }
     }

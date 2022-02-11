@@ -140,8 +140,8 @@ private fun NavGraphBuilder.addList(
     composable(Screen.List.route) {
         BackHandler(onBack = onBack)
         ListScreen(
-            onNavigate = {
-                navController.navigate(it.route)
+            onNavigate = { destination ->
+                navController.navigate(destination.route)
             },
             onIconClick = {
                 navController.navigate(Screen.Keyword.route) {
@@ -161,7 +161,7 @@ private fun NavGraphBuilder.addWrite(
         route = Screen.Write.route + "?diaryId={diaryId}&keyword={keyword}",
         arguments = listOf(
             diaryIdArgument(),
-            navArgument("keyword") { type = createParcelableNavType<Keyword>() }
+            keywordArgument()
         )
     ) {
         val keyword = requireNotNull(it.arguments?.getParcelable<Keyword>("keyword"))
@@ -209,6 +209,11 @@ private fun NavGraphBuilder.addPopup(
 private fun diaryIdArgument() = navArgument(name = "diaryId") {
     type = NavType.IntType
     defaultValue = -1
+}
+
+private fun keywordArgument() = navArgument(name = "keyword") {
+    type = createParcelableNavType<Keyword>()
+    defaultValue = Keyword("")
 }
 
 // nav graph 에서 data 변환용
