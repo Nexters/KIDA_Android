@@ -38,7 +38,7 @@ fun DiaryItem(
             .clickable(onClick = { onEvent(OnModifyClick, diary.id) })
             .padding(top = 6.dp, bottom = 6.dp),
         verticalArrangement = Arrangement.Center
-        ) {
+    ) {
         Box() {
             Column(
                 modifier = modifier

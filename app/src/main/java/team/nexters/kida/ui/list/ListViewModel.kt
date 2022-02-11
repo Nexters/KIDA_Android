@@ -21,11 +21,11 @@ class ListViewModel @Inject constructor(
     private val _uiEvent = Channel<UiEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
 
-    fun onEvent(event: ListEvent, diaryId : Long = -1) {
+    fun onEvent(event: ListEvent, diaryId: Long = -1) {
         when (event) {
             is ListEvent.OnModifyClick -> {
                 // TODO 다이어로그 띄우는 방식으로 수정
-                sendUiEvent(UiEvent.Navigate(Screen.Write.route + "?diaryId=${diaryId}&keyword={keyword}"))
+                sendUiEvent(UiEvent.Navigate(Screen.Write.route + "?diaryId=$diaryId&keyword={keyword}"))
             }
         }
     }
