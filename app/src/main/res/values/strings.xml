@@ -17,4 +17,13 @@
     <string name="popup_error_info">삐빅 에러</string>
     <string name="popup_error_title">하루에 한번만!</string>
     <string name="popup_error_content">igo.. 아쉽지만,\n키다는 하루에 한번만 쓸 수 있어!\n내일 다시 보자 :)</string>
+
+    <!-- write -->
+    <string name="write_complete_btn">작성 완료</string>
+    <string name="write_modify_btn">수정 완료</string>
+    <string name="write_keyword">뽑은 키워드</string>
+    <string name="write_title">제목</string>
+    <string name="write_title_constrict">공백포함 20자</string>
+    <string name="write_contents">내용</string>
+    <string name="write_contents_constrict">공백포함 150자</string>
 </resources>

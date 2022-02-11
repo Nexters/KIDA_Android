@@ -32,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
@@ -114,6 +115,8 @@ fun WriteScreen(
             )
         }
     ) {
+        val context = LocalContext.current
+
         Column(Modifier.fillMaxSize()) {
             writeUI(viewModel)
 
@@ -148,7 +151,9 @@ fun WriteScreen(
                     .padding(horizontal = 55.dp)
             ) {
                 Text(
-                    if (viewModel.isWriteMode) "작성 완료" else "수정완료",
+                    if (viewModel.isWriteMode) context.getString(R.string.write_complete_btn) else context.getString(
+                        R.string.write_modify_btn
+                    ),
                     modifier = Modifier.padding(16.dp)
                 )
             }
@@ -166,6 +171,8 @@ fun TodayKeyword(viewModel: WriteViewModel) {
             .fillMaxHeight(0.15f),
         verticalAlignment = Alignment.CenterVertically
     ) {
+        val context = LocalContext.current
+
         Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
             Image(
                 modifier = Modifier.fillMaxSize(),
@@ -175,7 +182,7 @@ fun TodayKeyword(viewModel: WriteViewModel) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Spacer(modifier = Modifier.height(10.dp))
                 Text(
-                    text = "뽑은 키워드",
+                    text = context.getString(R.string.write_keyword),
                     fontSize = 12.sp,
                     color = Theme.colors.label2
 //            style = Theme.typography.h3.copy(color = Theme.colors.label2)
@@ -205,6 +212,7 @@ fun writeUI(viewModel: WriteViewModel) {
             .padding(horizontal = 20.dp)
             .background(color = Theme.colors.bgLayered, shape = RoundedCornerShape(10.dp))
     ) {
+        val context = LocalContext.current
 
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -217,8 +225,8 @@ fun writeUI(viewModel: WriteViewModel) {
             Spacer(modifier = Modifier.height(24.dp))
             InputBox(
                 value = viewModel.title,
-                label = "제목",
-                placeholder = "공백포함 20자",
+                label = context.getString(R.string.write_title),
+                placeholder = context.getString(R.string.write_title_constrict),
                 contentSize = 16,
                 onValueChange = {
                     if (it.length <= 20) viewModel.onEvent(WriteEvent.OnTitleChange(it))
@@ -238,8 +246,8 @@ fun writeUI(viewModel: WriteViewModel) {
             Spacer(modifier = Modifier.height(12.dp))
             InputBox(
                 value = viewModel.content,
-                label = "내용",
-                placeholder = "공백포함 150자",
+                label = context.getString(R.string.write_contents),
+                placeholder = context.getString(R.string.write_contents_constrict),
                 contentSize = 14,
                 onValueChange = {
                     if (it.length <= 150) viewModel.onEvent(WriteEvent.OnContentChange(it))
