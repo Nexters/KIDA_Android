@@ -30,7 +30,9 @@ fun ListDialog(
 
     AlertDialog(
         backgroundColor = Theme.colors.bgLayered2,
-        onDismissRequest = { },
+        onDismissRequest = {
+            onPopBackStack()
+        },
         title = {
             Text(
                 text = stringResource(R.string.list_dialog_title)
