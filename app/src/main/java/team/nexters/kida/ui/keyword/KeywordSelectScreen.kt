@@ -65,6 +65,7 @@ import team.nexters.kida.R
 import team.nexters.kida.component.CenterAppBar
 import team.nexters.kida.component.HorizontalPagerIndicator
 import team.nexters.kida.data.keyword.Keyword
+import team.nexters.kida.data.keyword.randomOfCard
 import team.nexters.kida.ui.theme.Theme
 import team.nexters.kida.util.DateUtils
 import kotlin.math.absoluteValue
@@ -122,8 +123,8 @@ fun KeywordSelectScreen(
         modifier = Modifier.fillMaxSize()
     ) {
         KeywordSelectContent(
-            onClickButton = {
-                onNavigate(keywords.random(), it)
+            onClickButton = { keyword, card ->
+                onNavigate(keyword, card)
             },
             keywords
         )
@@ -132,7 +133,7 @@ fun KeywordSelectScreen(
 
 @Composable
 private fun KeywordSelectContent(
-    onClickButton: (KeywordCard) -> Unit,
+    onClickButton: (Keyword, KeywordCard) -> Unit,
     keywords: List<Keyword>
 ) {
     val pagerState = rememberPagerState()
@@ -156,7 +157,12 @@ private fun KeywordSelectContent(
         KeywordSelectHeader(
             buttonEnabled = confirmButtonEnabled,
             pagerState = pagerState,
-            onConfirmClick = { onClickButton(KeywordCard.values()[selectedItemPosition]) }
+            onConfirmClick = {
+                val cardCount = KeywordCard.values().size
+                val keyword = keywords.randomOfCard(cardCount, selectedItemPosition)
+                val keywordCard = KeywordCard.values()[selectedItemPosition]
+                onClickButton(keyword, keywordCard)
+            }
         )
         Spacer(modifier = Modifier.size(20.dp))
         HorizontalPager(
