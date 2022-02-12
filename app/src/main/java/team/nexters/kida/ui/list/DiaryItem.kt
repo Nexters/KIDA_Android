@@ -2,6 +2,8 @@ package team.nexters.kida.ui.list
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,24 +20,30 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import team.nexters.kida.component.BalloonTailShape
 import team.nexters.kida.data.diary.Diary
-import team.nexters.kida.ui.list.ListEvent.OnModifyClick
 import team.nexters.kida.ui.theme.Theme
 import team.nexters.kida.util.DateUtils
 
 @Composable
 fun DiaryItem(
     diary: Diary,
-    onEvent: (ListEvent, Long) -> Unit,
+    onEvent: (ListEvent) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier
-            .clickable(onClick = { onEvent(OnModifyClick, diary.id) })
+            .pointerInput(Unit) {
+                detectTapGestures(
+                    onLongPress = {
+                        onEvent(ListEvent.OnEditClick(diary.id))
+                    }
+                )
+            }
             .padding(top = 6.dp, bottom = 6.dp),
         verticalArrangement = Arrangement.Center
     ) {

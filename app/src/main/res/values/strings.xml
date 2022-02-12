@@ -29,4 +29,7 @@
 
     <!-- list   -->
     <string name="list_title">나의 일기</string>
+    <string name="list_dialog_title">수정/삭제하기</string>
+    <string name="list_dialiog_delete">삭제하기</string>
+    <string name="list_dialiog_modify">수정하기</string>
 </resources>

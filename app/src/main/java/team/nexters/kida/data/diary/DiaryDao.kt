@@ -15,11 +15,14 @@ interface DiaryDao {
     @Delete
     suspend fun deleteDiary(diary: Diary)
 
-    @Query("SELECT * FROM diary WHERE id = :id")
-    suspend fun getDiaryById(id: Int): Diary?
+    @Query("DELETE FROM diary WHERE id = :id")
+    suspend fun deleteDiaryById(id: Long)
 
     @Query("SELECT * FROM diary WHERE id = :id")
-    fun getDiary(id: Int): Flow<Diary>
+    suspend fun getDiaryById(id: Long): Diary?
+
+    @Query("SELECT * FROM diary WHERE id = :id")
+    fun getDiary(id: Long): Flow<Diary>
 
     @Query("SELECT * FROM diary")
     fun getDiaries(): Flow<List<Diary>>

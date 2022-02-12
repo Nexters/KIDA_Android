@@ -18,6 +18,7 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import team.nexters.kida.data.keyword.Keyword
+import team.nexters.kida.ui.list.dialog.ListDialog
 import team.nexters.kida.ui.keyword.KeywordCard
 import team.nexters.kida.ui.keyword.KeywordConfirmScreen
 import team.nexters.kida.ui.keyword.KeywordSelectScreen
@@ -35,6 +36,7 @@ sealed class Screen(val route: String) {
     object Write : Screen("write")
     object PopupInfo : Screen("popup-info")
     object PopupError : Screen("popup-error")
+    object EditDialog : Screen("edit")
 }
 
 @Composable
@@ -53,6 +55,7 @@ fun AppNavGraph(
         addList(navController, finishApp)
         addWrite(navController)
         addPopup(navController)
+        addListDialog(navController)
     }
 }
 
@@ -197,8 +200,28 @@ private fun NavGraphBuilder.addPopup(
     }
 }
 
+private fun NavGraphBuilder.addListDialog(
+    navController: NavController
+) {
+    dialog(
+        route = Screen.EditDialog.route + "?diaryId={diaryId}",
+        arguments = listOf(
+            diaryIdArgument()
+        )
+    ) {
+        ListDialog(
+            onNavigate = { destination ->
+                navController.navigate(destination.route)
+            },
+            onPopBackStack = {
+                navController.popBackStack()
+            }
+        )
+    }
+}
+
 private fun diaryIdArgument() = navArgument(name = "diaryId") {
-    type = NavType.IntType
+    type = NavType.LongType
     defaultValue = -1
 }
 

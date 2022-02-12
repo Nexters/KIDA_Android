@@ -1,5 +1,5 @@
 package team.nexters.kida.ui.list
 
 sealed class ListEvent {
-    object OnModifyClick : ListEvent()
+    class OnEditClick(val diaryId: Long) : ListEvent()
 }
