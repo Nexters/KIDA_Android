@@ -5,7 +5,7 @@
     <string name="keyword_highlight_1">오늘의 카드를\n선택해봐!</string>
     <string name="keyword_select_confirm">이 친구로 뽑을래?</string>
     <string name="keyword_select_snackbar">뽑아볼까?</string>
-    
+
     <string name="keyword_confirm_title">뽑은 키워드</string>
     <string name="keyword_confirm_submit">일기 쓰러가기</string>
     <string name="keyword_confirm_retry">다시 뽑기</string>
@@ -26,4 +26,7 @@
     <string name="write_title_constrict">공백포함 20자</string>
     <string name="write_contents">내용</string>
     <string name="write_contents_constrict">공백포함 150자</string>
+
+    <!-- list   -->
+    <string name="list_title">나의 일기</string>
 </resources>

@@ -15,6 +15,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -51,7 +52,7 @@ fun ListScreen(
             CenterAppBar(
                 title = {
                     Text(
-                        text = "나의 일기",
+                        text = stringResource(R.string.list_title),
                         style = TextStyle(
                             color = Theme.colors.textDefault,
                             fontWeight = FontWeight.Bold,

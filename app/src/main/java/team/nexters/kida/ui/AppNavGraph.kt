@@ -89,8 +89,7 @@ private fun NavGraphBuilder.addKeyword(
                     }
                 )
             },
-            onInfoClick = { navController.navigate(Screen.PopupInfo.route) },
-            onNavigatePopupError = { navController.navigate(Screen.PopupError.route) }
+            onInfoClick = { navController.navigate(Screen.PopupInfo.route) }
         )
     }
 
@@ -144,11 +143,7 @@ private fun NavGraphBuilder.addList(
                 navController.navigate(destination.route)
             },
             onIconClick = {
-                navController.navigate(Screen.Keyword.route) {
-                    popUpTo(Screen.Keyword.route) {
-                        inclusive = true
-                    }
-                }
+                navController.navigate(Screen.PopupError.route)
             }
         )
     }
@@ -179,11 +174,7 @@ private fun NavGraphBuilder.addWrite(
                 }
             },
             onIconClick = {
-                navController.navigate(Screen.Keyword.route) {
-                    popUpTo(Screen.Keyword.route) {
-                        inclusive = true
-                    }
-                }
+                navController.popBackStack()
             },
             keyword = keyword
         )
