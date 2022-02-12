@@ -14,7 +14,7 @@ import team.nexters.kida.data.diary.Diary
 import team.nexters.kida.data.diary.DiaryRepository
 import team.nexters.kida.ui.Screen
 import team.nexters.kida.util.UiEvent
-import java.util.*
+import java.util.Date
 import javax.inject.Inject
 
 @HiltViewModel
