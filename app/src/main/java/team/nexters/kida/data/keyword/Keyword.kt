@@ -9,3 +9,7 @@ import kotlinx.serialization.Serializable
 data class Keyword(
     val name: String
 ) : Parcelable
+
+fun List<Keyword>.randomOfCard(count: Int, page: Int): Keyword {
+    return chunked(count)[page].random()
+}
