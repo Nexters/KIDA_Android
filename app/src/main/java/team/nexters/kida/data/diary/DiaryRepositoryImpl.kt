@@ -16,11 +16,15 @@ class DiaryRepositoryImpl @Inject constructor(
         dao.deleteDiary(diary)
     }
 
-    override suspend fun getDiaryById(id: Int): Diary? {
+    override suspend fun deleteDiaryById(id: Long) {
+        dao.deleteDiaryById(id)
+    }
+
+    override suspend fun getDiaryById(id: Long): Diary? {
         return dao.getDiaryById(id)
     }
 
-    override fun getDiary(id: Int): Flow<Diary> {
+    override fun getDiary(id: Long): Flow<Diary> {
         return dao.getDiary(id)
     }
 

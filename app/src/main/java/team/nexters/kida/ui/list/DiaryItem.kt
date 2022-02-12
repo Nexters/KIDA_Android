@@ -23,19 +23,18 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import team.nexters.kida.component.BalloonTailShape
 import team.nexters.kida.data.diary.Diary
-import team.nexters.kida.ui.list.ListEvent.OnModifyClick
 import team.nexters.kida.ui.theme.Theme
 import team.nexters.kida.util.DateUtils
 
 @Composable
 fun DiaryItem(
     diary: Diary,
-    onEvent: (ListEvent, Long) -> Unit,
+    onEvent: (ListEvent) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier
-            .clickable(onClick = { onEvent(OnModifyClick, diary.id) })
+            .clickable(onClick = { onEvent(ListEvent.OnEditClick(diary.id)) })
             .padding(top = 6.dp, bottom = 6.dp),
         verticalArrangement = Arrangement.Center
     ) {

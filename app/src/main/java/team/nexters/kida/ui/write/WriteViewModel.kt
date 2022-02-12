@@ -14,7 +14,7 @@ import team.nexters.kida.data.diary.Diary
 import team.nexters.kida.data.diary.DiaryRepository
 import team.nexters.kida.ui.Screen
 import team.nexters.kida.util.UiEvent
-import java.util.Date
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -44,10 +44,10 @@ class WriteViewModel @Inject constructor(
     var preTitle = ""
     var preContent = ""
 
-    private val diaryId = savedStateHandle.get<Int>("diaryId")!!
+    private val diaryId = savedStateHandle.get<Long>("diaryId")!!
 
     init {
-        if (diaryId != -1) {
+        if (diaryId != -1L) {
             viewModelScope.launch {
                 repository.getDiaryById(diaryId)?.let { diary ->
                     date = diary.date
@@ -79,7 +79,7 @@ class WriteViewModel @Inject constructor(
                     title = title,
                     content = content,
                     keyword = keyword,
-                    id = if (diaryId != -1) diaryId.toLong() else 0L
+                    id = if (diaryId != -1L) diaryId else 0L
                 ).let {
                     viewModelScope.launch {
                         repository.insertDiary(it)
