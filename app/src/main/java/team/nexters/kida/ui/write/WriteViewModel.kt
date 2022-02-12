@@ -83,9 +83,9 @@ class WriteViewModel @Inject constructor(
                 ).let {
                     viewModelScope.launch {
                         repository.insertDiary(it)
+                        sendUiEvent(UiEvent.Navigate(Screen.List.route))
                     }
                 }
-                sendUiEvent(UiEvent.Navigate(Screen.List.route))
             }
         }
     }
