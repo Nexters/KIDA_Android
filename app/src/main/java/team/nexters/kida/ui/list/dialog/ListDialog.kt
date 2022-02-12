@@ -5,7 +5,10 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
+import team.nexters.kida.R
+import team.nexters.kida.ui.theme.Theme
 import team.nexters.kida.util.UiEvent
 
 @Composable
@@ -26,10 +29,12 @@ fun ListDialog(
     }
 
     AlertDialog(
+        backgroundColor = Theme.colors.bgLayered2,
         onDismissRequest = { },
-        title = { },
-        text = {
-            Text(text = "가즈아")
+        title = {
+            Text(
+                text = stringResource(R.string.list_dialog_title)
+            )
         },
         confirmButton = {
             TextButton(
@@ -37,7 +42,10 @@ fun ListDialog(
                     viewModel.onEvent(ListDialogEvent.OnClickDelete)
                 }
             ) {
-                Text(text = "삭제하기")
+                Text(
+                    text = stringResource(R.string.list_dialiog_delete),
+                    color = Theme.colors.btnActive
+                )
             }
         },
         dismissButton = {
@@ -46,7 +54,10 @@ fun ListDialog(
                     viewModel.onEvent(ListDialogEvent.OnClickModify)
                 }
             ) {
-                Text(text = "수정하기")
+                Text(
+                    text = stringResource(R.string.list_dialiog_modify),
+                    color = Theme.colors.btnActive
+                )
             }
         }
     )
