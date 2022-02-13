@@ -14,12 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.IconButton
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -47,8 +42,7 @@ fun KeywordConfirmScreen(
     card: KeywordCard,
     upPress: () -> Unit,
     onConfirm: (Keyword) -> Unit,
-    onInfoClick: () -> Unit,
-    onIconClick: () -> Unit
+    onInfoClick: () -> Unit
 ) {
     val scaffoldState = rememberScaffoldState()
     Scaffold(
@@ -69,16 +63,13 @@ fun KeywordConfirmScreen(
                     applyBottom = false,
                 ),
                 navigationIcon = {
-                    IconButton(
-                        modifier = Modifier.wrapContentSize(),
-                        onClick = onIconClick
-                    ) {
-                        Image(
-                            modifier = Modifier.size(width = 30.dp, height = 14.dp),
-                            painter = painterResource(R.drawable.icon),
-                            contentDescription = null,
-                        )
-                    }
+                    Image(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .size(width = 30.dp, height = 14.dp),
+                        painter = painterResource(R.drawable.icon),
+                        contentDescription = null,
+                    )
                 },
                 actions = {
                     IconButton(onClick = onInfoClick) {

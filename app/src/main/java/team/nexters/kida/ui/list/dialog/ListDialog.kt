@@ -21,7 +21,6 @@ fun ListDialog(
         viewModel.uiEvent.collect { event ->
             when (event) {
                 is UiEvent.Navigate -> onNavigate(event)
-                is UiEvent.PopBackStack -> onPopBackStack()
                 else -> {
                 }
             }

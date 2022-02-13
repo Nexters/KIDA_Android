@@ -5,15 +5,10 @@ import android.os.Parcelable
 import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavController
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavHostController
-import androidx.navigation.NavType
+import androidx.navigation.*
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.dialog
-import androidx.navigation.navArgument
-import androidx.navigation.navOptions
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -127,9 +122,6 @@ private fun NavGraphBuilder.addKeyword(
             },
             onInfoClick = {
                 navController.navigate(Screen.PopupInfo.route)
-            },
-            onIconClick = {
-                navController.popBackStack()
             }
         )
     }
@@ -143,7 +135,15 @@ private fun NavGraphBuilder.addList(
         BackHandler(onBack = onBack)
         ListScreen(
             onNavigate = { destination ->
-                navController.navigate(destination.route)
+                if (destination.route == Screen.Keyword.route) {
+                    navController.navigate(destination.route) {
+                        popUpTo(Screen.Keyword.route) {
+                            inclusive = true
+                        }
+                    }
+                } else {
+                    navController.navigate(destination.route)
+                }
             },
             onIconClick = {
                 navController.navigate(Screen.PopupError.route)
