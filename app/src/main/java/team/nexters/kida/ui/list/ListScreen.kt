@@ -78,6 +78,10 @@ fun ListScreen(
                             contentDescription = null,
                         )
                     }
+                },
+                actions = {
+                    IconButton(onClick = { }, enabled = false) {
+                }
                 }
             )
         },

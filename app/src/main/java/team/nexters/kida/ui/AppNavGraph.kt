@@ -147,7 +147,8 @@ private fun NavGraphBuilder.addList(
                             popUpTo(Screen.List.route) {
                                 inclusive = true
                             }
-                        })
+                        }
+                    )
                 } else {
                     navController.navigate(destination.route)
                 }
