@@ -83,7 +83,11 @@ class WriteViewModel @Inject constructor(
                 ).let {
                     viewModelScope.launch {
                         repository.insertDiary(it)
-                        sendUiEvent(UiEvent.Navigate(Screen.List.route))
+                        if (isWriteMode) {
+                            sendUiEvent(UiEvent.Navigate(Screen.List.route))
+                        } else {
+                            sendUiEvent(UiEvent.PopBackStack)
+                        }
                     }
                 }
             }

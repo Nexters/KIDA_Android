@@ -11,9 +11,7 @@ import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
-fun Main(
-    finishApp: () -> Unit
-) {
+fun Main() {
     val navController = rememberNavController()
     val systemUi = rememberSystemUiController()
 
@@ -32,6 +30,6 @@ fun Main(
     Surface(
         modifier = Modifier.fillMaxSize(),
     ) {
-        AppNavGraph(navController = navController, finishApp = finishApp)
+        AppNavGraph(navController = navController)
     }
 }

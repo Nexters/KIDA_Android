@@ -28,6 +28,7 @@ class ListDialogViewModel @Inject constructor(
             is ListDialogEvent.OnClickDelete -> {
                 viewModelScope.launch {
                     repository.deleteDiaryById(diaryId)
+                    sendUiEvent(UiEvent.PopBackStack)
                 }
             }
             is ListDialogEvent.OnClickModify -> {

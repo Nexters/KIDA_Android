@@ -18,7 +18,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             Theme {
                 ProvideWindowInsets {
-                    Main { finish() }
+                    Main()
                 }
             }
         }
