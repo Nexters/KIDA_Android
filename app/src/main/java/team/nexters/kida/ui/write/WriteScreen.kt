@@ -57,7 +57,6 @@ import team.nexters.kida.util.UiEvent
 fun WriteScreen(
     onPopBackStack: () -> Unit,
     onNavigateToList: () -> Unit,
-    onIconClick: () -> Unit,
     viewModel: WriteViewModel = hiltViewModel(),
     keyword: Keyword
 ) {
@@ -100,18 +99,25 @@ fun WriteScreen(
                     applyBottom = false,
                 ),
                 navigationIcon = {
+                    Image(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .size(width = 30.dp, height = 14.dp),
+                        painter = painterResource(R.drawable.icon),
+                        contentDescription = null,
+                    )
+                },
+                actions = {
                     IconButton(
                         modifier = Modifier.wrapContentSize(),
-                        onClick = onIconClick
+                        onClick = { onPopBackStack() }
                     ) {
                         Image(
-                            modifier = Modifier.size(width = 30.dp, height = 14.dp),
-                            painter = painterResource(R.drawable.icon),
-                            contentDescription = null,
+                            painter = painterResource(R.drawable.ic_closed),
+                            contentDescription = null
                         )
                     }
                 },
-                actions = {}
             )
         }
     ) {

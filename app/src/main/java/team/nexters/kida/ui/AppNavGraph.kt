@@ -176,9 +176,6 @@ private fun NavGraphBuilder.addWrite(
                     }
                 }
             },
-            onIconClick = {
-                navController.popBackStack()
-            },
             keyword = keyword
         )
     }
