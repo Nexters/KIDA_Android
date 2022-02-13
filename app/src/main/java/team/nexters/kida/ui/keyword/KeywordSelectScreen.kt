@@ -98,7 +98,7 @@ fun KeywordSelectScreen(
                 actions = {
                     IconButton(
                         modifier = Modifier.wrapContentSize(),
-                        onClick = { onInfoClick() }
+                        onClick = onInfoClick
                     ) {
                         Image(
                             painter = painterResource(R.drawable.ic_info),
@@ -107,16 +107,13 @@ fun KeywordSelectScreen(
                     }
                 },
                 navigationIcon = {
-                    IconButton(
-                        modifier = Modifier.wrapContentSize(),
-                        onClick = {}
-                    ) {
-                        Image(
-                            modifier = Modifier.size(width = 30.dp, height = 14.dp),
-                            painter = painterResource(R.drawable.icon),
-                            contentDescription = null,
-                        )
-                    }
+                    Image(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .size(width = 30.dp, height = 14.dp),
+                        painter = painterResource(R.drawable.icon),
+                        contentDescription = null,
+                    )
                 }
             )
         },

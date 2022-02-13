@@ -141,11 +141,13 @@ private fun NavGraphBuilder.addList(
         ListScreen(
             onNavigate = { destination ->
                 if (destination.route == Screen.Keyword.route) {
-                    navController.navigate(destination.route) {
-                        popUpTo(Screen.Keyword.route) {
-                            inclusive = true
-                        }
-                    }
+                    navController.navigate(
+                        destination.route,
+                        navOptions {
+                            popUpTo(Screen.List.route) {
+                                inclusive = true
+                            }
+                        })
                 } else {
                     navController.navigate(destination.route)
                 }
@@ -176,7 +178,7 @@ private fun NavGraphBuilder.addWrite(
             onNavigateToList = {
                 navController.navigate(Screen.List.route) {
                     launchSingleTop = true
-                    popUpTo(Screen.Write.route + "?diaryId={diaryId}&keyword={keyword}") {
+                    popUpTo(Screen.Keyword.route) {
                         inclusive = true
                     }
                 }
